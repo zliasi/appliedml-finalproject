@@ -1,0 +1,4731 @@
+{
+  "ag100": {
+    "composition": {
+      "Ag": 1.0
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.262795
+      }
+    },
+    "wf_linear_combo_ev": 4.262795
+  },
+  "au100": {
+    "composition": {
+      "Au": 1.0
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.007838
+      }
+    },
+    "wf_linear_combo_ev": 5.007838
+  },
+  "pd100": {
+    "composition": {
+      "Pd": 1.0
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.049538
+      }
+    },
+    "wf_linear_combo_ev": 5.049538
+  },
+  "pt100": {
+    "composition": {
+      "Pt": 1.0
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.512915
+      }
+    },
+    "wf_linear_combo_ev": 5.512915
+  },
+  "ag012-au088": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.014982
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.836819
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.96205
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.85318
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.022617
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.026402
+      }
+    },
+    "wf_linear_combo_ev": 4.914708
+  },
+  "ag025-au075": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.75
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.029276
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.817816
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.97577
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.878781
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.75495
+      },
+      "variant-00006": {
+        "wf_top_ev": 4.880035
+      }
+    },
+    "wf_linear_combo_ev": 4.821577
+  },
+  "ag050-au050": {
+    "composition": {
+      "Ag": 0.5,
+      "Au": 0.5
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.565708
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.780864
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.592138
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.832847
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.518857
+      },
+      "variant-00006": {
+        "wf_top_ev": 4.753286
+      }
+    },
+    "wf_linear_combo_ev": 4.635317
+  },
+  "ag075-au025": {
+    "composition": {
+      "Ag": 0.75,
+      "Au": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.381858
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.461009
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.423357
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.31808
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.316838
+      },
+      "variant-00006": {
+        "wf_top_ev": 4.318804
+      }
+    },
+    "wf_linear_combo_ev": 4.449056
+  },
+  "ag088-au012": {
+    "composition": {
+      "Ag": 0.875,
+      "Au": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.324164
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.373826
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.302881
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.30288
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.246561
+      },
+      "variant-00006": {
+        "wf_top_ev": 4.268296
+      }
+    },
+    "wf_linear_combo_ev": 4.355925
+  },
+  "ag012-pd088": {
+    "composition": {
+      "Ag": 0.125,
+      "Pd": 0.875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.034749
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.875829
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.052537
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.877513
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.030444
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.017502
+      }
+    },
+    "wf_linear_combo_ev": 4.951195
+  },
+  "ag025-pd075": {
+    "composition": {
+      "Ag": 0.25,
+      "Pd": 0.75
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.013036
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.879161
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.061545
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.864935
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.870443
+      },
+      "variant-00006": {
+        "wf_top_ev": 4.865555
+      }
+    },
+    "wf_linear_combo_ev": 4.852852
+  },
+  "ag050-pd050": {
+    "composition": {
+      "Ag": 0.5,
+      "Pd": 0.5
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.479504
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.876753
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.645188
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.845988
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.422862
+      },
+      "variant-00006": {
+        "wf_top_ev": 4.851844
+      }
+    },
+    "wf_linear_combo_ev": 4.656166
+  },
+  "ag075-pd025": {
+    "composition": {
+      "Ag": 0.75,
+      "Pd": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.338194
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.416084
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.377313
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.310824
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.306255
+      },
+      "variant-00006": {
+        "wf_top_ev": 4.334687
+      }
+    },
+    "wf_linear_combo_ev": 4.459481
+  },
+  "ag088-pd012": {
+    "composition": {
+      "Ag": 0.875,
+      "Pd": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.326544
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.443094
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.333104
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.333104
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.352771
+      },
+      "variant-00006": {
+        "wf_top_ev": 4.340363
+      }
+    },
+    "wf_linear_combo_ev": 4.361138
+  },
+  "ag012-pt088": {
+    "composition": {
+      "Ag": 0.125,
+      "Pt": 0.875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.513504
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.167858
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.490513
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.161124
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.503321
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.504062
+      }
+    },
+    "wf_linear_combo_ev": 5.35665
+  },
+  "ag025-pt075": {
+    "composition": {
+      "Ag": 0.25,
+      "Pt": 0.75
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.537306
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.147542
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.540782
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.181557
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.084141
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.178754
+      }
+    },
+    "wf_linear_combo_ev": 5.200385
+  },
+  "ag050-pt050": {
+    "composition": {
+      "Ag": 0.5,
+      "Pt": 0.5
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.726174
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.157186
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.855636
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.197649
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.617694
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.151624
+      }
+    },
+    "wf_linear_combo_ev": 4.887855
+  },
+  "ag075-pt025": {
+    "composition": {
+      "Ag": 0.75,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.370857
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.55484
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.580638
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.307284
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.330949
+      },
+      "variant-00006": {
+        "wf_top_ev": 4.374825
+      }
+    },
+    "wf_linear_combo_ev": 4.575325
+  },
+  "ag088-pt012": {
+    "composition": {
+      "Ag": 0.875,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.324923
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.593902
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.372342
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.372342
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.372665
+      },
+      "variant-00006": {
+        "wf_top_ev": 4.335011
+      }
+    },
+    "wf_linear_combo_ev": 4.41906
+  },
+  "au012-pd088": {
+    "composition": {
+      "Au": 0.125,
+      "Pd": 0.875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.032243
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.092282
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.050469
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.082061
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.028001
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.007599
+      }
+    },
+    "wf_linear_combo_ev": 5.044326
+  },
+  "au025-pd075": {
+    "composition": {
+      "Au": 0.25,
+      "Pd": 0.75
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.009919
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.107143
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.048636
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.058606
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.112527
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.061557
+      }
+    },
+    "wf_linear_combo_ev": 5.039113
+  },
+  "au050-pd050": {
+    "composition": {
+      "Au": 0.5,
+      "Pd": 0.5
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.98666
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.064215
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.068907
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.035148
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.986447
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.07828
+      }
+    },
+    "wf_linear_combo_ev": 5.028688
+  },
+  "au075-pd025": {
+    "composition": {
+      "Au": 0.75,
+      "Pd": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.060308
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.064459
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.027863
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.059493
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.053669
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.06725
+      }
+    },
+    "wf_linear_combo_ev": 5.018263
+  },
+  "au088-pd012": {
+    "composition": {
+      "Au": 0.875,
+      "Pd": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.126173
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.125337
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.117293
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.121001
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.145952
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.147499
+      }
+    },
+    "wf_linear_combo_ev": 5.01305
+  },
+  "au012-pt088": {
+    "composition": {
+      "Au": 0.125,
+      "Pt": 0.875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.514859
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.400071
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.522578
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.402418
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.509815
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.491835
+      }
+    },
+    "wf_linear_combo_ev": 5.44978
+  },
+  "au025-pt075": {
+    "composition": {
+      "Au": 0.25,
+      "Pt": 0.75
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.51807
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.390957
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.545442
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.402253
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.387991
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.407297
+      }
+    },
+    "wf_linear_combo_ev": 5.386646
+  },
+  "au050-pt050": {
+    "composition": {
+      "Au": 0.5,
+      "Pt": 0.5
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.235436
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.400705
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.299397
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.431162
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.190651
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.42284
+      }
+    },
+    "wf_linear_combo_ev": 5.260376
+  },
+  "au075-pt025": {
+    "composition": {
+      "Au": 0.75,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.126711
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.199255
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.211633
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.083782
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.094988
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.118691
+      }
+    },
+    "wf_linear_combo_ev": 5.134107
+  },
+  "au088-pt012": {
+    "composition": {
+      "Au": 0.875,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.14005
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.256048
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.146791
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.146776
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.160096
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.139207
+      }
+    },
+    "wf_linear_combo_ev": 5.070973
+  },
+  "pd012-pt088": {
+    "composition": {
+      "Pd": 0.125,
+      "Pt": 0.875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.519548
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.382694
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.506725
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.386031
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.521083
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.518244
+      }
+    },
+    "wf_linear_combo_ev": 5.454993
+  },
+  "pd025-pt075": {
+    "composition": {
+      "Pd": 0.25,
+      "Pt": 0.75
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.522043
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.381893
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.506402
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.389522
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.377859
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.384831
+      }
+    },
+    "wf_linear_combo_ev": 5.397071
+  },
+  "pd050-pt050": {
+    "composition": {
+      "Pd": 0.5,
+      "Pt": 0.5
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.127807
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.386823
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.25482
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.402343
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.11612
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.393986
+      }
+    },
+    "wf_linear_combo_ev": 5.281226
+  },
+  "pd075-pt025": {
+    "composition": {
+      "Pd": 0.75,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.998552
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.157061
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.147565
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.011358
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.00336
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.01285
+      }
+    },
+    "wf_linear_combo_ev": 5.165382
+  },
+  "pd088-pt012": {
+    "composition": {
+      "Pd": 0.875,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.023118
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.172136
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.023394
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.015989
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.038659
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.043236
+      }
+    },
+    "wf_linear_combo_ev": 5.10746
+  },
+  "ag025-au031-pd044": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.3125,
+      "Pd": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.982575
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.816941
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.006684
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.813522
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.812761
+      },
+      "variant-00006": {
+        "wf_top_ev": 4.801598
+      }
+    },
+    "wf_linear_combo_ev": 4.839821
+  },
+  "ag025-au025-pd050": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.25,
+      "Pd": 0.5
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.00453
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.856406
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.043716
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.83406
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.81309
+      },
+      "variant-00006": {
+        "wf_top_ev": 4.833907
+      }
+    },
+    "wf_linear_combo_ev": 4.842427
+  },
+  "ag019-au056-pd025": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.5625,
+      "Pd": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.058497
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.877092
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.999374
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.878675
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.870545
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.061196
+      }
+    },
+    "wf_linear_combo_ev": 4.878567
+  },
+  "ag012-au044-pd044": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.4375,
+      "Pd": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.981916
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.840406
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.009605
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.043406
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.806596
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.039267
+      }
+    },
+    "wf_linear_combo_ev": 4.932951
+  },
+  "ag019-au012-pt069": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.125,
+      "Pt": 0.6875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.530069
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.169211
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.570526
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.194976
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.112043
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.125147
+      }
+    },
+    "wf_linear_combo_ev": 5.215383
+  },
+  "ag038-au044-pt019": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.4375,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.921061
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.99266
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.981353
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.119083
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.606116
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.120787
+      }
+    },
+    "wf_linear_combo_ev": 4.823149
+  },
+  "ag038-au038-pt025": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.375,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.950424
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.982593
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.978621
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.124691
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.575624
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.077895
+      }
+    },
+    "wf_linear_combo_ev": 4.854716
+  },
+  "ag044-au019-pt038": {
+    "composition": {
+      "Ag": 0.4375,
+      "Au": 0.1875,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.774293
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.918839
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.042079
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.218881
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.692028
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.167217
+      }
+    },
+    "wf_linear_combo_ev": 4.871286
+  },
+  "ag012-pd044-pt044": {
+    "composition": {
+      "Ag": 0.125,
+      "Pd": 0.4375,
+      "Pt": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.142461
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.054475
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.261136
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.428543
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.926933
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.37227
+      }
+    },
+    "wf_linear_combo_ev": 5.153923
+  },
+  "ag044-pd044-pt012": {
+    "composition": {
+      "Ag": 0.4375,
+      "Pd": 0.4375,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.671568
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.849775
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.002802
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.98019
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.484435
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.101127
+      }
+    },
+    "wf_linear_combo_ev": 4.76326
+  },
+  "ag031-pd025-pt044": {
+    "composition": {
+      "Ag": 0.3125,
+      "Pd": 0.25,
+      "Pt": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.117891
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.064805
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.31611
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.204402
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.77443
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.124561
+      }
+    },
+    "wf_linear_combo_ev": 5.006408
+  },
+  "ag031-pd056-pt012": {
+    "composition": {
+      "Ag": 0.3125,
+      "Pd": 0.5625,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.979577
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.839709
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.230611
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.974444
+      },
+      "variant-00005": {
+        "wf_top_ev": 4.667506
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.105152
+      }
+    },
+    "wf_linear_combo_ev": 4.861603
+  },
+  "au031-pd025-pt044": {
+    "composition": {
+      "Au": 0.3125,
+      "Pd": 0.25,
+      "Pt": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.09696
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.295508
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.303273
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.442702
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.16439
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.413662
+      }
+    },
+    "wf_linear_combo_ev": 5.239234
+  },
+  "au031-pd031-pt038": {
+    "composition": {
+      "Au": 0.3125,
+      "Pd": 0.3125,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.937306
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.178173
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.32108
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.439545
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.164732
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.422945
+      }
+    },
+    "wf_linear_combo_ev": 5.210273
+  },
+  "au050-pd019-pt031": {
+    "composition": {
+      "Au": 0.5,
+      "Pd": 0.1875,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.040965
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.173429
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.179063
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.309062
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.066151
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.287902
+      }
+    },
+    "wf_linear_combo_ev": 5.173493
+  },
+  "au019-pd019-pt062": {
+    "composition": {
+      "Au": 0.1875,
+      "Pd": 0.1875,
+      "Pt": 0.625
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.407146
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.395227
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.424286
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.412621
+      },
+      "variant-00005": {
+        "wf_top_ev": 5.139408
+      },
+      "variant-00006": {
+        "wf_top_ev": 5.390836
+      }
+    },
+    "wf_linear_combo_ev": 5.33133
+  },
+  "ag012-au012-pd025-pt050": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.125,
+      "Pd": 0.25,
+      "Pt": 0.5
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.121472
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.191113
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.28306
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.458856
+      }
+    },
+    "wf_linear_combo_ev": 5.177671
+  },
+  "ag012-au012-pd031-pt044": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.125,
+      "Pd": 0.3125,
+      "Pt": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.128232
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.08305
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.284832
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.465106
+      }
+    },
+    "wf_linear_combo_ev": 5.14871
+  },
+  "ag012-au012-pd038-pt038": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.125,
+      "Pd": 0.375,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.941225
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.961808
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.299572
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.461962
+      }
+    },
+    "wf_linear_combo_ev": 5.119749
+  },
+  "ag012-au012-pd044-pt031": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.125,
+      "Pd": 0.4375,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.949635
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.966739
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.177782
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.351113
+      }
+    },
+    "wf_linear_combo_ev": 5.090788
+  },
+  "ag012-au012-pd050-pt025": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.125,
+      "Pd": 0.5,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.949086
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.97259
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.179352
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.355564
+      }
+    },
+    "wf_linear_combo_ev": 5.061827
+  },
+  "ag012-au019-pd019-pt050": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.1875,
+      "Pd": 0.1875,
+      "Pt": 0.5
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.101755
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.172584
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.291514
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.434451
+      }
+    },
+    "wf_linear_combo_ev": 5.175065
+  },
+  "ag012-au019-pd025-pt044": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.1875,
+      "Pd": 0.25,
+      "Pt": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.108826
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.07024
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.298093
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.44702
+      }
+    },
+    "wf_linear_combo_ev": 5.146104
+  },
+  "ag012-au019-pd038-pt031": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.1875,
+      "Pd": 0.375,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.943118
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.953725
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.190573
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.328321
+      }
+    },
+    "wf_linear_combo_ev": 5.088182
+  },
+  "ag012-au019-pd044-pt025": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.1875,
+      "Pd": 0.4375,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.945063
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.964528
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.199489
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.342199
+      }
+    },
+    "wf_linear_combo_ev": 5.059221
+  },
+  "ag012-au019-pd050-pt019": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.1875,
+      "Pd": 0.5,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.96807
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.965472
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.221551
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.33862
+      }
+    },
+    "wf_linear_combo_ev": 5.03026
+  },
+  "ag012-au025-pd012-pt050": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.25,
+      "Pd": 0.125,
+      "Pt": 0.5
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.1737
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.178364
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.294192
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.44544
+      }
+    },
+    "wf_linear_combo_ev": 5.172459
+  },
+  "ag012-au025-pd019-pt044": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.25,
+      "Pd": 0.1875,
+      "Pt": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.170525
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.064559
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.300194
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.449079
+      }
+    },
+    "wf_linear_combo_ev": 5.143498
+  },
+  "ag012-au025-pd025-pt038": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.25,
+      "Pd": 0.25,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.011279
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.948582
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.32165
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.454555
+      }
+    },
+    "wf_linear_combo_ev": 5.114536
+  },
+  "ag012-au025-pd031-pt031": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.25,
+      "Pd": 0.3125,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.013954
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.946612
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.192975
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.336559
+      }
+    },
+    "wf_linear_combo_ev": 5.085575
+  },
+  "ag012-au025-pd038-pt025": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.25,
+      "Pd": 0.375,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.015812
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.951448
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.202947
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.351465
+      }
+    },
+    "wf_linear_combo_ev": 5.056614
+  },
+  "ag012-au025-pd044-pt019": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.25,
+      "Pd": 0.4375,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.023491
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.96085
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.219662
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.354587
+      }
+    },
+    "wf_linear_combo_ev": 5.027653
+  },
+  "ag012-au025-pd050-pt012": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.25,
+      "Pd": 0.5,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.030541
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.839598
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.225605
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.217034
+      }
+    },
+    "wf_linear_combo_ev": 4.998692
+  },
+  "ag012-au031-pd012-pt044": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.3125,
+      "Pd": 0.125,
+      "Pt": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.183536
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.058051
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.282983
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.438933
+      }
+    },
+    "wf_linear_combo_ev": 5.140891
+  },
+  "ag012-au031-pd019-pt038": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.3125,
+      "Pd": 0.1875,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.049752
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.951639
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.300652
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.438583
+      }
+    },
+    "wf_linear_combo_ev": 5.11193
+  },
+  "ag012-au031-pd025-pt031": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.3125,
+      "Pd": 0.25,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.027001
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.957518
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.175063
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.322143
+      }
+    },
+    "wf_linear_combo_ev": 5.082969
+  },
+  "ag012-au031-pd031-pt025": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.3125,
+      "Pd": 0.3125,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.02904
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.965886
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.179155
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.331834
+      }
+    },
+    "wf_linear_combo_ev": 5.054008
+  },
+  "ag012-au031-pd038-pt019": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.3125,
+      "Pd": 0.375,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.019992
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.96575
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.19508
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.328244
+      }
+    },
+    "wf_linear_combo_ev": 5.025047
+  },
+  "ag012-au031-pd044-pt012": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.3125,
+      "Pd": 0.4375,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.030771
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.835876
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.20769
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.194138
+      }
+    },
+    "wf_linear_combo_ev": 4.996086
+  },
+  "ag012-au038-pd012-pt038": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.375,
+      "Pd": 0.125,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.078657
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.941192
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.270856
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.43252
+      }
+    },
+    "wf_linear_combo_ev": 5.109324
+  },
+  "ag012-au038-pd019-pt031": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.375,
+      "Pd": 0.1875,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.044949
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.951096
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.160368
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.312807
+      }
+    },
+    "wf_linear_combo_ev": 5.080363
+  },
+  "ag012-au038-pd025-pt025": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.375,
+      "Pd": 0.25,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.044869
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.958437
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.152852
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.324641
+      }
+    },
+    "wf_linear_combo_ev": 5.051402
+  },
+  "ag012-au038-pd031-pt019": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.375,
+      "Pd": 0.3125,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.015225
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.9646
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.141933
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.316605
+      }
+    },
+    "wf_linear_combo_ev": 5.022441
+  },
+  "ag012-au038-pd038-pt012": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.375,
+      "Pd": 0.375,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.019315
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.831174
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.148521
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.173984
+      }
+    },
+    "wf_linear_combo_ev": 4.99348
+  },
+  "ag012-au044-pd012-pt031": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.4375,
+      "Pd": 0.125,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.046388
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.97021
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.1485
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.316928
+      }
+    },
+    "wf_linear_combo_ev": 5.077757
+  },
+  "ag012-au044-pd019-pt025": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.4375,
+      "Pd": 0.1875,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.047486
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.971101
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.146802
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.326455
+      }
+    },
+    "wf_linear_combo_ev": 5.048796
+  },
+  "ag012-au044-pd025-pt019": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.4375,
+      "Pd": 0.25,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.022014
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.973886
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.130803
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.318234
+      }
+    },
+    "wf_linear_combo_ev": 5.019835
+  },
+  "ag012-au044-pd031-pt012": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.4375,
+      "Pd": 0.3125,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.019627
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.837688
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.130184
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.174709
+      }
+    },
+    "wf_linear_combo_ev": 4.990874
+  },
+  "ag012-au050-pd012-pt025": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.5,
+      "Pd": 0.125,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.058329
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.963993
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.143691
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.320511
+      }
+    },
+    "wf_linear_combo_ev": 5.046189
+  },
+  "ag012-au050-pd019-pt019": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.5,
+      "Pd": 0.1875,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.026705
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.969065
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.123464
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.309785
+      }
+    },
+    "wf_linear_combo_ev": 5.017228
+  },
+  "ag012-au050-pd025-pt012": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.5,
+      "Pd": 0.25,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.020228
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.825562
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.116225
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.170133
+      }
+    },
+    "wf_linear_combo_ev": 4.988267
+  },
+  "ag019-au012-pd019-pt050": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.125,
+      "Pd": 0.1875,
+      "Pt": 0.5
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.107507
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.187472
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.303835
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.21511
+      }
+    },
+    "wf_linear_combo_ev": 5.1285
+  },
+  "ag019-au012-pd025-pt044": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.125,
+      "Pd": 0.25,
+      "Pt": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.115382
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.077652
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.308351
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.230282
+      }
+    },
+    "wf_linear_combo_ev": 5.099539
+  },
+  "ag019-au012-pd031-pt038": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.125,
+      "Pd": 0.3125,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.931083
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.970073
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.330545
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.227894
+      }
+    },
+    "wf_linear_combo_ev": 5.070578
+  },
+  "ag019-au012-pd038-pt031": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.125,
+      "Pd": 0.375,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.938269
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.967432
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.194137
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.105467
+      }
+    },
+    "wf_linear_combo_ev": 5.041616
+  },
+  "ag019-au012-pd044-pt025": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.125,
+      "Pd": 0.4375,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.94367
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.977688
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.20174
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.126537
+      }
+    },
+    "wf_linear_combo_ev": 5.012655
+  },
+  "ag019-au012-pd050-pt019": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.125,
+      "Pd": 0.5,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.968429
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.973493
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.23183
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.122867
+      }
+    },
+    "wf_linear_combo_ev": 4.983694
+  },
+  "ag019-au019-pd012-pt050": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.1875,
+      "Pd": 0.125,
+      "Pt": 0.5
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.182133
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.186568
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.309831
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.229467
+      }
+    },
+    "wf_linear_combo_ev": 5.125893
+  },
+  "ag019-au019-pd019-pt044": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.1875,
+      "Pd": 0.1875,
+      "Pt": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.171161
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.079956
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.313077
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.241373
+      }
+    },
+    "wf_linear_combo_ev": 5.096932
+  },
+  "ag019-au019-pd025-pt038": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.1875,
+      "Pd": 0.25,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.009098
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.961626
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.325794
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.234337
+      }
+    },
+    "wf_linear_combo_ev": 5.067971
+  },
+  "ag019-au019-pd031-pt031": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.1875,
+      "Pd": 0.3125,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.016891
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.964887
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.20317
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.118884
+      }
+    },
+    "wf_linear_combo_ev": 5.03901
+  },
+  "ag019-au019-pd038-pt025": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.1875,
+      "Pd": 0.375,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.015112
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.972429
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.205334
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.141592
+      }
+    },
+    "wf_linear_combo_ev": 5.010049
+  },
+  "ag019-au019-pd044-pt019": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.1875,
+      "Pd": 0.4375,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.024804
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.976962
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.225999
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.136619
+      }
+    },
+    "wf_linear_combo_ev": 4.981088
+  },
+  "ag019-au025-pd012-pt044": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.25,
+      "Pd": 0.125,
+      "Pt": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.183675
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.078755
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.291873
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.222487
+      }
+    },
+    "wf_linear_combo_ev": 5.094326
+  },
+  "ag019-au025-pd019-pt038": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.25,
+      "Pd": 0.1875,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.048831
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.965841
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.29967
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.219401
+      }
+    },
+    "wf_linear_combo_ev": 5.065365
+  },
+  "ag019-au025-pd025-pt031": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.25,
+      "Pd": 0.25,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.031832
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.971065
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.179537
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.099014
+      }
+    },
+    "wf_linear_combo_ev": 5.036404
+  },
+  "ag019-au025-pd031-pt025": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.25,
+      "Pd": 0.3125,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.026255
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.979001
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.184323
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.117779
+      }
+    },
+    "wf_linear_combo_ev": 5.007443
+  },
+  "ag019-au025-pd044-pt012": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.25,
+      "Pd": 0.4375,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.030885
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.834296
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.212418
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.980541
+      }
+    },
+    "wf_linear_combo_ev": 4.949521
+  },
+  "ag019-au031-pd012-pt038": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.3125,
+      "Pd": 0.125,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.086709
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.957878
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.274142
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.209788
+      }
+    },
+    "wf_linear_combo_ev": 5.062759
+  },
+  "ag019-au031-pd019-pt031": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.3125,
+      "Pd": 0.1875,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.049789
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.964068
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.167021
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.090558
+      }
+    },
+    "wf_linear_combo_ev": 5.033798
+  },
+  "ag019-au031-pd025-pt025": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.3125,
+      "Pd": 0.25,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.047849
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.966195
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.16095
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.104959
+      }
+    },
+    "wf_linear_combo_ev": 5.004837
+  },
+  "ag019-au031-pd031-pt019": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.3125,
+      "Pd": 0.3125,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.023686
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.971752
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.149149
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.097794
+      }
+    },
+    "wf_linear_combo_ev": 4.975876
+  },
+  "ag019-au031-pd038-pt012": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.3125,
+      "Pd": 0.375,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.024451
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.833171
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.156269
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.954523
+      }
+    },
+    "wf_linear_combo_ev": 4.946915
+  },
+  "ag019-au038-pd012-pt031": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.375,
+      "Pd": 0.125,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.046486
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.980428
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.157099
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.093473
+      }
+    },
+    "wf_linear_combo_ev": 5.031192
+  },
+  "ag019-au038-pd019-pt025": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.375,
+      "Pd": 0.1875,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.048956
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.979094
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.155224
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.108124
+      }
+    },
+    "wf_linear_combo_ev": 5.00223
+  },
+  "ag019-au038-pd025-pt019": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.375,
+      "Pd": 0.25,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.02564
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.984115
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.137197
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.097745
+      }
+    },
+    "wf_linear_combo_ev": 4.973269
+  },
+  "ag019-au038-pd031-pt012": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.375,
+      "Pd": 0.3125,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.022249
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.843342
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.139438
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.95429
+      }
+    },
+    "wf_linear_combo_ev": 4.944308
+  },
+  "ag019-au044-pd012-pt025": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.4375,
+      "Pd": 0.125,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.06056
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.972784
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.152115
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.114146
+      }
+    },
+    "wf_linear_combo_ev": 4.999624
+  },
+  "ag019-au044-pd019-pt019": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.4375,
+      "Pd": 0.1875,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.027819
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.974453
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.131895
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.101766
+      }
+    },
+    "wf_linear_combo_ev": 4.970663
+  },
+  "ag019-au044-pd025-pt012": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.4375,
+      "Pd": 0.25,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.01978
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.826919
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.126517
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.9622
+      }
+    },
+    "wf_linear_combo_ev": 4.941702
+  },
+  "ag019-au050-pd012-pt019": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.5,
+      "Pd": 0.125,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.070727
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.986104
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.107257
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.139167
+      }
+    },
+    "wf_linear_combo_ev": 4.968057
+  },
+  "ag019-au050-pd019-pt012": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.5,
+      "Pd": 0.1875,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.064512
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.848289
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.100091
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.017136
+      }
+    },
+    "wf_linear_combo_ev": 4.939096
+  },
+  "ag025-au012-pd012-pt050": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.125,
+      "Pd": 0.125,
+      "Pt": 0.5
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.190556
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.161447
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.31758
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.20458
+      }
+    },
+    "wf_linear_combo_ev": 5.079328
+  },
+  "ag025-au012-pd019-pt044": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.125,
+      "Pd": 0.1875,
+      "Pt": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.181003
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.055454
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.31831
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.213644
+      }
+    },
+    "wf_linear_combo_ev": 5.050367
+  },
+  "ag025-au012-pd025-pt038": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.125,
+      "Pd": 0.25,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.011921
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.945218
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.329152
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.210982
+      }
+    },
+    "wf_linear_combo_ev": 5.021406
+  },
+  "ag025-au012-pd031-pt031": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.125,
+      "Pd": 0.3125,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.021802
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.949379
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.197952
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.098786
+      }
+    },
+    "wf_linear_combo_ev": 4.992445
+  },
+  "ag025-au012-pd038-pt025": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.125,
+      "Pd": 0.375,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.021188
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.959635
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.20676
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.124591
+      }
+    },
+    "wf_linear_combo_ev": 4.963484
+  },
+  "ag025-au012-pd044-pt019": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.125,
+      "Pd": 0.4375,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.029119
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.956835
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.224868
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.119793
+      }
+    },
+    "wf_linear_combo_ev": 4.934523
+  },
+  "ag025-au012-pd050-pt012": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.125,
+      "Pd": 0.5,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.040502
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.82741
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.236045
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.986494
+      }
+    },
+    "wf_linear_combo_ev": 4.905562
+  },
+  "ag025-au019-pd025-pt031": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.1875,
+      "Pd": 0.25,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.027519
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.96685
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.171448
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.078912
+      }
+    },
+    "wf_linear_combo_ev": 4.989839
+  },
+  "ag025-au019-pd031-pt025": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.1875,
+      "Pd": 0.3125,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.031719
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.975836
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.179216
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.103502
+      }
+    },
+    "wf_linear_combo_ev": 4.960878
+  },
+  "ag025-au019-pd038-pt019": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.1875,
+      "Pd": 0.375,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.024611
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.975949
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.197872
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.095924
+      }
+    },
+    "wf_linear_combo_ev": 4.931917
+  },
+  "ag025-au019-pd044-pt012": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.1875,
+      "Pd": 0.4375,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.03734
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.831191
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.207698
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.958145
+      }
+    },
+    "wf_linear_combo_ev": 4.902956
+  },
+  "ag025-au025-pd012-pt038": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.25,
+      "Pd": 0.125,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.090682
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.955416
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.273734
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.18368
+      }
+    },
+    "wf_linear_combo_ev": 5.016194
+  },
+  "ag025-au025-pd019-pt031": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.25,
+      "Pd": 0.1875,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.050779
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.957889
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.161671
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.067502
+      }
+    },
+    "wf_linear_combo_ev": 4.987233
+  },
+  "ag025-au025-pd025-pt025": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.25,
+      "Pd": 0.25,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.04943
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.964207
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.155636
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.089214
+      }
+    },
+    "wf_linear_combo_ev": 4.958272
+  },
+  "ag025-au025-pd031-pt019": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.25,
+      "Pd": 0.3125,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.027028
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.969863
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.144256
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.075327
+      }
+    },
+    "wf_linear_combo_ev": 4.92931
+  },
+  "ag025-au025-pd038-pt012": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.25,
+      "Pd": 0.375,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.028823
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.82708
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.152035
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.935755
+      }
+    },
+    "wf_linear_combo_ev": 4.900349
+  },
+  "ag025-au031-pd019-pt025": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.3125,
+      "Pd": 0.1875,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.05031
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.95784
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.151367
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.089188
+      }
+    },
+    "wf_linear_combo_ev": 4.955665
+  },
+  "ag025-au031-pd025-pt019": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.3125,
+      "Pd": 0.25,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.027476
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.964039
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.135561
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.077792
+      }
+    },
+    "wf_linear_combo_ev": 4.926704
+  },
+  "ag025-au031-pd031-pt012": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.3125,
+      "Pd": 0.3125,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.022876
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.821089
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.13515
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.926152
+      }
+    },
+    "wf_linear_combo_ev": 4.897743
+  },
+  "ag025-au038-pd012-pt025": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.375,
+      "Pd": 0.125,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.059942
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.933654
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.148503
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.096146
+      }
+    },
+    "wf_linear_combo_ev": 4.953059
+  },
+  "ag025-au038-pd019-pt019": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.375,
+      "Pd": 0.1875,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.02946
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.936484
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.129342
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.082822
+      }
+    },
+    "wf_linear_combo_ev": 4.924098
+  },
+  "ag025-au038-pd025-pt012": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.375,
+      "Pd": 0.25,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.019827
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.773578
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.126737
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.942466
+      }
+    },
+    "wf_linear_combo_ev": 4.895137
+  },
+  "ag025-au044-pd012-pt019": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.4375,
+      "Pd": 0.125,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.066866
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.945907
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.097881
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.099634
+      }
+    },
+    "wf_linear_combo_ev": 4.921492
+  },
+  "ag025-au044-pd019-pt012": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.4375,
+      "Pd": 0.1875,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.064623
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.807858
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.088468
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.973057
+      }
+    },
+    "wf_linear_combo_ev": 4.892531
+  },
+  "ag025-au050-pd012-pt012": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.5,
+      "Pd": 0.125,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.094757
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.841286
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.143404
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.990764
+      }
+    },
+    "wf_linear_combo_ev": 4.889924
+  },
+  "ag031-au012-pd012-pt044": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.125,
+      "Pd": 0.125,
+      "Pt": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.191345
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.065021
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.284958
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.192706
+      }
+    },
+    "wf_linear_combo_ev": 5.001196
+  },
+  "ag031-au012-pd019-pt038": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.125,
+      "Pd": 0.1875,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.051944
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.96559
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.295291
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.193956
+      }
+    },
+    "wf_linear_combo_ev": 4.972235
+  },
+  "ag031-au012-pd025-pt031": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.125,
+      "Pd": 0.25,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.035523
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.969183
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.170085
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.081743
+      }
+    },
+    "wf_linear_combo_ev": 4.943274
+  },
+  "ag031-au012-pd031-pt025": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.125,
+      "Pd": 0.3125,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.033517
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.97901
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.175334
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.104659
+      }
+    },
+    "wf_linear_combo_ev": 4.914313
+  },
+  "ag031-au012-pd038-pt019": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.125,
+      "Pd": 0.375,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.028503
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.982692
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.200508
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.097431
+      }
+    },
+    "wf_linear_combo_ev": 4.885352
+  },
+  "ag031-au012-pd044-pt012": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.125,
+      "Pd": 0.4375,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.039689
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.832887
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.210616
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.95959
+      }
+    },
+    "wf_linear_combo_ev": 4.85639
+  },
+  "ag031-au019-pd012-pt038": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.1875,
+      "Pd": 0.125,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.092087
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.956544
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.238705
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.185828
+      }
+    },
+    "wf_linear_combo_ev": 4.969628
+  },
+  "ag031-au019-pd019-pt031": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.1875,
+      "Pd": 0.1875,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.050378
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.962647
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.130204
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.067819
+      }
+    },
+    "wf_linear_combo_ev": 4.940667
+  },
+  "ag031-au019-pd025-pt025": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.1875,
+      "Pd": 0.25,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.051228
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.969617
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.12591
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.089445
+      }
+    },
+    "wf_linear_combo_ev": 4.911706
+  },
+  "ag031-au019-pd031-pt019": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.1875,
+      "Pd": 0.3125,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.026362
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.972411
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.116785
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.08183
+      }
+    },
+    "wf_linear_combo_ev": 4.882745
+  },
+  "ag031-au019-pd038-pt012": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.1875,
+      "Pd": 0.375,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.028623
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.830401
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.12398
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.935714
+      }
+    },
+    "wf_linear_combo_ev": 4.853784
+  },
+  "ag031-au025-pd012-pt031": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.25,
+      "Pd": 0.125,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.048992
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.961203
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.126487
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.067306
+      }
+    },
+    "wf_linear_combo_ev": 4.938061
+  },
+  "ag031-au025-pd019-pt025": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.25,
+      "Pd": 0.1875,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.053448
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.961797
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.122793
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.088932
+      }
+    },
+    "wf_linear_combo_ev": 4.9091
+  },
+  "ag031-au025-pd025-pt019": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.25,
+      "Pd": 0.25,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.03046
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.964127
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.105984
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.078991
+      }
+    },
+    "wf_linear_combo_ev": 4.880139
+  },
+  "ag031-au025-pd031-pt012": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.25,
+      "Pd": 0.3125,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.026721
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.817805
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.107543
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.932191
+      }
+    },
+    "wf_linear_combo_ev": 4.851178
+  },
+  "ag031-au031-pd012-pt025": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.3125,
+      "Pd": 0.125,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.062684
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.937855
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.11601
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.098701
+      }
+    },
+    "wf_linear_combo_ev": 4.906494
+  },
+  "ag031-au031-pd019-pt019": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.3125,
+      "Pd": 0.1875,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.032042
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.937946
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.096532
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.085884
+      }
+    },
+    "wf_linear_combo_ev": 4.877533
+  },
+  "ag031-au031-pd025-pt012": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.3125,
+      "Pd": 0.25,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.022656
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.785957
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.0929
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.945928
+      }
+    },
+    "wf_linear_combo_ev": 4.848572
+  },
+  "ag031-au038-pd012-pt019": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.375,
+      "Pd": 0.125,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.068002
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.950837
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.05534
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.10174
+      }
+    },
+    "wf_linear_combo_ev": 4.874926
+  },
+  "ag031-au044-pd012-pt012": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.4375,
+      "Pd": 0.125,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.09041
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.84606
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.089994
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.988311
+      }
+    },
+    "wf_linear_combo_ev": 4.843359
+  },
+  "ag038-au012-pd012-pt038": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.125,
+      "Pd": 0.125,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.923984
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.962749
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.053341
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.195942
+      }
+    },
+    "wf_linear_combo_ev": 4.923063
+  },
+  "ag038-au012-pd019-pt031": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.125,
+      "Pd": 0.1875,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.880117
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.967107
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.949288
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.080821
+      }
+    },
+    "wf_linear_combo_ev": 4.894102
+  },
+  "ag038-au012-pd025-pt025": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.125,
+      "Pd": 0.25,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.882268
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.974569
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.951243
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.100752
+      }
+    },
+    "wf_linear_combo_ev": 4.865141
+  },
+  "ag038-au012-pd031-pt019": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.125,
+      "Pd": 0.3125,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.858154
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.977721
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.935081
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.091758
+      }
+    },
+    "wf_linear_combo_ev": 4.83618
+  },
+  "ag038-au012-pd038-pt012": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.125,
+      "Pd": 0.375,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.86052
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.839123
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.944704
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.94763
+      }
+    },
+    "wf_linear_combo_ev": 4.807219
+  },
+  "ag038-au019-pd012-pt031": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.1875,
+      "Pd": 0.125,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.872971
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.96196
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.939697
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.080125
+      }
+    },
+    "wf_linear_combo_ev": 4.891496
+  },
+  "ag038-au019-pd019-pt025": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.1875,
+      "Pd": 0.1875,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.875285
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.966611
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.939027
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.09962
+      }
+    },
+    "wf_linear_combo_ev": 4.862535
+  },
+  "ag038-au019-pd025-pt019": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.1875,
+      "Pd": 0.25,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.85522
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.97087
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.922491
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.086595
+      }
+    },
+    "wf_linear_combo_ev": 4.833574
+  },
+  "ag038-au019-pd031-pt012": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.1875,
+      "Pd": 0.3125,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.847663
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.827576
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.924061
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.943457
+      }
+    },
+    "wf_linear_combo_ev": 4.804613
+  },
+  "ag038-au025-pd012-pt025": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.25,
+      "Pd": 0.125,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.89634
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.925937
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.935307
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.107144
+      }
+    },
+    "wf_linear_combo_ev": 4.859929
+  },
+  "ag038-au025-pd019-pt019": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.25,
+      "Pd": 0.1875,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.863724
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.936764
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.907539
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.092092
+      }
+    },
+    "wf_linear_combo_ev": 4.830968
+  },
+  "ag038-au025-pd025-pt012": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.25,
+      "Pd": 0.25,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.851087
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.780359
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.903421
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.949279
+      }
+    },
+    "wf_linear_combo_ev": 4.802007
+  },
+  "ag038-au031-pd012-pt019": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.3125,
+      "Pd": 0.125,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.90525
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.944002
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.880633
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.104766
+      }
+    },
+    "wf_linear_combo_ev": 4.828361
+  },
+  "ag038-au031-pd019-pt012": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.3125,
+      "Pd": 0.1875,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.906236
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.809194
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.873304
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.977702
+      }
+    },
+    "wf_linear_combo_ev": 4.7994
+  },
+  "ag038-au038-pd012-pt012": {
+    "composition": {
+      "Ag": 0.375,
+      "Au": 0.375,
+      "Pd": 0.125,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.925925
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.851861
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.918789
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.990569
+      }
+    },
+    "wf_linear_combo_ev": 4.796794
+  },
+  "ag044-au012-pd012-pt031": {
+    "composition": {
+      "Ag": 0.4375,
+      "Au": 0.125,
+      "Pd": 0.125,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.718291
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.923031
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.928378
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.081909
+      }
+    },
+    "wf_linear_combo_ev": 4.844931
+  },
+  "ag044-au012-pd019-pt025": {
+    "composition": {
+      "Ag": 0.4375,
+      "Au": 0.125,
+      "Pd": 0.1875,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.716904
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.927668
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.928363
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.097021
+      }
+    },
+    "wf_linear_combo_ev": 4.81597
+  },
+  "ag044-au012-pd031-pt012": {
+    "composition": {
+      "Ag": 0.4375,
+      "Au": 0.125,
+      "Pd": 0.3125,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.681461
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.801518
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.91437
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.946099
+      }
+    },
+    "wf_linear_combo_ev": 4.758048
+  },
+  "ag044-au019-pd012-pt025": {
+    "composition": {
+      "Ag": 0.4375,
+      "Au": 0.1875,
+      "Pd": 0.125,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.742779
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.878691
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.930413
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.101397
+      }
+    },
+    "wf_linear_combo_ev": 4.813363
+  },
+  "ag044-au019-pd019-pt019": {
+    "composition": {
+      "Ag": 0.4375,
+      "Au": 0.1875,
+      "Pd": 0.1875,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.708787
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.882437
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.903819
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.094134
+      }
+    },
+    "wf_linear_combo_ev": 4.784402
+  },
+  "ag044-au019-pd025-pt012": {
+    "composition": {
+      "Ag": 0.4375,
+      "Au": 0.1875,
+      "Pd": 0.25,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.695686
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.731737
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.899754
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.951917
+      }
+    },
+    "wf_linear_combo_ev": 4.755441
+  },
+  "ag044-au025-pd012-pt019": {
+    "composition": {
+      "Ag": 0.4375,
+      "Au": 0.25,
+      "Pd": 0.125,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.754278
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.896201
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.877503
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.110786
+      }
+    },
+    "wf_linear_combo_ev": 4.781796
+  },
+  "ag044-au025-pd019-pt012": {
+    "composition": {
+      "Ag": 0.4375,
+      "Au": 0.25,
+      "Pd": 0.1875,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.746483
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.767519
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.867811
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.985855
+      }
+    },
+    "wf_linear_combo_ev": 4.752835
+  },
+  "ag044-au031-pd012-pt012": {
+    "composition": {
+      "Ag": 0.4375,
+      "Au": 0.3125,
+      "Pd": 0.125,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.76369
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.804393
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.920153
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.999329
+      }
+    },
+    "wf_linear_combo_ev": 4.750229
+  },
+  "ag050-au012-pd012-pt025": {
+    "composition": {
+      "Ag": 0.5,
+      "Au": 0.125,
+      "Pd": 0.125,
+      "Pt": 0.25
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.581491
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.872648
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.731852
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.107726
+      }
+    },
+    "wf_linear_combo_ev": 4.766798
+  },
+  "ag050-au012-pd019-pt019": {
+    "composition": {
+      "Ag": 0.5,
+      "Au": 0.125,
+      "Pd": 0.1875,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.552629
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.879033
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.716695
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.100905
+      }
+    },
+    "wf_linear_combo_ev": 4.737837
+  },
+  "ag050-au012-pd025-pt012": {
+    "composition": {
+      "Ag": 0.5,
+      "Au": 0.125,
+      "Pd": 0.25,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.54198
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.734764
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.705656
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.957182
+      }
+    },
+    "wf_linear_combo_ev": 4.708876
+  },
+  "ag050-au019-pd012-pt019": {
+    "composition": {
+      "Ag": 0.5,
+      "Au": 0.1875,
+      "Pd": 0.125,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.59888
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.897903
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.697814
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.111583
+      }
+    },
+    "wf_linear_combo_ev": 4.735231
+  },
+  "ag050-au019-pd019-pt012": {
+    "composition": {
+      "Ag": 0.5,
+      "Au": 0.1875,
+      "Pd": 0.1875,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.595787
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.769269
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.688197
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.988736
+      }
+    },
+    "wf_linear_combo_ev": 4.70627
+  },
+  "ag050-au025-pd012-pt012": {
+    "composition": {
+      "Ag": 0.5,
+      "Au": 0.25,
+      "Pd": 0.125,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.592591
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.805673
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.740135
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.000582
+      }
+    },
+    "wf_linear_combo_ev": 4.703664
+  },
+  "ag025-au019-pd019-pt038": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.1875,
+      "Pd": 0.1875,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.05001
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.95864
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.301318
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.193268
+      }
+    },
+    "wf_linear_combo_ev": 5.0188
+  },
+  "ag025-au031-pd012-pt031": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.3125,
+      "Pd": 0.125,
+      "Pt": 0.3125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.045044
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.961903
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.151919
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.066461
+      }
+    },
+    "wf_linear_combo_ev": 4.984626
+  },
+  "ag012-au019-pd031-pt038": {
+    "composition": {
+      "Ag": 0.125,
+      "Au": 0.1875,
+      "Pd": 0.3125,
+      "Pt": 0.375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.930862
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.951725
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.325405
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.449734
+      }
+    },
+    "wf_linear_combo_ev": 5.117143
+  },
+  "ag044-au012-pd025-pt019": {
+    "composition": {
+      "Ag": 0.4375,
+      "Au": 0.125,
+      "Pd": 0.25,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 4.692303
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.929616
+      },
+      "variant-00003": {
+        "wf_top_ev": 4.915047
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.090278
+      }
+    },
+    "wf_linear_combo_ev": 4.787009
+  },
+  "ag025-au019-pd012-pt044": {
+    "composition": {
+      "Ag": 0.25,
+      "Au": 0.1875,
+      "Pd": 0.125,
+      "Pt": 0.4375
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.191587
+      },
+      "variant-00002": {
+        "wf_top_ev": 5.067517
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.292076
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.192375
+      }
+    },
+    "wf_linear_combo_ev": 5.047761
+  },
+  "ag019-au019-pd050-pt012": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.1875,
+      "Pd": 0.5,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.031472
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.83529
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.235207
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.005701
+      }
+    },
+    "wf_linear_combo_ev": 4.952127
+  },
+  "ag019-au025-pd038-pt019": {
+    "composition": {
+      "Ag": 0.1875,
+      "Au": 0.25,
+      "Pd": 0.375,
+      "Pt": 0.1875
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.021677
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.984046
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.197522
+      },
+      "variant-00004": {
+        "wf_top_ev": 5.11283
+      }
+    },
+    "wf_linear_combo_ev": 4.978482
+  },
+  "ag031-au038-pd019-pt012": {
+    "composition": {
+      "Ag": 0.3125,
+      "Au": 0.375,
+      "Pd": 0.1875,
+      "Pt": 0.125
+    },
+    "variants": {
+      "variant-00001": {
+        "wf_top_ev": 5.065758
+      },
+      "variant-00002": {
+        "wf_top_ev": 4.815596
+      },
+      "variant-00003": {
+        "wf_top_ev": 5.046541
+      },
+      "variant-00004": {
+        "wf_top_ev": 4.976426
+      }
+    },
+    "wf_linear_combo_ev": 4.845965
+  }
+}
