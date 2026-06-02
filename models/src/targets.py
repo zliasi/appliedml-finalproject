@@ -20,7 +20,7 @@ scripts target-agnostic; per-target deltas live entirely under
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Iterable
+from typing import Any, Callable, Iterable, Optional
 
 import numpy as np
 import torch.nn as nn
@@ -31,7 +31,11 @@ class WorkItem:
     """One graph-building task produced by a target's iter_work_items.
 
     Attributes:
-        traj_path: Absolute path to the ASE .traj file to read.
+        traj_path: Path to the ASE .traj file to read, or None when the
+            structure is supplied directly via ``atoms``.
+        atoms: Optional in-memory ASE Atoms, for targets whose structures
+            come from an aggregate file (e.g. h5) rather than a .traj. The
+            build-graphs worker uses this when ``traj_path`` is None.
         target_value: Scalar regression target (graph-level), or a per-atom
             array of length num_atoms (node-level).
         group_key: Partitioning unit. Items sharing a group_key go
@@ -45,10 +49,11 @@ class WorkItem:
             (e.g. ``{"variant": ..., "site": ...}``).
     """
 
-    traj_path: Path
     target_value: float | np.ndarray
     group_key: str
     comp_id: str
+    traj_path: Optional[Path] = None
+    atoms: Any = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
 
