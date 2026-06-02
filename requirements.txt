@@ -1,5 +1,8 @@
 torch
 torch_geometric
 ase
-networkx
-matplotlib
+numpy
+h5py
+pyyaml
+lmdb
+scikit-learn

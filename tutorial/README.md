@@ -25,7 +25,7 @@ cd appliedml-finalproject/tutorial
 jupyter lab train-a-gnn.ipynb
 ```
 
-The first cell installs any missing packages (PyTorch, PyTorch Geometric, ASE, networkx, matplotlib), or you can install them yourself with `pip install -r ../requirements.txt`. Everything runs on CPU in a couple of minutes
+The first cell installs any missing packages (PyTorch, PyTorch Geometric, ASE, networkx, matplotlib), or you can install them yourself with `pip install -r requirements.txt`. Everything runs on CPU in a couple of minutes
 
 ### Google Colab
 
