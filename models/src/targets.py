@@ -22,6 +22,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable, Iterable
 
+import numpy as np
 import torch.nn as nn
 
 
@@ -31,7 +32,8 @@ class WorkItem:
 
     Attributes:
         traj_path: Absolute path to the ASE .traj file to read.
-        target_value: Scalar regression target (eV).
+        target_value: Scalar regression target (graph-level), or a per-atom
+            array of length num_atoms (node-level).
         group_key: Partitioning unit. Items sharing a group_key go
             into the same train/val/test split (``comp_id`` for wf so
             all variants of one composition stay together; for hads
@@ -44,7 +46,7 @@ class WorkItem:
     """
 
     traj_path: Path
-    target_value: float
+    target_value: float | np.ndarray
     group_key: str
     comp_id: str
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -71,6 +73,8 @@ class TargetSpec:
             dataset root and yields ``WorkItem`` records. Encapsulates
             target-specific record schemas, outlier filters, grouping
             keys, traj-path resolution, and local/full-subgraph choice.
+        node_level: If True the target is one value per atom (Data.y has
+            shape [num_atoms]); if False, one value per graph.
     """
 
     name: str
@@ -81,6 +85,7 @@ class TargetSpec:
 
     build_gnn: Callable[[dict], nn.Module]
     iter_work_items: Callable[[Path, Path], Iterable[WorkItem]]
+    node_level: bool = False
 
 
 def load_target_spec(name: str) -> TargetSpec:

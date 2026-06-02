@@ -35,6 +35,27 @@ VALID_EDGE_MODES: list[str] = [
 ]
 
 
+def _target_to_tensor(target: "float | np.ndarray") -> torch.Tensor:
+    """Convert a target into a ``Data.y`` tensor.
+
+    A scalar becomes shape ``[1]`` (graph-level); a per-atom sequence becomes
+    shape ``[num_atoms]`` (node-level). PyG concatenates either across a batch,
+    so the loss and metrics handle both without changes.
+
+    Args:
+        target: Scalar regression target, or a per-atom array/list.
+
+    Returns:
+        Float32 tensor of shape ``[1]`` for a scalar or ``[num_atoms]`` for a
+        per-atom sequence.
+    """
+    if isinstance(target, (list, tuple, np.ndarray)):
+        values = np.asarray(target, dtype=np.float32).reshape(-1)
+        assert values.size > 0, "Per-atom target must not be empty"
+        return torch.from_numpy(values)
+    return torch.tensor([target], dtype=torch.float32)
+
+
 class GraphBuilder:
     """Build PyTorch Geometric graphs from ASE structures.
 
@@ -74,13 +95,14 @@ class GraphBuilder:
     def build_graph(
         self,
         atoms: Atoms,
-        target: Optional[float] = None,
+        target: "Optional[float | np.ndarray]" = None,
     ) -> Data:
         """Build PyTorch Geometric graph from ASE structure.
 
         Args:
             atoms: ASE Atoms object
-            target: Scalar target label (eV), optional
+            target: Scalar (graph-level) or per-atom array (node-level),
+                optional
 
         Returns:
             PyG Data with x=atomic_numbers, edge_index, edge_attr, y
@@ -98,9 +120,7 @@ class GraphBuilder:
 
         target_tensor = None
         if target is not None:
-            target_tensor = torch.tensor(
-                [target], dtype=torch.float32,
-            )
+            target_tensor = _target_to_tensor(target)
 
         graph = Data(
             x=atomic_numbers,
@@ -116,7 +136,7 @@ class GraphBuilder:
         self,
         atoms: Atoms,
         n_hops: int,
-        target: Optional[float] = None,
+        target: "Optional[float | np.ndarray]" = None,
         h_index: Optional[int] = None,
     ) -> Data:
         """Build local subgraph around H via BFS (hads-only path).
@@ -124,7 +144,8 @@ class GraphBuilder:
         Args:
             atoms: ASE Atoms with H adsorbate
             n_hops: BFS hops from H atom
-            target: Scalar target label (eV), optional
+            target: Scalar (graph-level), or a per-atom array which is
+                subset to the selected subgraph atoms (node-level), optional
             h_index: H atom index (auto-detected if None)
 
         Returns:
@@ -145,10 +166,12 @@ class GraphBuilder:
         sub_edge_index, sub_edge_attr = self._build_edges(
             atoms[selected],
         )
-        target_tensor = (
-            torch.tensor([target], dtype=torch.float32)
-            if target is not None else None
-        )
+        if target is None:
+            target_tensor = None
+        elif isinstance(target, (list, tuple, np.ndarray)):
+            target_tensor = _target_to_tensor(np.asarray(target)[selected])
+        else:
+            target_tensor = _target_to_tensor(target)
         atomic_numbers = torch.tensor(
             atoms.get_atomic_numbers(), dtype=torch.long,
         )
