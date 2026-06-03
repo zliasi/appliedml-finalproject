@@ -43,11 +43,15 @@ def iter_work_items(h5_path: Path, dataset_dir: Path) -> Iterable[WorkItem]:
         for comp_id in handle:
             for variant_name, group in handle[comp_id].items():
                 magmoms = np.asarray(group["magmoms"], dtype=np.float32)
+                # slabs are periodic in-plane; fall back if the aggregate was
+                # written without a pbc dataset
+                pbc = (np.asarray(group["pbc"]) if "pbc" in group
+                       else [True, True, False])
                 atoms = Atoms(
                     numbers=np.asarray(group["atomic_numbers"]),
                     positions=np.asarray(group["positions"]),
                     cell=np.asarray(group["cell"]),
-                    pbc=np.asarray(group["pbc"]),
+                    pbc=pbc,
                 )
                 assert len(atoms) == magmoms.shape[0], (
                     f"atom/moment count mismatch in {comp_id}/{variant_name}"
