@@ -288,7 +288,7 @@ class _TrainState:
         self.patience: int = patience
 
     def update(self, epoch: int, val_mae: float) -> bool:
-        """Update state; return True to stop.
+        """Update state, return True to stop.
 
         Args:
             epoch: Current epoch index

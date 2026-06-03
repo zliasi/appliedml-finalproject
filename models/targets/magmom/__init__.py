@@ -27,13 +27,13 @@ def iter_work_items(h5_path: Path, dataset_dir: Path) -> Iterable[WorkItem]:
 
     The aggregate is grouped ``/<comp_id>/<variant>/`` with atom-ordered
     datasets (magmoms, atomic_numbers, positions, cell, pbc). The structure is
-    rebuilt as an ASE Atoms and carried on the WorkItem; the per-atom moments
+    rebuilt as an ASE Atoms and carried on the WorkItem, the per-atom moments
     are the (node-level) target. Group key is ``comp_id`` so all variants of one
     composition stay in the same split.
 
     Args:
         h5_path: Path to magmoms.h5.
-        dataset_dir: Dataset root (unused; the structure lives in the h5).
+        dataset_dir: Dataset root (unused, the structure lives in the h5).
 
     Yields:
         One WorkItem per slab.
@@ -43,7 +43,7 @@ def iter_work_items(h5_path: Path, dataset_dir: Path) -> Iterable[WorkItem]:
         for comp_id in handle:
             for variant_name, group in handle[comp_id].items():
                 magmoms = np.asarray(group["magmoms"], dtype=np.float32)
-                # slabs are periodic in-plane; fall back if the aggregate was
+                # slabs are periodic in-plane, fall back if the aggregate was
                 # written without a pbc dataset
                 pbc = (np.asarray(group["pbc"]) if "pbc" in group
                        else [True, True, False])

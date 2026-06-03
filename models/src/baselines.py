@@ -13,8 +13,8 @@ captures beyond simpler approaches:
 All baselines use the same train/val/test split as the GNN.
 ``get_soap_config`` takes ``include_hydrogen`` as a parameter
 because the choice depends on the target:
-  - hads: H is part of the adsorbed structure; include it.
-  - wf:   bare slabs only; do not include H.
+  - hads: H is part of the adsorbed structure, include it.
+  - wf:   bare slabs only, do not include H.
 """
 
 import logging
@@ -99,7 +99,7 @@ def build_lincomb_model(
     """Build a fitted LinearRegression that encodes the lincomb rule.
 
     The returned model has ``coef_`` set to the per-element pure
-    reference value and ``intercept_ = 0``; calling ``predict(X)`` on
+    reference value and ``intercept_ = 0``, calling ``predict(X)`` on
     a composition feature matrix ``X`` of shape ``[n, len(elements)]``
     returns the composition-weighted sum.
 
@@ -120,7 +120,7 @@ def build_lincomb_model(
     missing = [e for e in elements if e not in pure_values]
     if missing:
         logger.warning(
-            "Lincomb: no pure ref for %s; using 0.0", missing,
+            "Lincomb: no pure ref for %s, using 0.0", missing,
         )
     coef = np.array(
         [float(pure_values.get(e, 0.0)) for e in elements],
@@ -154,7 +154,7 @@ def save_baseline_checkpoint(
         kind: Algorithm identifier (e.g. ``"linear"``, ``"soap-krr"``).
         feature_kind: One of ``VALID_FEATURE_KINDS``.
         feature_config: Params needed to reconstruct the featurizer
-            (e.g. ``SOAP`` kwargs); ``{}`` for composition baselines.
+            (e.g. ``SOAP`` kwargs), ``{}`` for composition baselines.
         elements: Metal ordering used during training.
         dataset: Training dataset identifier (e.g. ``"fcc4-v1p1"``).
         metadata: Free-form extras (val/test MAE, n_train, etc.).
@@ -329,7 +329,7 @@ def build_soap_krr_model() -> Pipeline:
     hyperparameters for the RBF kernel.
 
     Raises:
-        ImportError: If sklearn / dscribe not available
+        ImportError: If sklearn/dscribe not available
     """
     from sklearn.model_selection import GridSearchCV
 

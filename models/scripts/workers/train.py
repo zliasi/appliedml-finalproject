@@ -5,16 +5,16 @@ pre-built graph lmdb caches from
 ``models/runs/<target>-<dataset>-<version>/graphs/``, and writes
 the best checkpoint to ``.../checkpoints/``.
 
-Loader / precision defaults come from the ``bench/`` results:
+Loader/precision defaults come from the ``bench/`` results:
 7 DataLoader workers + pin_memory + persistent_workers (~2-3x on
 loader-bound archs, ~1.4x on compute-bound) and TF32 matmul/conv
 (modest extra win, no observed accuracy damage). Override via
-``--workers`` / ``--no-tf32``. BF16 / torch.compile not enabled
-(BF16 was a wash on speed; compile breaks ``torch_cluster.radius``
-in dimenet / visnet).
+``--workers``/``--no-tf32``. BF16/torch.compile not enabled
+(BF16 was a wash on speed, compile breaks ``torch_cluster.radius``
+in dimenet/visnet).
 
 Optional wandb logging via --wandb. Project name = ``run_dir.name``
-(``<target>-<dataset>``); augmented datasets get a new ``<dataset>``
+(``<target>-<dataset>``), augmented datasets get a new ``<dataset>``
 slug, which naturally spins up a fresh wandb project.
 
 Usage:
@@ -84,7 +84,7 @@ def setup_data(
     dataset_token: str,
     workers: int,
 ) -> tuple[DataLoader, DataLoader, int]:
-    """Open train/val lmdb caches; build DataLoaders."""
+    """Open train/val lmdb caches, build DataLoaders."""
     tag = derive_graph_tag(config)
     graphs_dir = run_dir / "graphs"
     train_path = graphs_dir / (
@@ -123,8 +123,8 @@ def setup_data(
 def setup_precision(use_tf32: bool) -> None:
     """Configure float precision once at process start.
 
-    TF32 routes FP32 matmul / convolution through the tensor cores
-    at 10-bit mantissa; gives ~5% on matmul-heavy archs with no
+    TF32 routes FP32 matmul/convolution through the tensor cores
+    at 10-bit mantissa, gives ~5% on matmul-heavy archs with no
     observed accuracy damage on these GNNs (see ``bench/``).
     """
     if torch.cuda.is_available() and use_tf32:
@@ -189,7 +189,7 @@ def setup_wandb(
     args: argparse.Namespace,
     project: str,
 ) -> Optional[Callable]:
-    """Initialise wandb run; return per-epoch callback or None."""
+    """Initialise wandb run, return per-epoch callback or None."""
     if not args.wandb:
         return None
     import wandb
@@ -218,7 +218,7 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument(
         "--workers", type=int, default=7,
-        help="DataLoader workers (default 7; bench shows ~2-3x on "
+        help="DataLoader workers (default 7, bench shows ~2-3x on "
              "loader-bound archs, ~1.4x on compute-bound).",
     )
     p.add_argument(

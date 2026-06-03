@@ -153,7 +153,7 @@ def benchmark_config(
         device: Target device string.
 
     Returns:
-        A result record (ok or error); load_ms is omitted (no real checkpoint).
+        A result record (ok or error), load_ms is omitted (no real checkpoint).
     """
     config = yaml.safe_load(config_path.read_text())
     try:
@@ -210,7 +210,7 @@ def main() -> None:
     else:
         configs = sorted(args.configs.rglob("*.yaml"))
         assert configs, f"no checkpoints and no configs under {args.configs}"
-        print("no checkpoints found; smoke-testing configs with random weights\n")
+        print("no checkpoints found, smoke-testing configs with random weights\n")
         results = [benchmark_config(c, args.reps, args.device) for c in configs]
 
     for record in results:

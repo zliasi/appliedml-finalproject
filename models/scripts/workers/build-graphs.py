@@ -46,7 +46,7 @@ from src.graph_builder import (  # noqa: E402
 from src.splits import load_composition_index  # noqa: E402
 from src.targets import WorkItem, load_target_spec  # noqa: E402
 
-# Use file-system sharing strategy as belt-and-braces; the pickle-
+# Use file-system sharing strategy as belt-and-braces, the pickle-
 # bytes pipe is the primary fix for vm.max_map_count exhaustion.
 _torch_mp.set_sharing_strategy("file_system")
 
@@ -87,7 +87,7 @@ def load_composition_types(
 ) -> dict[str, str]:
     """Build comp_id -> composition_type via the shared helper.
 
-    The build pipeline only needs the type map; ``load_composition_index``
+    The build pipeline only needs the type map, ``load_composition_index``
     returns (comp_types, compositions) so we discard the second element.
     """
     comp_types, _ = load_composition_index(dataset_dir)
@@ -215,7 +215,7 @@ def _init_worker(
 
 
 def _build_one(work_item: WorkItem) -> bytes | None:
-    """Build one graph in a worker; return pickled bytes.
+    """Build one graph in a worker, return pickled bytes.
 
     Returning bytes (not Data) avoids torch.multiprocessing's
     per-tensor shared-memory reductions, which otherwise create
@@ -250,7 +250,7 @@ def build_split_graphs(
     n_hops: int | None,
     n_workers: int,
 ) -> list[Data]:
-    """Build the graphs for one split (train / val / test).
+    """Build the graphs for one split (train/val/test).
 
     Args:
         items_by_group: map group_key -> WorkItems.
@@ -259,7 +259,7 @@ def build_split_graphs(
         builder_args: forwarded to ``_init_worker`` in each pool
             worker (representation, cutoff, cutoff_scaling, edge_mode).
         n_hops: BFS hop count, or ``None`` for full-slab graphs.
-        n_workers: process-pool size; serial if <= 1.
+        n_workers: process-pool size, serial if <= 1.
     """
     assert len(selected) > 0, "Empty split"
 

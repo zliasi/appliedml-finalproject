@@ -13,8 +13,8 @@ The spec carries:
         - ``build_gnn(config) -> nn.Module``
         - ``iter_work_items(json_path, dataset_dir) -> Iterator[WorkItem]``
 
-This keeps the shared 01-build-graphs / 03-train / 06-evaluate
-scripts target-agnostic; per-target deltas live entirely under
+This keeps the shared 01-build-graphs/03-train/06-evaluate
+scripts target-agnostic, per-target deltas live entirely under
 ``models/targets/<name>/``.
 """
 
@@ -40,9 +40,9 @@ class WorkItem:
             array of length num_atoms (node-level).
         group_key: Partitioning unit. Items sharing a group_key go
             into the same train/val/test split (``comp_id`` for wf so
-            all variants of one composition stay together; for hads
+            all variants of one composition stay together, for hads
             ``comp_id/variant`` so all sites of one slab stay together).
-        comp_id: Composition id; used by the script to look up
+        comp_id: Composition id, used by the script to look up
             ``composition_type`` from compositions.csv for the
             stratified split.
         metadata: Free-form extras to attach to the PyG Data object
@@ -79,7 +79,7 @@ class TargetSpec:
             target-specific record schemas, outlier filters, grouping
             keys, traj-path resolution, and local/full-subgraph choice.
         node_level: If True the target is one value per atom (Data.y has
-            shape [num_atoms]); if False, one value per graph.
+            shape [num_atoms]), if False, one value per graph.
     """
 
     name: str

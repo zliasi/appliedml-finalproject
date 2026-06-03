@@ -32,7 +32,7 @@ DEFAULT_RADIUS_CUTOFF: float = 6.0
 def load_predictor(
     checkpoint: Path, device: str = "cpu",
 ) -> Callable[[Atoms], np.ndarray]:
-    """Load a checkpoint once; return ``predict(atoms) -> per-atom moments``.
+    """Load a checkpoint once, return ``predict(atoms) -> per-atom moments``.
 
     Args:
         checkpoint: Path to a trained .pt checkpoint ({model_state_dict,
@@ -93,7 +93,7 @@ def main() -> None:
 
     atoms = read(args.structure)
     moments = predict_magmoms(atoms, args.checkpoint, args.device)
-    print(f"{len(moments)} atoms; predicted moments (muB):")
+    print(f"{len(moments)} atoms, predicted moments (muB):")
     print(np.array2string(moments, precision=3, max_line_width=100))
     if args.out is not None:
         np.save(args.out, moments)

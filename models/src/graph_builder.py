@@ -7,7 +7,7 @@ Edge features are interatomic distances or unit values (topological).
 Supports full-slab graphs (any target) and BFS-based local subgraph
 extraction around H (hads target only — set ``n_hops`` in
 ``build_local_graph``). Target value is passed via the generic
-``target`` kwarg; it ends up in ``Data.y``.
+``target`` kwarg, it ends up in ``Data.y``.
 """
 
 import logging
@@ -38,7 +38,7 @@ VALID_EDGE_MODES: list[str] = [
 def _target_to_tensor(target: "float | np.ndarray") -> torch.Tensor:
     """Convert a target into a ``Data.y`` tensor.
 
-    A scalar becomes shape ``[1]`` (graph-level); a per-atom sequence becomes
+    A scalar becomes shape ``[1]`` (graph-level), a per-atom sequence becomes
     shape ``[num_atoms]`` (node-level). PyG concatenates either across a batch,
     so the loss and metrics handle both without changes.
 

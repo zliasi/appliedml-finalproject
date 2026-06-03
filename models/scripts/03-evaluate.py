@@ -142,7 +142,7 @@ def derive_test_graph_path(
     arch_index = _find_arch_index(parts)
     between = parts[2:arch_index]
     # Dataset token may be one or more hyphenated parts (e.g.
-    # ``fcc12-v1p1``); everything between arch_index+1 and the trailing
+    # ``fcc12-v1p1``), everything between arch_index+1 and the trailing
     # size segment.
     dataset_tag = "-".join(parts[arch_index + 1:-1])
 
@@ -213,7 +213,7 @@ def load_gnn_model(
 def evaluate_gnn_split(
     model: nn.Module, loader: DataLoader, device: str,
 ) -> tuple[np.ndarray, np.ndarray, list[str]]:
-    """Run inference on one DataLoader; return preds/targets/comp_ids."""
+    """Run inference on one DataLoader, return preds/targets/comp_ids."""
     model.eval()
     preds: list[float] = []
     targets: list[float] = []
@@ -310,7 +310,7 @@ def evaluate_baseline_checkpoint(
 def compute_metrics(
     y_pred: np.ndarray, y_true: np.ndarray,
 ) -> dict[str, float | int]:
-    """MAE / RMSE / R2 / max_error / N."""
+    """MAE/RMSE/R2/max_error/N."""
     errors = y_pred - y_true
     return {
         "mae_ev": round(
@@ -438,7 +438,7 @@ def save_eval_outputs(
     output_dir: Path,
     prop_label: str,
 ) -> dict[str, float | int]:
-    """Write metrics JSON + parity + error plots; return overall."""
+    """Write metrics JSON + parity + error plots, return overall."""
     overall = compute_metrics(y_pred, y_true)
     by_type = metrics_by_type(comp_ids, y_pred, y_true)
 
@@ -550,7 +550,7 @@ def print_summary(
 
 
 def main() -> None:
-    """Evaluate one or many checkpoints; print summary."""
+    """Evaluate one or many checkpoints, print summary."""
     args = parse_args()
     spec = load_target_spec(args.target)
     prop_label = PROPERTY_LABEL.get(spec.name, spec.name)

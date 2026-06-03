@@ -1,7 +1,7 @@
 """LMDB-backed graph dataset and save/load helpers.
 
 Lightweight wrapper around lmdb. Each graph is stored as a pickled
-PyG ``Data`` object keyed by integer string; total count under
+PyG ``Data`` object keyed by integer string, total count under
 ``b"length"``. Random access without loading the full dataset into
 RAM. Compatible with PyG DataLoader.
 
@@ -82,7 +82,7 @@ class LmdbGraphDataset:
     """
 
     def __init__(self, lmdb_path: Path):
-        """Read the length header; defer opening the read env.
+        """Read the length header, defer opening the read env.
 
         Args:
             lmdb_path: Path to .lmdb file.
@@ -119,7 +119,7 @@ class LmdbGraphDataset:
 
     @property
     def env(self):
-        """Per-process lmdb env. Opens lazily; re-opens after fork."""
+        """Per-process lmdb env. Opens lazily, re-opens after fork."""
         pid = os.getpid()
         if self._env is None or self._env_pid != pid:
             import lmdb

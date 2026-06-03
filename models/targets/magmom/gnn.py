@@ -20,8 +20,8 @@ node (no pooling). Their forward returns a tensor of shape [num_atoms].
   pdnconv         - pathfinder discovery network, uses the distance edge feature
   splineconv      - B-spline kernels over the (normalised) distance
 
-dimenet and visnet wrap PyG's DimeNet++ / ViSNet as the slow, accurate
-references. They normally produce one extensive value per slab; here their
+dimenet and visnet wrap PyG's DimeNet++/ViSNet as the slow, accurate
+references. They normally produce one extensive value per slab, here their
 forwards are adapted to return per-atom output. Caveat: both build their
 neighbour graph from positions WITHOUT periodic boundaries, so in-plane periodic
 neighbours of a slab are missed. Adapted from PyG internals - validate against
@@ -49,7 +49,7 @@ NUM_GAUSSIANS: int = 50
 GMM_KERNEL_SIZE: int = 8
 SPLINE_KERNEL_SIZE: int = 8
 
-# DimeNet++ / ViSNet architecture constants
+# DimeNet++/ViSNet architecture constants
 DIMENET_NUM_SPHERICAL: int = 7
 DIMENET_NUM_RADIAL: int = 6
 DIMENET_BASIS_EMB_SIZE: int = 8
@@ -64,10 +64,10 @@ NODE_LEVEL_BACKENDS: list[str] = [
     "gcnconv", "transformerconv", "gineconv", "nnconv", "genconv",
     "gmmconv", "resgatedgraphconv", "generalconv", "pdnconv", "splineconv",
 ]
-# heavy reference models wrapped from PyG full models; per-atom via custom forward
+# heavy reference models wrapped from PyG full models, per-atom via custom forward
 WRAPPED_BACKENDS: list[str] = ["dimenet", "visnet"]
 CONV_BACKENDS: list[str] = NODE_LEVEL_BACKENDS + WRAPPED_BACKENDS
-# node-level backends that consume the scalar distance edge feature; the rest
+# node-level backends that consume the scalar distance edge feature, the rest
 # use only connectivity
 EDGE_FEATURE_BACKENDS: set[str] = {
     "cgconv", "gatv2conv", "transformerconv", "gineconv", "nnconv",
@@ -190,7 +190,7 @@ class MagmomGNN(nn.Module):
             n_hidden_layers: Hidden layers in the readout MLP (>= 0).
             num_elements: Embedding table covers atomic numbers 0..num_elements.
             activation: Activation name (one of ACTIVATIONS).
-            radius_cutoff: Edge cutoff; used by schnet's distance expansion.
+            radius_cutoff: Edge cutoff, used by schnet's distance expansion.
         """
         super().__init__()
         assert conv_backend in NODE_LEVEL_BACKENDS, (
@@ -237,7 +237,7 @@ class MagmomGNN(nn.Module):
                     node_features, data.edge_index, edge_weight, edge_rbf,
                 )
         elif self.conv_backend == "splineconv":
-            # SplineConv needs pseudo-coordinates in [0, 1]; scale the distance
+            # SplineConv needs pseudo-coordinates in [0, 1], scale the distance
             pseudo = (data.edge_attr / self.radius_cutoff).clamp(0.0, 1.0)
             for conv in self.conv_layers:
                 node_features = self.activation(
@@ -262,7 +262,7 @@ class DimeNetBackend(nn.Module):
 
     Directional message passing with angular features - the slow, accurate
     angular reference. PyG's DimeNetPlusPlus sums per-atom output blocks into one
-    scalar per graph; the forward here returns those per-atom blocks instead.
+    scalar per graph, the forward here returns those per-atom blocks instead.
     Caveat: the neighbour graph is built from positions without periodic
     boundaries.
     """
@@ -379,7 +379,7 @@ class ViSNetBackend(nn.Module):
 
         Uses ViSNet's representation model and the output model's per-atom
         pre_reduce, skipping the per-graph sum. pre_reduce's signature varies by
-        PyG version; adjust if needed on the first run.
+        PyG version, adjust if needed on the first run.
         """
         z = data.x.long().squeeze(-1)
         x, vec = self.model.representation_model(z, data.pos, data.batch)

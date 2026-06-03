@@ -1,0 +1,44 @@
+name: magmom21
+channels:
+  - pyg
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.10
+  - ase>=3.23.0
+  - numpy>=1.20.0
+  - h5py
+  - matplotlib
+  - cmocean
+  - pyyaml
+  - sympy
+  - scikit-learn
+  - pip
+  # GPAW with MPI support (openmpi variant, not nompi), only the warm-start
+  # application (applications/relax-slabs.py) needs it, not training
+  - gpaw=*=*openmpi*
+  - openmpi>=4.1.0
+  - ucx
+  - libopenblas>=0.3.20
+  - fftw>=3.3.9
+  - elpa>=2024.05.001
+  - libxc>=6.0.0
+  - libvdwxc>=0.4.0
+  # PyTorch with CUDA 12.1
+  - pytorch
+  - pytorch-cuda=12.1
+  - cudnn
+  - cuda-cudart
+  - cuda-version=12
+  # PyG and the compiled extensions the backends use (spline-conv for the
+  # splineconv backend, cluster for radius graphs, sparse/scatter for the convs)
+  - pyg::pyg
+  - pyg::pytorch-cluster
+  - pyg::pytorch-sparse
+  - pyg::pytorch-scatter
+  - pyg::pytorch-spline-conv
+  - pip:
+    - lmdb
+    - wandb

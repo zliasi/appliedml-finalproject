@@ -188,7 +188,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
-    """Train all baselines + stacked ensemble; save metrics + ckpts."""
+    """Train all baselines + stacked ensemble, save metrics + ckpts."""
     args = parse_args()
     spec = load_target_spec(args.target)
     dataset_name, version = parse_dataset_token(args.dataset)

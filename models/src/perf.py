@@ -2,7 +2,7 @@
 
 Centralises the set of accelerators we can opt into: TF32 matmul,
 BF16 autocast, cuDNN benchmark, torch.compile, DataLoader workers.
-The bench evaluates each in isolation and in combination; once a
+The bench evaluates each in isolation and in combination, once a
 winning combo is identified, production training adopts the same
 toggles via the same helpers.
 """
@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 def apply_tf32(enabled: bool = True) -> None:
-    """Enable / disable TF32 matmul on Ampere+ GPUs (L40s = Ada).
+    """Enable/disable TF32 matmul on Ampere+ GPUs (L40s = Ada).
 
     Roughly 2x throughput ceiling vs FP32 on these GPUs with no
     measurable accuracy hit for the precision targets we care about.
@@ -65,7 +65,7 @@ def compile_model(
         model: nn.Module to wrap.
         enabled: If False, returns the model unchanged.
         dynamic: Pass through to torch.compile. PyG batches have
-            varying total node counts; dynamic=True avoids
+            varying total node counts, dynamic=True avoids
             recompilation per batch shape.
 
     Returns:
@@ -80,10 +80,10 @@ def compile_model(
 def dataloader_kwargs(
     num_workers: int = 0,
 ) -> dict:
-    """Standard worker / pin_memory / persistent_workers settings.
+    """Standard worker/pin_memory/persistent_workers settings.
 
     Args:
-        num_workers: 0 = serial in-process loading; >0 = process pool
+        num_workers: 0 = serial in-process loading, >0 = process pool
             with pin_memory and persistent_workers enabled.
 
     Returns:
