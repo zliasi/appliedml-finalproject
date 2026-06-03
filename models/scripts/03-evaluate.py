@@ -212,23 +212,35 @@ def load_gnn_model(
 
 def evaluate_gnn_split(
     model: nn.Module, loader: DataLoader, device: str,
-) -> tuple[np.ndarray, np.ndarray, list[str]]:
-    """Run inference on one DataLoader, return preds/targets/comp_ids."""
+    node_level: bool = False,
+) -> tuple[np.ndarray, np.ndarray, list[str], np.ndarray]:
+    """Run inference on one DataLoader.
+
+    Returns preds, targets, comp_ids, and (node-level only) the atomic number
+    of every prediction so the metrics can be split per element. ``elements``
+    is empty for a graph-level target.
+    """
     model.eval()
     preds: list[float] = []
     targets: list[float] = []
     comp_ids: list[str] = []
+    elements: list[int] = []
     with torch.no_grad():
         for batch in loader:
             batch = batch.to(device)
             p = model(batch)
             preds.extend(p.cpu().numpy().tolist())
             targets.extend(batch.y.cpu().numpy().tolist())
+            if node_level:
+                elements.extend(batch.x.view(-1).cpu().numpy().tolist())
             if hasattr(batch, "comp_id"):
                 comp_ids.extend(batch.comp_id)
             else:
                 comp_ids.extend(["unknown"] * len(p))
-    return np.array(preds), np.array(targets), comp_ids
+    return (
+        np.array(preds), np.array(targets), comp_ids,
+        np.array(elements),
+    )
 
 
 # ----------------------------------------------------------------
@@ -351,6 +363,31 @@ def metrics_by_type(
     return out
 
 
+def metrics_by_element(
+    elements: np.ndarray,
+    y_pred: np.ndarray,
+    y_true: np.ndarray,
+) -> dict[str, dict[str, float | int]]:
+    """Same metrics but bucketed by chemical element (node-level only)."""
+    from ase.data import chemical_symbols
+    groups: dict[
+        int, tuple[list[float], list[float]]
+    ] = defaultdict(lambda: ([], []))
+    for i, z in enumerate(elements):
+        groups[int(z)][0].append(y_pred[i])
+        groups[int(z)][1].append(y_true[i])
+    out: dict[str, dict[str, float | int]] = {}
+    for z, (preds, targets) in sorted(groups.items()):
+        symbol = (
+            chemical_symbols[z]
+            if 0 <= z < len(chemical_symbols) else str(z)
+        )
+        out[symbol] = compute_metrics(
+            np.array(preds), np.array(targets),
+        )
+    return out
+
+
 def _annotate_parity(
     ax: mpl.axes.Axes, metrics: dict, prop_label: str,
 ) -> None:
@@ -437,17 +474,25 @@ def save_eval_outputs(
     model_tag: str,
     output_dir: Path,
     prop_label: str,
+    elements: "np.ndarray | None" = None,
 ) -> dict[str, float | int]:
-    """Write metrics JSON + parity + error plots, return overall."""
+    """Write metrics JSON + parity + error plots, return overall.
+
+    For a node-level target, ``elements`` carries the atomic number of every
+    prediction, and a per-element metrics breakdown is added to the JSON.
+    """
     overall = compute_metrics(y_pred, y_true)
     by_type = metrics_by_type(comp_ids, y_pred, y_true)
+    payload: dict[str, Any] = {"overall": overall, "by_type": by_type}
+    if elements is not None and len(elements) == len(y_pred):
+        payload["by_element"] = metrics_by_element(
+            elements, y_pred, y_true,
+        )
 
     output_dir.mkdir(parents=True, exist_ok=True)
     metrics_path = output_dir / f"metrics-{model_tag}.json"
     with open(metrics_path, "w") as f:
-        json.dump(
-            {"overall": overall, "by_type": by_type}, f, indent=2,
-        )
+        json.dump(payload, f, indent=2)
     plot_parity(
         y_pred, y_true,
         output_dir / f"parity-{model_tag}.png", overall, prop_label,
@@ -507,8 +552,8 @@ def evaluate_one(
         loader = DataLoader(
             load_graphs(test_path), batch_size=64, shuffle=False,
         )
-        y_pred, y_true, comp_ids = evaluate_gnn_split(
-            model, loader, device,
+        y_pred, y_true, comp_ids, elements = evaluate_gnn_split(
+            model, loader, device, node_level=spec.node_level,
         )
     else:
         assert test_items is not None
@@ -517,10 +562,12 @@ def evaluate_one(
             checkpoint_path, test_items,
             compositions, spec.include_hydrogen,
         )
+        elements = np.array([])
 
     metrics = save_eval_outputs(
         y_pred, y_true, comp_ids,
         checkpoint_path.stem, eval_dir, prop_label,
+        elements=elements,
     )
     metrics["model"] = checkpoint_path.stem
     return metrics

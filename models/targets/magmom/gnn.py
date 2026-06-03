@@ -320,7 +320,14 @@ class DimeNetBackend(nn.Module):
         edge_index = radius_graph(
             pos, r=m.cutoff, batch=batch, max_num_neighbors=m.max_num_neighbors,
         )
-        i, j, idx_i, idx_j, idx_k, idx_kj, idx_ji = m.triplets(
+        # PyG moved triplets from a DimeNet method to a module-level
+        # function in newer releases, support both.
+        triplets_fn = getattr(m, "triplets", None)
+        if triplets_fn is None:
+            from torch_geometric.nn.models.dimenet import (
+                triplets as triplets_fn,
+            )
+        i, j, idx_i, idx_j, idx_k, idx_kj, idx_ji = triplets_fn(
             edge_index, num_nodes=z.size(0),
         )
         dist = (pos[i] - pos[j]).pow(2).sum(dim=-1).sqrt()

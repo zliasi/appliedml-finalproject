@@ -3,8 +3,8 @@ set -euo pipefail
 
 # End-to-end pipeline orchestrator for one (target, dataset).
 #
-# Chains: build-graphs (array) -> train (--all + --baselines) -> eval.
-# SLURM --dependency=afterok links every stage to its predecessor.
+# Chains: build-graphs (array) -> train (--all) -> eval.
+# SLURM dependencies link each stage to its predecessor (eval afterany).
 #
 # Usage:
 #   ./scripts/00-run-pipeline.sh --target hads --dataset fcc12-v1p1
@@ -43,7 +43,7 @@ mkdir -p "${LOG_DIR}"
 emit_eval_job() {
     local dep="${1:-}"
     local dep_arg=""
-    [[ -n "${dep}" ]] && dep_arg="--dependency=afterok:${dep}"
+    [[ -n "${dep}" ]] && dep_arg="--dependency=afterany:${dep}"
 
     local batch_file="run-eval-$$.tmp"
     cat > "${batch_file}" << !EOSBATCH
@@ -133,33 +133,12 @@ gnn_id=$(sbatch --parsable ${build_dep} "${gnn_batch}")
 rm -f "${gnn_batch}"
 printf "GNN array: %s (%d configs)\n" "${gnn_id}" "${n_configs}"
 
-baselines_batch="run-baselines-$$.tmp"
-cat > "${baselines_batch}" << !EOSBATCH
-#!/usr/bin/env bash
-#SBATCH --job-name=${TARGET}-baselines-${DATASET}
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=16G
-#SBATCH --time=16:00:00
-#SBATCH --partition=katla_long
-#SBATCH --output=${LOG_DIR}/05-baselines-%j.log
+# Baselines skipped: the ported baselines worker is graph-level and does
+# not fit the node-level magmom target (a per-element-mean baseline is a
+# later batch). Re-add a baselines stage here once it exists.
 
-source "\${SLURM_SUBMIT_DIR}/scripts/env.sh"
-
-cd "\${SLURM_SUBMIT_DIR}"
-
-python scripts/workers/train-baselines.py \\
-    --target ${TARGET} \\
-    --dataset ${DATASET}
-!EOSBATCH
-baselines_id=$(sbatch --parsable ${build_dep} "${baselines_batch}")
-rm -f "${baselines_batch}"
-printf "Baselines: %s\n" "${baselines_id}"
-
-# Stage 3: eval, depending on BOTH training stages.
-eval_dep="--dependency=afterok:${gnn_id}:${baselines_id}"
-eval_id=$(emit_eval_job "${gnn_id}:${baselines_id}")
-printf "Eval: %s (depends on %s + %s)\n" \
-    "${eval_id}" "${gnn_id}" "${baselines_id}"
+# Stage 3: eval, depending on the GNN array (afterany, so one failing
+# backend does not cancel the eval).
+eval_id=$(emit_eval_job "${gnn_id}")
+printf "Eval: %s (depends on %s)\n" "${eval_id}" "${gnn_id}"
 printf "\nPipeline submitted.\n"
