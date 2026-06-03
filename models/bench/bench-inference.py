@@ -11,7 +11,7 @@ training), it falls back to building each backend from its config with random
 weights - useful only to smoke-test that the backends build and run.
 
 Usage:
-    python bench/bench-inference.py --checkpoints runs/magmom-magmom21-v1p1/checkpoints
+    python bench/bench-inference.py --checkpoints runs/magmom-magmom21-v0p1/checkpoints
     python bench/bench-inference.py            # smoke mode if no checkpoints found
 """
 

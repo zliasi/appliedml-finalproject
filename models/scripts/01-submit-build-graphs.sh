@@ -6,7 +6,7 @@ set -euo pipefail
 # Variants for magmom: r4, r6, r8 (full-slab graphs at 4/6/8 A cutoff).
 #
 # Usage:
-#   ./scripts/01-submit-build-graphs.sh --target magmom --dataset magmom21-v1p1
+#   ./scripts/01-submit-build-graphs.sh --target magmom --dataset magmom21-v0p1
 
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly MODELS_DIR="${SCRIPT_DIR}/.."
