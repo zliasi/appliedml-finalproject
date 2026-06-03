@@ -11,7 +11,7 @@ Per-atom magnetic moments of metal alloy surface slabs (ordered and random), com
 - Lattices: FCC(111), BCC(110), HCP(0001), picked per composition by a weighted vote over the constituent elements (per element choice is based on EOS results).
 - Size: 4x4x4 (64 atoms) for random alloys + dilute structures, 2x2x4 for binary intermetallic prototypes, and 4x4x4 for ternary Heuslers.
 - Bottom 2 layers fixed. 10 Å vacuum. periodic in-plane (pbc [True, True, False]).
-- Two families: random alloys (`compositions.csv`) and ordered/dilute placements (`ordered-compositions.csv`).
+- Two families: random alloys (`data/compositions.csv`) and ordered/dilute placements (`data/ordered-compositions.csv`).
 
 ## Computation
 
@@ -21,6 +21,6 @@ Per slab: a UMA pre-relaxation (UMA-S-1.2), then a staged GPAW run: (i) an LCAO 
 
 ## Files
 
-- `magmoms.h5`: per slab, atom-ordered: `magmoms` (target), `atomic_numbers`, `positions`, `cell`, `tags`, `pbc`, plus energy/work_function/fermi_level/spinpol attributes.
-- `compositions.csv`, `ordered-compositions.csv`: composition table for the train/val/test split.
+- `data/magmoms.h5`: per slab, atom-ordered: `magmoms` (target), `atomic_numbers`, `positions`, `cell`, `tags`, `pbc`, plus energy/work_function/fermi_level/spinpol attributes.
+- `data/compositions.csv`, `data/ordered-compositions.csv`: composition table for the train/val/test split.
 

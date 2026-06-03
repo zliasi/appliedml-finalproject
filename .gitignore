@@ -9,4 +9,4 @@ scratch/
 *.lmdb
 *.lmdb-lock
 wandb/
-datasets/*/raw/
+datasets/*/data/raw/
