@@ -20,6 +20,7 @@ TARGET=""
 DATASET=""
 MODE=""
 SINGLE_CONFIG=""
+WANDB_FLAG=""
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -27,6 +28,7 @@ while [[ $# -gt 0 ]]; do
         --dataset) DATASET="$2"; shift 2 ;;
         --all) MODE="all"; shift ;;
         --baselines) MODE="baselines"; shift ;;
+        --wandb) WANDB_FLAG="--wandb"; shift ;;
         *)
             if [[ -z "${MODE}" ]]; then
                 MODE="single"
@@ -42,7 +44,7 @@ done
     echo "Usage: $0 --target T --dataset D --all|--baselines|<cfg>" >&2
     exit 1
 }
-readonly TARGET DATASET MODE SINGLE_CONFIG
+readonly TARGET DATASET MODE SINGLE_CONFIG WANDB_FLAG
 
 readonly RUN_DIR="runs/${TARGET}-${DATASET}"
 readonly CONFIG_ROOT="targets/${TARGET}/configs"
@@ -91,7 +93,7 @@ python scripts/workers/train.py \\
     --dataset ${DATASET} \\
     --config "\${CONFIG}" \\
     --device cuda \\
-    --wandb
+    ${WANDB_FLAG}
 
 sleep 2
 /usr/bin/sacct -n -j \${SLURM_JOB_ID} \\
@@ -129,7 +131,7 @@ python scripts/workers/train.py \\
     --dataset ${DATASET} \\
     --config "${cfg}" \\
     --device cuda \\
-    --wandb
+    ${WANDB_FLAG}
 
 sleep 2
 /usr/bin/sacct -n -j \${SLURM_JOB_ID} \\

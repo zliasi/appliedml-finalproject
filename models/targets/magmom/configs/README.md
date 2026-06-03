@@ -41,7 +41,3 @@ Heavy, slow, higher-accuracy references rather than deployment candidates. Both 
 
 - [DimeNet++](https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.nn.models.DimeNetPlusPlus.html): directional message passing over atom triplets and bond angles (Gasteiger et al. 2020), accurate but slow. Patched for the installed PyG.
 - [ViSNet](https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.nn.models.ViSNet.html): vector-scalar interactive equivariant network (Wang et al. 2024), geometry-aware and slow.
-
-## Excluded
-
-- [PNAConv](https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.nn.conv.PNAConv.html): principal neighbourhood aggregation needs the training-set degree histogram at graph-build time, which the config-only flow cannot supply.

@@ -18,6 +18,7 @@ cd "${SCRIPT_DIR}/.."
 TARGET="magmom"
 DATASET="magmom21-v0p1"
 CUTOFFS="4 6 8"
+WANDB_PASS=""
 BACKENDS=()
 
 print_help() {
@@ -35,6 +36,7 @@ Options:
   --cutoffs "4 6 8"  graph cutoff radii to train (default all three)
   --target T         prediction target (default ${TARGET})
   --dataset D-vMpN   dataset token (default ${DATASET})
+  --wandb            log to Weights & Biases (default off, no account needed without it)
   -h, --help         show this help and the available backends
 
 Available backends (see targets/${TARGET}/configs/README.md for descriptions):
@@ -55,6 +57,7 @@ while [[ $# -gt 0 ]]; do
         --dataset) DATASET="$2"; shift 2 ;;
         --cutoffs) CUTOFFS="$2"; shift 2 ;;
         --cutoff)  CUTOFFS="$2"; shift 2 ;;
+        --wandb)   WANDB_PASS="--wandb"; shift ;;
         -*) echo "Unknown flag: $1 (try -h)" >&2; exit 1 ;;
         *) BACKENDS+=("$1"); shift ;;
     esac
@@ -81,5 +84,5 @@ done
 printf "Submitting %d config(s) for %s on %s:\n" "${#configs[@]}" "${TARGET}" "${DATASET}"
 for cfg in "${configs[@]}"; do
     printf "  %s\n" "${cfg}"
-    ./scripts/02-submit-training.sh --target "${TARGET}" --dataset "${DATASET}" "${cfg}"
+    ./scripts/02-submit-training.sh --target "${TARGET}" --dataset "${DATASET}" ${WANDB_PASS} "${cfg}"
 done

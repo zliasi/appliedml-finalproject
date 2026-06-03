@@ -20,6 +20,7 @@ TARGET=""
 DATASET=""
 SKIP_BUILD=0
 EVAL_ONLY=0
+WANDB_FLAG=""
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -27,6 +28,7 @@ while [[ $# -gt 0 ]]; do
         --dataset)    DATASET="$2"; shift 2 ;;
         --skip-build) SKIP_BUILD=1; shift ;;
         --eval-only)  EVAL_ONLY=1; shift ;;
+        --wandb)      WANDB_FLAG="--wandb"; shift ;;
         *) echo "Unknown arg: $1" >&2; exit 1 ;;
     esac
 done
@@ -34,7 +36,7 @@ done
     echo "Usage: $0 --target T --dataset D-vMpN" >&2
     exit 1
 }
-readonly TARGET DATASET SKIP_BUILD EVAL_ONLY
+readonly TARGET DATASET SKIP_BUILD EVAL_ONLY WANDB_FLAG
 
 readonly RUN_DIR="runs/${TARGET}-${DATASET}"
 readonly LOG_DIR="${RUN_DIR}/logs"
@@ -127,7 +129,7 @@ python scripts/workers/train.py \\
     --dataset ${DATASET} \\
     --config "\${CONFIG}" \\
     --device cuda \\
-    --wandb
+    ${WANDB_FLAG}
 !EOSBATCH
 gnn_id=$(sbatch --parsable ${build_dep} "${gnn_batch}")
 rm -f "${gnn_batch}"
