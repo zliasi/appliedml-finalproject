@@ -1,3 +1,3 @@
 # configs
 
-One yaml per backend and cutoff (cgconv, schnet, graphconv, sage, gatv2, dimenet, visnet; r4/r6/r8). dimenet and visnet are graph-level (one value per slab), so they do not fit the per-atom target and will be removed.
+One yaml per node-level backend and cutoff (r4/r6/r8): cgconv, schnetconv, graphconv, sageconv, gatv2conv, gcnconv, transformerconv, gineconv, nnconv, genconv, gmmconv, resgatedgraphconv, generalconv, pdnconv, splineconv. dimenet and visnet are the slow, accurate reference backends (PyG DimeNet++ / ViSNet wrapped and adapted to per-atom output; validate on first run). pnaconv needs the train-set degree histogram at build time.

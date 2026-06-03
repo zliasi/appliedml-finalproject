@@ -4,22 +4,38 @@ The node-level backends predict one signed moment per atom: embed the atomic
 numbers, pass messages over the radius-cutoff graph, then read out a scalar per
 node (no pooling). Their forward returns a tensor of shape [num_atoms].
 
-  cgconv    - crystal graph conv, uses the distance edge feature
-  schnet    - continuous-filter conv with a radial-basis distance expansion
-  graphconv - simple neighbour-sum conv (connectivity only)
-  sage      - GraphSAGE mean-aggregation conv (connectivity only)
-  gatv2     - graph-attention v2, uses the distance edge feature
+  cgconv          - crystal graph conv, uses the distance edge feature
+  schnetconv      - continuous-filter conv with a radial-basis distance expansion
+  graphconv       - simple neighbour-sum conv (connectivity only)
+  sageconv        - GraphSAGE mean-aggregation conv (connectivity only)
+  gatv2conv       - graph-attention v2, uses the distance edge feature
+  gcnconv         - classic GCN (connectivity only)
+  transformerconv - graph-transformer attention, uses the distance edge feature
+  gineconv        - GIN with edge features, uses the distance edge feature
+  nnconv          - edge-conditioned MPNN, uses the distance edge feature
+  genconv         - DeeperGCN generalized aggregation (connectivity only)
+  gmmconv         - Gaussian-mixture (MoNet) kernels over the distance
+  resgatedgraphconv - residual gated graph conv, uses the distance edge feature
+  generalconv     - general MPNN with edge features
+  pdnconv         - pathfinder discovery network, uses the distance edge feature
+  splineconv      - B-spline kernels over the (normalised) distance
 
-dimenet and visnet are included for the backend comparison but are GRAPH-LEVEL:
-the PyG models sum per-atom contributions into one value per slab (shape
-[num_graphs]), which does not match a per-atom target. They are expected to fail
-on this node-level task and are slated for removal.
+dimenet and visnet wrap PyG's DimeNet++ / ViSNet as the slow, accurate
+references. They normally produce one extensive value per slab; here their
+forwards are adapted to return per-atom output. Caveat: both build their
+neighbour graph from positions WITHOUT periodic boundaries, so in-plane periodic
+neighbours of a slab are missed. Adapted from PyG internals - validate against
+the installed PyG version on the first run.
 """
 
 import torch
 import torch.nn as nn
 from torch_geometric.data import Data
-from torch_geometric.nn import CGConv, GATv2Conv, GraphConv, SAGEConv
+from torch_geometric.nn import (
+    CGConv, GATv2Conv, GCNConv, GENConv, GeneralConv, GINEConv, GMMConv,
+    GraphConv, NNConv, PDNConv, radius_graph, ResGatedGraphConv, SAGEConv,
+    SplineConv, TransformerConv,
+)
 from torch_geometric.nn.models.schnet import GaussianSmearing, InteractionBlock
 
 DEFAULT_CONV_LAYERS: int = 3
@@ -30,6 +46,8 @@ DEFAULT_ACTIVATION: str = "relu"
 DEFAULT_RADIUS_CUTOFF: float = 6.0
 EDGE_FEATURE_DIM: int = 1
 NUM_GAUSSIANS: int = 50
+GMM_KERNEL_SIZE: int = 8
+SPLINE_KERNEL_SIZE: int = 8
 
 # DimeNet++ / ViSNet architecture constants
 DIMENET_NUM_SPHERICAL: int = 7
@@ -42,13 +60,19 @@ VISNET_NUM_RBF: int = 32
 VISNET_MAX_NEIGHBORS: int = 50
 
 NODE_LEVEL_BACKENDS: list[str] = [
-    "cgconv", "schnet", "graphconv", "sage", "gatv2",
+    "cgconv", "schnetconv", "graphconv", "sageconv", "gatv2conv",
+    "gcnconv", "transformerconv", "gineconv", "nnconv", "genconv",
+    "gmmconv", "resgatedgraphconv", "generalconv", "pdnconv", "splineconv",
 ]
-GRAPH_LEVEL_BACKENDS: list[str] = ["dimenet", "visnet"]
-CONV_BACKENDS: list[str] = NODE_LEVEL_BACKENDS + GRAPH_LEVEL_BACKENDS
+# heavy reference models wrapped from PyG full models; per-atom via custom forward
+WRAPPED_BACKENDS: list[str] = ["dimenet", "visnet"]
+CONV_BACKENDS: list[str] = NODE_LEVEL_BACKENDS + WRAPPED_BACKENDS
 # node-level backends that consume the scalar distance edge feature; the rest
 # use only connectivity
-EDGE_FEATURE_BACKENDS: set[str] = {"cgconv", "gatv2"}
+EDGE_FEATURE_BACKENDS: set[str] = {
+    "cgconv", "gatv2conv", "transformerconv", "gineconv", "nnconv",
+    "gmmconv", "resgatedgraphconv", "generalconv", "pdnconv",
+}
 ACTIVATIONS: dict[str, type[nn.Module]] = {
     "relu": nn.ReLU, "elu": nn.ELU, "sigmoid": nn.Sigmoid,
 }
@@ -95,16 +119,52 @@ def _make_conv(
     """
     if conv_backend == "cgconv":
         return CGConv(conv_dim, dim=EDGE_FEATURE_DIM, batch_norm=True)
-    if conv_backend == "schnet":
+    if conv_backend == "schnetconv":
         return InteractionBlock(
             conv_dim, NUM_GAUSSIANS, conv_dim, radius_cutoff,
         )
     if conv_backend == "graphconv":
         return GraphConv(conv_dim, conv_dim)
-    if conv_backend == "sage":
+    if conv_backend == "sageconv":
         return SAGEConv(conv_dim, conv_dim)
-    if conv_backend == "gatv2":
+    if conv_backend == "gatv2conv":
         return GATv2Conv(conv_dim, conv_dim, edge_dim=EDGE_FEATURE_DIM)
+    if conv_backend == "gcnconv":
+        return GCNConv(conv_dim, conv_dim)
+    if conv_backend == "transformerconv":
+        return TransformerConv(conv_dim, conv_dim, edge_dim=EDGE_FEATURE_DIM)
+    if conv_backend == "gineconv":
+        gin_mlp = nn.Sequential(
+            nn.Linear(conv_dim, conv_dim), nn.ReLU(),
+            nn.Linear(conv_dim, conv_dim),
+        )
+        return GINEConv(gin_mlp, edge_dim=EDGE_FEATURE_DIM)
+    if conv_backend == "nnconv":
+        # the edge network maps the scalar distance to a [conv_dim, conv_dim]
+        # weight matrix per edge
+        edge_mlp = nn.Sequential(
+            nn.Linear(EDGE_FEATURE_DIM, conv_dim), nn.ReLU(),
+            nn.Linear(conv_dim, conv_dim * conv_dim),
+        )
+        return NNConv(conv_dim, conv_dim, edge_mlp)
+    if conv_backend == "genconv":
+        return GENConv(conv_dim, conv_dim)
+    if conv_backend == "gmmconv":
+        return GMMConv(
+            conv_dim, conv_dim, dim=EDGE_FEATURE_DIM, kernel_size=GMM_KERNEL_SIZE,
+        )
+    if conv_backend == "resgatedgraphconv":
+        return ResGatedGraphConv(conv_dim, conv_dim, edge_dim=EDGE_FEATURE_DIM)
+    if conv_backend == "generalconv":
+        return GeneralConv(conv_dim, conv_dim, in_edge_channels=EDGE_FEATURE_DIM)
+    if conv_backend == "pdnconv":
+        return PDNConv(
+            conv_dim, conv_dim, edge_dim=EDGE_FEATURE_DIM, hidden_channels=conv_dim,
+        )
+    if conv_backend == "splineconv":
+        return SplineConv(
+            conv_dim, conv_dim, dim=EDGE_FEATURE_DIM, kernel_size=SPLINE_KERNEL_SIZE,
+        )
     raise ValueError(f"not a node-level backend: {conv_backend}")
 
 
@@ -141,6 +201,7 @@ class MagmomGNN(nn.Module):
         assert activation in ACTIVATIONS, f"unknown activation: {activation}"
 
         self.conv_backend = conv_backend
+        self.radius_cutoff = radius_cutoff
         self.embedding = nn.Embedding(num_elements + 1, conv_dim, padding_idx=0)
         self.activation = ACTIVATIONS[activation]()
         self.conv_layers = nn.ModuleList([
@@ -150,7 +211,7 @@ class MagmomGNN(nn.Module):
         # schnet expands the scalar distance into a radial basis per edge
         self.distance_expansion = (
             GaussianSmearing(0.0, radius_cutoff, NUM_GAUSSIANS)
-            if conv_backend == "schnet" else None
+            if conv_backend == "schnetconv" else None
         )
         self.readout = _build_readout_mlp(
             conv_dim, n_hidden_layers, self.activation,
@@ -168,12 +229,19 @@ class MagmomGNN(nn.Module):
         assert hasattr(data, "edge_index"), "Data must have edge_index"
         node_features = self.embedding(data.x.long())
 
-        if self.conv_backend == "schnet":
+        if self.conv_backend == "schnetconv":
             edge_weight = data.edge_attr.squeeze(-1)
             edge_rbf = self.distance_expansion(edge_weight)
             for block in self.conv_layers:
                 node_features = node_features + block(
                     node_features, data.edge_index, edge_weight, edge_rbf,
+                )
+        elif self.conv_backend == "splineconv":
+            # SplineConv needs pseudo-coordinates in [0, 1]; scale the distance
+            pseudo = (data.edge_attr / self.radius_cutoff).clamp(0.0, 1.0)
+            for conv in self.conv_layers:
+                node_features = self.activation(
+                    conv(node_features, data.edge_index, pseudo)
                 )
         else:
             uses_edge_feature = self.conv_backend in EDGE_FEATURE_BACKENDS
@@ -190,13 +258,13 @@ class MagmomGNN(nn.Module):
 
 
 class DimeNetBackend(nn.Module):
-    """DimeNet++ wrapper. GRAPH-LEVEL: returns one value per slab.
+    """DimeNet++ wrapper, adapted to per-atom output.
 
-    Directional message passing with angular features. PyG's DimeNetPlusPlus
-    sums per-atom output blocks into a single extensive scalar per graph, so the
-    forward returns shape [num_graphs] - it does NOT predict per atom and is
-    incompatible with the node-level magmom target. Kept for the backend
-    comparison; slated for removal.
+    Directional message passing with angular features - the slow, accurate
+    angular reference. PyG's DimeNetPlusPlus sums per-atom output blocks into one
+    scalar per graph; the forward here returns those per-atom blocks instead.
+    Caveat: the neighbour graph is built from positions without periodic
+    boundaries.
     """
 
     def __init__(
@@ -236,19 +304,51 @@ class DimeNetBackend(nn.Module):
         )
 
     def forward(self, data: Data) -> torch.Tensor:
-        """Return one value per graph (NOT per atom)."""
+        """Predict one value per atom (see class docstring)."""
         z = data.x.long().squeeze(-1)
-        out = self.model(z, data.pos, data.batch)
-        return out.squeeze(-1)
+        return self._per_atom(z, data.pos, data.batch).squeeze(-1)
+
+    def _per_atom(
+        self, z: torch.Tensor, pos: torch.Tensor, batch: torch.Tensor,
+    ) -> torch.Tensor:
+        """Per-atom DimeNet++ output (the P blocks before the graph reduction).
+
+        Orchestrates the model's own submodules like DimeNetPlusPlus.forward but
+        returns the per-atom contributions rather than summing them per graph.
+        """
+        m = self.model
+        edge_index = radius_graph(
+            pos, r=m.cutoff, batch=batch, max_num_neighbors=m.max_num_neighbors,
+        )
+        i, j, idx_i, idx_j, idx_k, idx_kj, idx_ji = m.triplets(
+            edge_index, num_nodes=z.size(0),
+        )
+        dist = (pos[i] - pos[j]).pow(2).sum(dim=-1).sqrt()
+        pos_i = pos[idx_i]
+        pos_ji, pos_ki = pos[idx_j] - pos_i, pos[idx_k] - pos_i
+        a = (pos_ji * pos_ki).sum(dim=-1)
+        b = torch.cross(pos_ji, pos_ki, dim=-1).norm(dim=-1)
+        angle = torch.atan2(b, a)
+        rbf = m.rbf(dist)
+        sbf = m.sbf(dist, angle, idx_kj)
+        x = m.emb(z, rbf, i, j)
+        out = m.output_blocks[0](x, rbf, i, num_nodes=pos.size(0))
+        for interaction, output in zip(
+            m.interaction_blocks, m.output_blocks[1:],
+        ):
+            x = interaction(x, rbf, sbf, idx_kj, idx_ji)
+            out = out + output(x, rbf, i, num_nodes=pos.size(0))
+        return out
 
 
 class ViSNetBackend(nn.Module):
-    """ViSNet wrapper. GRAPH-LEVEL: returns one value per slab.
+    """ViSNet wrapper, adapted to per-atom output.
 
-    Equivariant vector-scalar message passing. PyG's ViSNet reduces per-atom
-    scalars into one extensive value per graph (shape [num_graphs]), so it does
-    NOT predict per atom and is incompatible with the node-level magmom target.
-    Kept for the backend comparison; slated for removal.
+    Equivariant vector-scalar message passing - the slow, accurate equivariant
+    reference. PyG's ViSNet reduces per-atom scalars into one value per graph;
+    the forward here returns the per-atom scalars instead.
+    Caveat: the neighbour graph is built from positions without periodic
+    boundaries.
     """
 
     def __init__(
@@ -275,12 +375,16 @@ class ViSNetBackend(nn.Module):
         )
 
     def forward(self, data: Data) -> torch.Tensor:
-        """Return one value per graph (NOT per atom)."""
+        """Predict one value per atom.
+
+        Uses ViSNet's representation model and the output model's per-atom
+        pre_reduce, skipping the per-graph sum. pre_reduce's signature varies by
+        PyG version; adjust if needed on the first run.
+        """
         z = data.x.long().squeeze(-1)
-        result = self.model(z, data.pos, data.batch)
-        if isinstance(result, tuple):
-            result = result[0]
-        return result.squeeze(-1)
+        x, vec = self.model.representation_model(z, data.pos, data.batch)
+        per_atom = self.model.output_model.pre_reduce(x, vec)
+        return per_atom.squeeze(-1)
 
 
 def build_model(config: dict) -> nn.Module:
