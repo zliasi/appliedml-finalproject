@@ -104,21 +104,32 @@ def load_composition_index(
     constants = load_dataset_constants(dataset_dir)
     composition_to_id = constants.composition_to_id
     read_compositions_csv = constants.read_compositions_csv
+    read_ordered_csv = getattr(constants, "read_ordered_csv", None)
 
-    sources = [dataset_dir / "data" / "compositions.csv"]
-    sources.extend(sorted(
-        (dataset_dir / "data" / "augmentation").glob(
-            "*/compositions.csv",
+    data_dir = dataset_dir / "data"
+    sources: list[tuple[Path, object]] = [
+        (data_dir / "compositions.csv", read_compositions_csv),
+    ]
+    if read_ordered_csv is not None:
+        sources.append(
+            (data_dir / "ordered-compositions.csv", read_ordered_csv),
         )
-    ))
+    sources.extend(
+        (p, read_compositions_csv)
+        for p in sorted((data_dir / "augmentation").glob("*/compositions.csv"))
+    )
 
     comp_types: dict[str, str] = {}
     compositions: dict[str, dict[str, float]] = {}
-    for csv_path in sources:
+    for csv_path, reader in sources:
         if not csv_path.exists():
             continue
-        for entry in read_compositions_csv(csv_path):
-            comp_id = composition_to_id(entry["composition"])
+        for entry in reader(csv_path):
+            # comp_id carries the lattice suffix (e.g. ag002-co098-hcp) to match
+            # the aggregate's group keys
+            comp_id = composition_to_id(
+                entry["composition"], entry.get("lattice_type"),
+            )
             comp_types[comp_id] = entry["type"]
             compositions[comp_id] = entry["composition"]
     assert len(compositions) > 0, "No compositions loaded"
