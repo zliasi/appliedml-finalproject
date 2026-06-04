@@ -179,9 +179,30 @@ def split_path(graphs_dir: Path, cutoff: int, dataset: str, split: str) -> Path:
     return graphs_dir / f"graphs-r{cutoff}-{dataset}-{split}.lmdb"
 
 
+def _log_wandb(
+    results: dict, project: str, dataset: str, cutoff: int,
+) -> None:
+    """Log each baseline's test metrics as its own run in the GNN project."""
+    import os
+    import wandb
+    entity = os.environ.get("WANDB_ENTITY")
+    for name, m in results.items():
+        wandb.init(
+            entity=entity, project=project,
+            name=f"baseline-{name}-r{cutoff}",
+            config={"baseline": name, "cutoff": cutoff, "dataset": dataset},
+            reinit=True,
+        )
+        wandb.log(
+            {"test_mae": m["mae"], "test_rmse": m["rmse"], "test_r2": m["r2"]},
+        )
+        wandb.finish()
+
+
 def run_baselines(
     target: str, dataset: str, cutoff: int, out_path: Optional[Path],
     device: str = DEFAULT_DEVICE,
+    use_wandb: bool = False,
 ) -> dict[str, Any]:
     """Train and evaluate the node-level baselines, write metrics JSON."""
     run_dir = MODELS_ROOT / "runs" / f"{target}-{dataset}"
@@ -218,6 +239,9 @@ def run_baselines(
     xgb.fit(x_train, y_train)
     results["xgboost"] = score(y_test, xgb.predict(x_test))
 
+    if use_wandb:
+        _log_wandb(results, run_dir.name, dataset, cutoff)
+
     payload = {
         "target": target,
         "dataset": dataset,
@@ -251,10 +275,15 @@ def main() -> None:
         "--device", type=str, default=DEFAULT_DEVICE,
         help="XGBoost device: cuda (GPU) or cpu",
     )
+    parser.add_argument(
+        "--wandb", action="store_true",
+        help="log each baseline to Weights & Biases",
+    )
     parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args()
     run_baselines(
         args.target, args.dataset, args.cutoff, args.out, args.device,
+        args.wandb,
     )
 
 

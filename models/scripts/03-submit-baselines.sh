@@ -11,6 +11,7 @@ set -euo pipefail
 # Usage:
 #   ./scripts/03-submit-baselines.sh --target magmom --dataset magmom21-v0p1
 #   ./scripts/03-submit-baselines.sh --target magmom --dataset magmom21-v0p1 --cutoffs "6"
+#   ./scripts/03-submit-baselines.sh --target magmom --dataset magmom21-v0p1 --wandb
 
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "${SCRIPT_DIR}/.."
@@ -18,12 +19,14 @@ cd "${SCRIPT_DIR}/.."
 TARGET="magmom"
 DATASET=""
 CUTOFFS="4 6 8"
+WANDB_FLAG=""
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --target)  TARGET="$2"; shift 2 ;;
         --dataset) DATASET="$2"; shift 2 ;;
         --cutoffs) CUTOFFS="$2"; shift 2 ;;
+        --wandb)   WANDB_FLAG="--wandb"; shift ;;
         *) echo "Unknown arg: $1" >&2; exit 1 ;;
     esac
 done
@@ -31,7 +34,7 @@ done
     echo "Usage: $0 --target T --dataset D-vMpN [--cutoffs \"4 6 8\"]" >&2
     exit 1
 }
-readonly TARGET DATASET CUTOFFS
+readonly TARGET DATASET CUTOFFS WANDB_FLAG
 
 readonly RUN_DIR="runs/${TARGET}-${DATASET}"
 readonly LOG_DIR="${RUN_DIR}/logs"
@@ -60,7 +63,8 @@ for R in ${CUTOFFS}; do
         --target ${TARGET} \\
         --dataset ${DATASET} \\
         --cutoff \${R} \\
-        --device cuda
+        --device cuda \\
+        ${WANDB_FLAG}
 done
 !EOSBATCH
 job_id=$(sbatch --parsable "${batch_file}")
