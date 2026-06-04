@@ -4,9 +4,7 @@ Repo for the final project for the Applied Machine Learning 2026 course. Done in
 
 Graph neural networks have been trained to predict the per-atom magnetic moment of metal alloy slabs, to warm-start spin-polarised DFT calculations. Seeding a GPAW calculation with predicted initial moments lets the SCF converge faster than the default guess. The model is node-level (one prediction per atom, no pooling) and is compared across many message-passing backends. The training data is the magmom21 dataset: DFT per-atom magnetic moments of 21-element FCC, BCC, and HCP alloy slabs.
 
-<p align="center">
-  <img src="docs/magmom21-graphic-toc.webp" width="700" alt="Overview of the magmom21 dataset: the 21 elements included and the FCC, BCC, and HCP slab types." />
-</p>
+![Overview of the magmom21 dataset: the 21 elements included and the FCC, BCC, and HCP slab types.](docs/magmom21-graphic-toc.webp)
 
 To clone and run training on a HPC cluster, see [docs/getting-started.md](docs/getting-started.md).
 
