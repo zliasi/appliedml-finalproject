@@ -7,6 +7,7 @@ set -euo pipefail
 #
 # Usage:
 #   ./scripts/01-submit-build-graphs.sh --target magmom --dataset magmom21-v0p1
+#   ./scripts/01-submit-build-graphs.sh --target magmom --dataset magmom21-v0p1 --signed
 
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly MODELS_DIR="${SCRIPT_DIR}/.."
@@ -14,10 +15,12 @@ cd "${MODELS_DIR}"
 
 TARGET=""
 DATASET=""
+SIGNED_FLAG=""
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --target) TARGET="$2"; shift 2 ;;
         --dataset) DATASET="$2"; shift 2 ;;
+        --signed) SIGNED_FLAG="--signed"; shift ;;
         *) echo "Unknown arg: $1" >&2; exit 1 ;;
     esac
 done
@@ -25,7 +28,10 @@ done
     echo "Usage: $0 --target magmom --dataset <name-vMpN>" >&2
     exit 1
 }
-readonly TARGET DATASET
+readonly TARGET DATASET SIGNED_FLAG
+SUFFIX=""
+if [[ -n "${SIGNED_FLAG}" ]]; then SUFFIX="-signed"; fi
+readonly SUFFIX
 
 case "${TARGET}" in
     magmom)
@@ -40,7 +46,7 @@ case "${TARGET}" in
 esac
 readonly N=${#VARIANTS[@]}
 
-readonly RUN_DIR="runs/${TARGET}-${DATASET}"
+readonly RUN_DIR="runs/${TARGET}-${DATASET}${SUFFIX}"
 readonly LOG_DIR="${RUN_DIR}/logs"
 mkdir -p "${LOG_DIR}"
 readonly VARIANT_LIST="${LOG_DIR}/.variants-build-graphs.txt"
@@ -80,6 +86,7 @@ printf "Cores: %s\n\n" "\${SLURM_CPUS_PER_TASK}"
 python scripts/workers/build-graphs.py \\
     --target ${TARGET} \\
     --dataset ${DATASET} \\
+    ${SIGNED_FLAG} \\
     \${ARGS} \\
     --n-workers \${SLURM_CPUS_PER_TASK}
 

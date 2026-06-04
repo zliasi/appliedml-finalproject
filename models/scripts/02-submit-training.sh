@@ -21,6 +21,7 @@ DATASET=""
 MODE=""
 SINGLE_CONFIG=""
 WANDB_FLAG=""
+SIGNED_FLAG=""
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -29,6 +30,7 @@ while [[ $# -gt 0 ]]; do
         --all) MODE="all"; shift ;;
         --baselines) MODE="baselines"; shift ;;
         --wandb) WANDB_FLAG="--wandb"; shift ;;
+        --signed) SIGNED_FLAG="--signed"; shift ;;
         *)
             if [[ -z "${MODE}" ]]; then
                 MODE="single"
@@ -44,9 +46,12 @@ done
     echo "Usage: $0 --target T --dataset D --all|--baselines|<cfg>" >&2
     exit 1
 }
-readonly TARGET DATASET MODE SINGLE_CONFIG WANDB_FLAG
+readonly TARGET DATASET MODE SINGLE_CONFIG WANDB_FLAG SIGNED_FLAG
+SUFFIX=""
+if [[ -n "${SIGNED_FLAG}" ]]; then SUFFIX="-signed"; fi
+readonly SUFFIX
 
-readonly RUN_DIR="runs/${TARGET}-${DATASET}"
+readonly RUN_DIR="runs/${TARGET}-${DATASET}${SUFFIX}"
 readonly CONFIG_ROOT="targets/${TARGET}/configs"
 readonly LOG_DIR="${RUN_DIR}/logs"
 mkdir -p "${LOG_DIR}"
@@ -93,6 +98,7 @@ python scripts/workers/train.py \\
     --dataset ${DATASET} \\
     --config "\${CONFIG}" \\
     --device cuda \\
+    ${SIGNED_FLAG} \\
     ${WANDB_FLAG}
 
 sleep 2
@@ -131,6 +137,7 @@ python scripts/workers/train.py \\
     --dataset ${DATASET} \\
     --config "${cfg}" \\
     --device cuda \\
+    ${SIGNED_FLAG} \\
     ${WANDB_FLAG}
 
 sleep 2

@@ -227,6 +227,10 @@ def parse_args() -> argparse.Namespace:
     )
     p.add_argument("--wandb", action="store_true")
     p.add_argument("--wandb-run-name", type=str, default=None)
+    p.add_argument(
+        "--signed", action="store_true",
+        help="Use the signed-target run dir (default: absolute |m|).",
+    )
     return p.parse_args()
 
 
@@ -234,9 +238,10 @@ def main() -> None:
     """Train one GNN end to end."""
     args = parse_args()
     spec = load_target_spec(args.target)
+    suffix = "-signed" if args.signed else ""
     run_dir = (
         REPO_ROOT / "models" / "runs"
-        / f"{spec.name}-{args.dataset}"
+        / f"{spec.name}-{args.dataset}{suffix}"
     )
     assert run_dir.exists(), f"Missing run dir: {run_dir}"
 

@@ -19,6 +19,7 @@ TARGET="magmom"
 DATASET="magmom21-v0p1"
 CUTOFFS="4 6 8"
 WANDB_PASS=""
+SIGNED_PASS=""
 BACKENDS=()
 
 print_help() {
@@ -37,6 +38,7 @@ Options:
   --target T         prediction target (default ${TARGET})
   --dataset D-vMpN   dataset token (default ${DATASET})
   --wandb            log to Weights & Biases (default off, no account needed without it)
+  --signed           use the signed-moment graphs (default: absolute |m|)
   -h, --help         show this help and the available backends
 
 Available backends (see targets/${TARGET}/configs/README.md for descriptions):
@@ -58,6 +60,7 @@ while [[ $# -gt 0 ]]; do
         --cutoffs) CUTOFFS="$2"; shift 2 ;;
         --cutoff)  CUTOFFS="$2"; shift 2 ;;
         --wandb)   WANDB_PASS="--wandb"; shift ;;
+        --signed)  SIGNED_PASS="--signed"; shift ;;
         -*) echo "Unknown flag: $1 (try -h)" >&2; exit 1 ;;
         *) BACKENDS+=("$1"); shift ;;
     esac
@@ -84,5 +87,5 @@ done
 printf "Submitting %d config(s) for %s on %s:\n" "${#configs[@]}" "${TARGET}" "${DATASET}"
 for cfg in "${configs[@]}"; do
     printf "  %s\n" "${cfg}"
-    ./scripts/02-submit-training.sh --target "${TARGET}" --dataset "${DATASET}" ${WANDB_PASS} "${cfg}"
+    ./scripts/02-submit-training.sh --target "${TARGET}" --dataset "${DATASET}" ${SIGNED_PASS} ${WANDB_PASS} "${cfg}"
 done

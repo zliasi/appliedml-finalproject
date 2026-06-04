@@ -536,6 +536,10 @@ def parse_args() -> argparse.Namespace:
         "--device", type=str,
         default="cuda" if torch.cuda.is_available() else "cpu",
     )
+    p.add_argument(
+        "--signed", action="store_true",
+        help="Evaluate the signed-target run dir (default: absolute |m|).",
+    )
     return p.parse_args()
 
 
@@ -616,9 +620,10 @@ def main() -> None:
     dataset_name, _ = parse_dataset_token(args.dataset)
     dataset_dir = REPO_ROOT / "datasets" / dataset_name
     json_path = dataset_dir / "data" / spec.json_filename
+    suffix = "-signed" if args.signed else ""
     run_dir = (
         REPO_ROOT / "models" / "runs"
-        / f"{spec.name}-{args.dataset}"
+        / f"{spec.name}-{args.dataset}{suffix}"
     )
     eval_dir = run_dir / "eval"
     checkpoint_dir = run_dir / "checkpoints"

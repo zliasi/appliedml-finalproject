@@ -381,6 +381,10 @@ def parse_args() -> argparse.Namespace:
         "--n-workers", type=int, default=1,
     )
     p.add_argument(
+        "--signed", action="store_true",
+        help="Keep signed DFT moments (default: absolute |m|).",
+    )
+    p.add_argument(
         "--output-dir", type=Path, default=None,
         help="Override output dir (default: "
              "models/runs/<target>-<dataset>/graphs/). "
@@ -392,16 +396,21 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     """Build graphs for one target/dataset/version."""
+    import os
     args = parse_args()
+    if args.signed:
+        # the magmom target reads this to keep DFT signs (default is |m|)
+        os.environ["MAGMOM_SIGNED"] = "1"
 
     dataset_name, version = parse_dataset_token(args.dataset)
     spec = load_target_spec(args.target)
 
     dataset_dir = REPO_ROOT / "datasets" / dataset_name
     json_path = dataset_dir / "data" / spec.json_filename
+    suffix = "-signed" if args.signed else ""
     run_dir = (
         REPO_ROOT / "models" / "runs"
-        / f"{spec.name}-{args.dataset}"
+        / f"{spec.name}-{args.dataset}{suffix}"
     )
     output_dir = args.output_dir or run_dir / "graphs"
     output_dir.mkdir(parents=True, exist_ok=True)
