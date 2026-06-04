@@ -163,6 +163,7 @@ def build_checkpoint_name(
         f"c{config.get('conv_dim', 64)}"
         f"l{config.get('n_conv_layers', 3)}"
         f"h{config.get('n_hidden_layers', 0)}"
+        f"{config.get('arch_suffix', '')}"
     )
     parts.append(dataset_token)
     parts.append(size_tag)
