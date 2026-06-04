@@ -64,7 +64,7 @@ source "\${SLURM_SUBMIT_DIR}/scripts/env.sh"
 
 cd "\${SLURM_SUBMIT_DIR}"
 
-python scripts/03-evaluate.py \\
+python scripts/04-evaluate.py \\
     --target ${TARGET} \\
     --dataset ${DATASET} \\
     --all

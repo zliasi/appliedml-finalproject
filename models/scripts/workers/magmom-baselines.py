@@ -1,12 +1,12 @@
 """Non-GNN per-atom baselines for the magmom target.
 
 Trains simple references the GNNs must beat: a per-element-mean predictor (the
-floor) and two tree ensembles (random forest, gradient-boosted trees) on
-per-atom local features. Reads the SAME built graph caches the GNNs train on,
+floor), a linear regression, and a GPU gradient-boosted-tree model (XGBoost)
+on per-atom local features. Reads the SAME built graph caches the GNNs train on,
 so the comparison is on identical data and the identical test split, and scores
 per-atom MAE/RMSE/R2 like the GNN eval.
 
-Run via scripts/04-submit-baselines.sh, or directly:
+Run via scripts/03-submit-baselines.sh, or directly:
     python scripts/workers/magmom-baselines.py \
         --target magmom --dataset magmom21-v0p1 --cutoff 6
 """
@@ -19,10 +19,8 @@ from pathlib import Path
 from typing import Any, Optional
 
 import numpy as np
-from sklearn.ensemble import (
-    HistGradientBoostingRegressor,
-    RandomForestRegressor,
-)
+from sklearn.linear_model import LinearRegression
+from xgboost import XGBRegressor
 
 MODELS_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(MODELS_ROOT))
@@ -37,9 +35,10 @@ from src.metrics import (  # noqa: E402
 logger = logging.getLogger(__name__)
 
 DEFAULT_CUTOFF: int = 6
-RF_N_ESTIMATORS: int = 100
-RF_MAX_DEPTH: int = 20
-HGB_MAX_ITER: int = 300
+DEFAULT_DEVICE: str = "cuda"  # XGBoost device, use "cpu" on a GPU-less node
+XGB_N_ESTIMATORS: int = 500
+XGB_MAX_DEPTH: int = 6
+XGB_LEARNING_RATE: float = 0.1
 RANDOM_SEED: int = 0
 N_DISTANCE_FEATURES: int = 4  # degree, mean, min, max neighbour distance
 
@@ -182,6 +181,7 @@ def split_path(graphs_dir: Path, cutoff: int, dataset: str, split: str) -> Path:
 
 def run_baselines(
     target: str, dataset: str, cutoff: int, out_path: Optional[Path],
+    device: str = DEFAULT_DEVICE,
 ) -> dict[str, Any]:
     """Train and evaluate the node-level baselines, write metrics JSON."""
     run_dir = MODELS_ROOT / "runs" / f"{target}-{dataset}"
@@ -206,18 +206,17 @@ def run_baselines(
     pred = per_element_mean_predict(y_train, idx_train, idx_test, n_elem)
     results["per_element_mean"] = score(y_test, pred)
 
-    rf = RandomForestRegressor(
-        n_estimators=RF_N_ESTIMATORS, max_depth=RF_MAX_DEPTH,
-        n_jobs=-1, random_state=RANDOM_SEED,
-    )
-    rf.fit(x_train, y_train)
-    results["random_forest"] = score(y_test, rf.predict(x_test))
+    linear = LinearRegression()
+    linear.fit(x_train, y_train)
+    results["linear_regression"] = score(y_test, linear.predict(x_test))
 
-    hgb = HistGradientBoostingRegressor(
-        max_iter=HGB_MAX_ITER, random_state=RANDOM_SEED,
+    xgb = XGBRegressor(
+        n_estimators=XGB_N_ESTIMATORS, max_depth=XGB_MAX_DEPTH,
+        learning_rate=XGB_LEARNING_RATE, tree_method="hist",
+        device=device, random_state=RANDOM_SEED,
     )
-    hgb.fit(x_train, y_train)
-    results["hist_gradient_boosting"] = score(y_test, hgb.predict(x_test))
+    xgb.fit(x_train, y_train)
+    results["xgboost"] = score(y_test, xgb.predict(x_test))
 
     payload = {
         "target": target,
@@ -229,7 +228,7 @@ def run_baselines(
         "metrics": results,
     }
 
-    out = out_path or (run_dir / "eval" / "baselines-magmom.json")
+    out = out_path or (run_dir / "eval" / f"baselines-magmom-r{cutoff}.json")
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(payload, indent=2))
     logger.info("wrote %s", out)
@@ -248,9 +247,15 @@ def main() -> None:
     parser.add_argument("--target", default="magmom")
     parser.add_argument("--dataset", required=True, help="e.g. magmom21-v0p1")
     parser.add_argument("--cutoff", type=int, default=DEFAULT_CUTOFF)
+    parser.add_argument(
+        "--device", type=str, default=DEFAULT_DEVICE,
+        help="XGBoost device: cuda (GPU) or cpu",
+    )
     parser.add_argument("--out", type=Path, default=None)
     args = parser.parse_args()
-    run_baselines(args.target, args.dataset, args.cutoff, args.out)
+    run_baselines(
+        args.target, args.dataset, args.cutoff, args.out, args.device,
+    )
 
 
 if __name__ == "__main__":

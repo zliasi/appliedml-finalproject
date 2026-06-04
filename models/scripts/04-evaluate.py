@@ -7,11 +7,11 @@ summary across all evaluated checkpoints.
 
 Usage:
     # one checkpoint
-    python scripts/03-evaluate.py --target hads --dataset fcc12-v1p1 \\
+    python scripts/04-evaluate.py --target hads --dataset fcc12-v1p1 \\
         --checkpoint runs/hads-fcc12-v1p1/checkpoints/hads-schnet-r8-...-3k.pt
 
     # everything under runs/<target>-<dataset>/checkpoints/
-    python scripts/03-evaluate.py --target hads --dataset fcc12-v1p1 --all
+    python scripts/04-evaluate.py --target hads --dataset fcc12-v1p1 --all
 """
 
 import argparse
@@ -587,6 +587,31 @@ def evaluate_one(
     return metrics
 
 
+def load_node_baseline_metrics(eval_dir: Path) -> list[dict[str, Any]]:
+    """Collect node-level baseline results written by the baseline worker.
+
+    Reads ``baselines-*-r*.json`` (one per cutoff) and turns each baseline into a
+    summary row so it ranks alongside the GNN checkpoints. Empty if absent.
+    """
+    rows: list[dict[str, Any]] = []
+    for path in sorted(eval_dir.glob("baselines-*.json")):
+        try:
+            payload = json.loads(path.read_text())
+        except (OSError, ValueError):
+            continue
+        cutoff = payload.get("cutoff", "?")
+        n_test = payload.get("n_test_atoms")
+        for name, m in payload.get("metrics", {}).items():
+            if not {"mae", "rmse", "r2"} <= set(m):
+                continue
+            rows.append({
+                "model": f"baseline-{name}-r{cutoff}",
+                "mae": m["mae"], "rmse": m["rmse"], "r2": m["r2"],
+                "n_samples": n_test,
+            })
+    return rows
+
+
 def print_summary(
     metrics_list: list[dict[str, Any]],
     eval_dir: Path,
@@ -659,6 +684,7 @@ def main() -> None:
                 logger.warning(
                     "Failed %s: %s", ckpt.name, e,
                 )
+        metrics_list.extend(load_node_baseline_metrics(eval_dir))
         print_summary(metrics_list, eval_dir, unit)
     else:
         if args.checkpoint is None:
