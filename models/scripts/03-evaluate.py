@@ -96,6 +96,12 @@ GNN_ARCH_PATTERN: re.Pattern = re.compile(r"c\d+l\d+h\d+")
 PROPERTY_LABEL: dict[str, str] = {
     "hads": "adsorption energy",
     "wf": "work function",
+    "magmom": "magnetic moment",
+}
+PROPERTY_UNIT: dict[str, str] = {
+    "hads": "eV",
+    "wf": "eV",
+    "magmom": "muB",
 }
 COMP_TYPE_MAP: dict[int, str] = {
     1: "pure", 2: "binary", 3: "ternary",
@@ -325,14 +331,14 @@ def compute_metrics(
     """MAE/RMSE/R2/max_error/N."""
     errors = y_pred - y_true
     return {
-        "mae_ev": round(
+        "mae": round(
             mean_absolute_error(y_true, y_pred), 4,
         ),
-        "rmse_ev": round(
+        "rmse": round(
             root_mean_squared_error(y_true, y_pred), 4,
         ),
         "r2": round(r2_score(y_true, y_pred), 4),
-        "max_error_ev": round(float(np.max(np.abs(errors))), 4),
+        "max_error": round(float(np.max(np.abs(errors))), 4),
         "n_samples": int(len(y_true)),
     }
 
@@ -389,14 +395,14 @@ def metrics_by_element(
 
 
 def _annotate_parity(
-    ax: mpl.axes.Axes, metrics: dict, prop_label: str,
+    ax: mpl.axes.Axes, metrics: dict, prop_label: str, unit: str,
 ) -> None:
     """Common axes config for parity plots."""
-    ax.set_xlabel(f"True {prop_label} (eV)")
-    ax.set_ylabel(f"Predicted {prop_label} (eV)")
+    ax.set_xlabel(f"True {prop_label} ({unit})")
+    ax.set_ylabel(f"Predicted {prop_label} ({unit})")
     text = (
-        f"MAE = {metrics['mae_ev']:.3f} eV\n"
-        f"RMSE = {metrics['rmse_ev']:.3f} eV\n"
+        f"MAE = {metrics['mae']:.3f} {unit}\n"
+        f"RMSE = {metrics['rmse']:.3f} {unit}\n"
         f"R$^2$ = {metrics['r2']:.3f}\n"
         f"N = {metrics['n_samples']}"
     )
@@ -418,6 +424,7 @@ def plot_parity(
     out_path: Path,
     metrics: dict,
     prop_label: str,
+    unit: str,
 ) -> None:
     """Predicted-vs-true scatter with y=x reference and metric box."""
     apply_atlas_style()
@@ -437,7 +444,7 @@ def plot_parity(
     ax.set_xlim(lims)
     ax.set_ylim(lims)
     ax.set_box_aspect(1)
-    _annotate_parity(ax, metrics, prop_label)
+    _annotate_parity(ax, metrics, prop_label, unit)
     fig.tight_layout()
     fig.savefig(out_path)
     plt.close(fig)
@@ -448,6 +455,7 @@ def plot_error_distribution(
     y_true: np.ndarray,
     out_path: Path,
     prop_label: str,
+    unit: str,
 ) -> None:
     """Histogram of signed errors."""
     apply_atlas_style()
@@ -459,7 +467,7 @@ def plot_error_distribution(
         facecolor=COLOR_FILL, edgecolor=COLOR_EDGE,
         linewidth=LINEWIDTH, alpha=1.0,
     )
-    ax.set_xlabel(f"Predicted - true {prop_label} (eV)")
+    ax.set_xlabel(f"Predicted - true {prop_label} ({unit})")
     ax.set_ylabel("Count")
     style_axes(ax)
     fig.tight_layout()
@@ -474,6 +482,7 @@ def save_eval_outputs(
     model_tag: str,
     output_dir: Path,
     prop_label: str,
+    unit: str,
     elements: "np.ndarray | None" = None,
 ) -> dict[str, float | int]:
     """Write metrics JSON + parity + error plots, return overall.
@@ -495,11 +504,11 @@ def save_eval_outputs(
         json.dump(payload, f, indent=2)
     plot_parity(
         y_pred, y_true,
-        output_dir / f"parity-{model_tag}.png", overall, prop_label,
+        output_dir / f"parity-{model_tag}.png", overall, prop_label, unit,
     )
     plot_error_distribution(
         y_pred, y_true,
-        output_dir / f"error-dist-{model_tag}.png", prop_label,
+        output_dir / f"error-dist-{model_tag}.png", prop_label, unit,
     )
     logger.info("Wrote %s + parity/error plots", metrics_path)
     return overall
@@ -539,6 +548,7 @@ def evaluate_one(
     compositions: dict[str, dict[str, float]] | None,
     device: str,
     prop_label: str,
+    unit: str,
 ) -> dict[str, Any]:
     """Evaluate one checkpoint (GNN or baseline)."""
     if _is_gnn_checkpoint(checkpoint_path):
@@ -566,7 +576,7 @@ def evaluate_one(
 
     metrics = save_eval_outputs(
         y_pred, y_true, comp_ids,
-        checkpoint_path.stem, eval_dir, prop_label,
+        checkpoint_path.stem, eval_dir, prop_label, unit,
         elements=elements,
     )
     metrics["model"] = checkpoint_path.stem
@@ -576,18 +586,19 @@ def evaluate_one(
 def print_summary(
     metrics_list: list[dict[str, Any]],
     eval_dir: Path,
+    unit: str = "",
 ) -> None:
     """Print a MAE-ranked table and save it as JSON."""
-    ranked = sorted(metrics_list, key=lambda m: m["mae_ev"])
+    ranked = sorted(metrics_list, key=lambda m: m["mae"])
     logger.info("ALL MODELS RANKED BY MAE:")
     logger.info(
         "%-40s %10s %10s %10s %8s",
-        "Model", "MAE(eV)", "RMSE(eV)", "R2", "N",
+        "Model", f"MAE({unit})", f"RMSE({unit})", "R2", "N",
     )
     for m in ranked:
         logger.info(
             "%-40s %10.4f %10.4f %10.4f %8s",
-            m["model"], m["mae_ev"], m["rmse_ev"],
+            m["model"], m["mae"], m["rmse"],
             m["r2"], m.get("n_samples", ""),
         )
     summary_path = eval_dir / "all-models-summary.json"
@@ -601,6 +612,7 @@ def main() -> None:
     args = parse_args()
     spec = load_target_spec(args.target)
     prop_label = PROPERTY_LABEL.get(spec.name, spec.name)
+    unit = PROPERTY_UNIT.get(spec.name, "")
     dataset_name, _ = parse_dataset_token(args.dataset)
     dataset_dir = REPO_ROOT / "datasets" / dataset_name
     json_path = dataset_dir / "data" / spec.json_filename
@@ -636,13 +648,13 @@ def main() -> None:
                 metrics_list.append(evaluate_one(
                     ckpt, spec, run_dir, eval_dir,
                     baseline_test, baseline_compositions,
-                    args.device, prop_label,
+                    args.device, prop_label, unit,
                 ))
             except Exception as e:
                 logger.warning(
                     "Failed %s: %s", ckpt.name, e,
                 )
-        print_summary(metrics_list, eval_dir)
+        print_summary(metrics_list, eval_dir, unit)
     else:
         if args.checkpoint is None:
             cands = sorted(
@@ -659,7 +671,7 @@ def main() -> None:
         evaluate_one(
             args.checkpoint, spec, run_dir, eval_dir,
             baseline_test, baseline_compositions,
-            args.device, prop_label,
+            args.device, prop_label, unit,
         )
 
 
