@@ -3,7 +3,7 @@ set -euo pipefail
 
 # End-to-end pipeline orchestrator for one (target, dataset).
 #
-# Chains: build-graphs (array) -> train (--all) -> eval.
+# Chains: build-graphs (array) -> train (--all) + baselines -> eval.
 # SLURM dependencies link each stage to its predecessor (eval afterany).
 #
 # Usage:
@@ -97,10 +97,7 @@ if [[ ${SKIP_BUILD} -eq 0 ]]; then
     printf "Build array: %s\n" "${build_id}"
 fi
 
-# Stage 2: training (--all) + baselines, both depending on build.
-#
-# 02-submit-training.sh wraps a single sbatch per call, so we submit
-# twice (GNNs + baselines) sharing the build_dep.
+# Stage 2: training (--all) and baselines, both depending on build.
 gnn_batch="run-gnn-array-$$.tmp"
 configs_list="${LOG_DIR}/.config-list.txt"
 find "targets/${TARGET}/configs" -name "*.yaml" | sort > "${configs_list}"
@@ -135,12 +132,41 @@ gnn_id=$(sbatch --parsable ${build_dep} "${gnn_batch}")
 rm -f "${gnn_batch}"
 printf "GNN array: %s (%d configs)\n" "${gnn_id}" "${n_configs}"
 
-# Baselines skipped: the ported baselines worker is graph-level and does
-# not fit the node-level magmom target (a per-element-mean baseline is a
-# later batch). Re-add a baselines stage here once it exists.
+# Stage 2b: baselines (per-element-mean, linear, xgboost) over r4/r6/r8,
+# depending on build. 04-evaluate merges the results into the ranking.
+baselines_batch="run-baselines-$$.tmp"
+cat > "${baselines_batch}" << !EOSBATCH
+#!/usr/bin/env bash
+#SBATCH --job-name=${TARGET}-baselines-${DATASET}
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=16
+#SBATCH --mem=32G
+#SBATCH --time=04:00:00
+#SBATCH --gpus=1
+#SBATCH --partition=katla_l40s
+#SBATCH --output=${LOG_DIR}/03-baselines-%j.log
 
-# Stage 3: eval, depending on the GNN array (afterany, so one failing
-# backend does not cancel the eval).
-eval_id=$(emit_eval_job "${gnn_id}")
-printf "Eval: %s (depends on %s)\n" "${eval_id}" "${gnn_id}"
+source "\${SLURM_SUBMIT_DIR}/scripts/env.sh"
+
+cd "\${SLURM_SUBMIT_DIR}"
+
+for R in 4 6 8; do
+    printf "\nbaselines at r%s\n" "\${R}"
+    python scripts/workers/magmom-baselines.py \\
+        --target ${TARGET} \\
+        --dataset ${DATASET} \\
+        --cutoff \${R} \\
+        --device cuda \\
+        ${WANDB_FLAG}
+done
+!EOSBATCH
+baselines_id=$(sbatch --parsable ${build_dep} "${baselines_batch}")
+rm -f "${baselines_batch}"
+printf "Baselines: %s\n" "${baselines_id}"
+
+# Stage 3: eval, depending on the GNN array and baselines (afterany, so a
+# failing backend does not cancel the eval, and the baselines are merged).
+eval_id=$(emit_eval_job "${gnn_id}:${baselines_id}")
+printf "Eval: %s (depends on %s + %s)\n" "${eval_id}" "${gnn_id}" "${baselines_id}"
 printf "\nPipeline submitted.\n"
