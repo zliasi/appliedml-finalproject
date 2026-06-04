@@ -6,7 +6,7 @@ Graph neural networks have been trained to predict the per-atom magnetic moment 
 
 ![Overview of the magmom21 dataset: the 21 elements included and the FCC, BCC, and HCP slab types.](docs/magmom21-graphic-toc.webp)
 
-To clone and run training on a HPC cluster, see [docs/getting-started.md](docs/getting-started.md).
+To clone and run training on a HPC cluster, see [docs/](docs/).
 
 ## Project structure
 
