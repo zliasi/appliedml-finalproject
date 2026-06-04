@@ -1,8 +1,12 @@
 # appliedml-finalproject
 
-Repo for the final project for the Applied Machine Learning 2026 course. 
+Repo for the final project for the Applied Machine Learning 2026 course. Done in collaboration with [RoseTom2026](https://github.com/RoseTom2026) and [kkragj](https://github.com/kkragj). 
 
-Submission: 2026-05-13. Presentations: 2026-06-10/2026-06-11.
+Graph neural networks have been trained to predict the per-atom magnetic moment of metal alloy slabs, to warm-start spin-polarised DFT calculations. Seeding a GPAW calculation with predicted initial moments lets the SCF converge faster than the default guess. The model is node-level (one prediction per atom, no pooling) and is compared across many message-passing backends. The training data is the magmom21 dataset: DFT per-atom magnetic moments of 21-element FCC, BCC, and HCP alloy slabs.
+
+<p align="center">
+  <img src="docs/magmom21-graphic-toc.webp" width="700" alt="Overview of the magmom21 dataset: the 21 elements included and the FCC, BCC, and HCP slab types." />
+</p>
 
 To clone and run training on a HPC cluster, see [docs/getting-started.md](docs/getting-started.md).
 
