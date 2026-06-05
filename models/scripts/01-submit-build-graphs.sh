@@ -3,11 +3,12 @@ set -euo pipefail
 
 # Submit a SLURM array of graph-build tasks for one (target, dataset).
 #
-# Variants for magmom: r4, r6, r8 (full-slab graphs at 4/6/8 A cutoff).
+# Builds one graph cache per cutoff in --cutoffs (default "4 6 8", Angstrom).
 #
 # Usage:
 #   ./scripts/01-submit-build-graphs.sh --target magmom --dataset magmom21-v0p1
 #   ./scripts/01-submit-build-graphs.sh --target magmom --dataset magmom21-v0p1 --signed
+#   ./scripts/01-submit-build-graphs.sh --target magmom --dataset magmom21-v0p1 --cutoffs "3"
 
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly MODELS_DIR="${SCRIPT_DIR}/.."
@@ -16,11 +17,13 @@ cd "${MODELS_DIR}"
 TARGET=""
 DATASET=""
 SIGNED_FLAG=""
+CUTOFFS="4 6 8"
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --target) TARGET="$2"; shift 2 ;;
         --dataset) DATASET="$2"; shift 2 ;;
         --signed) SIGNED_FLAG="--signed"; shift ;;
+        --cutoffs) CUTOFFS="$2"; shift 2 ;;
         *) echo "Unknown arg: $1" >&2; exit 1 ;;
     esac
 done
@@ -28,22 +31,20 @@ done
     echo "Usage: $0 --target magmom --dataset <name-vMpN>" >&2
     exit 1
 }
-readonly TARGET DATASET SIGNED_FLAG
+readonly TARGET DATASET SIGNED_FLAG CUTOFFS
 SUFFIX=""
 if [[ -n "${SIGNED_FLAG}" ]]; then SUFFIX="-signed"; fi
 readonly SUFFIX
 
 case "${TARGET}" in
-    magmom)
-        readonly VARIANTS=(
-            "r4:--cutoff 4"
-            "r6:--cutoff 6"
-            "r8:--cutoff 8"
-        )
-        ;;
-    *)
-        echo "Unknown target: ${TARGET}" >&2; exit 1 ;;
+    magmom) ;;
+    *) echo "Unknown target: ${TARGET}" >&2; exit 1 ;;
 esac
+VARIANTS=()
+for c in ${CUTOFFS}; do
+    VARIANTS+=("r${c}:--cutoff ${c}")
+done
+readonly VARIANTS
 readonly N=${#VARIANTS[@]}
 
 readonly RUN_DIR="runs/${TARGET}-${DATASET}${SUFFIX}"

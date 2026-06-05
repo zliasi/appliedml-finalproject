@@ -3,8 +3,9 @@
 Trains simple references the GNNs must beat: a per-element-mean predictor (the
 floor), a linear regression, and a GPU gradient-boosted-tree model (XGBoost)
 on per-atom local features. Reads the SAME built graph caches the GNNs train on,
-so the comparison is on identical data and the identical test split, and scores
-per-atom MAE/RMSE/R2 like the GNN eval.
+so the comparison is on identical data and the identical test split. Scores
+per-atom MAE/RMSE/R2 and writes a parity and signed-error figure per baseline,
+like the GNN eval.
 
 Run via scripts/03-submit-baselines.sh, or directly:
     python scripts/workers/magmom-baselines.py \
@@ -31,6 +32,10 @@ from src.metrics import (  # noqa: E402
     r2_score,
     root_mean_squared_error,
 )
+from src.plots import (  # noqa: E402
+    plot_error_distribution,
+    plot_parity,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +46,8 @@ XGB_MAX_DEPTH: int = 6
 XGB_LEARNING_RATE: float = 0.1
 RANDOM_SEED: int = 0
 N_DISTANCE_FEATURES: int = 4  # degree, mean, min, max neighbour distance
+PROP_LABEL: str = "magnetic moment"
+UNIT: str = "muB"
 
 
 def build_element_lut(dataset: Any) -> tuple[np.ndarray, list[int]]:
@@ -199,6 +206,25 @@ def _log_wandb(
         wandb.finish()
 
 
+def _plot_baselines(
+    preds: dict, y_true: "np.ndarray", results: dict, eval_dir: "Path",
+    cutoff: int,
+) -> None:
+    """Write a parity and signed-error figure for each baseline."""
+    eval_dir.mkdir(parents=True, exist_ok=True)
+    for name, p in preds.items():
+        metrics = {**results[name], "n_samples": int(y_true.shape[0])}
+        tag = f"baseline-{name}-r{cutoff}"
+        plot_parity(
+            p, y_true, eval_dir / f"parity-{tag}.png",
+            metrics, PROP_LABEL, UNIT,
+        )
+        plot_error_distribution(
+            p, y_true, eval_dir / f"error-dist-{tag}.png",
+            PROP_LABEL, UNIT,
+        )
+
+
 def run_baselines(
     target: str, dataset: str, cutoff: int, out_path: Optional[Path],
     device: str = DEFAULT_DEVICE,
@@ -222,22 +248,25 @@ def run_baselines(
     x_test, y_test, idx_test = featurise_split(test_ds, lut, n_elem)
     logger.info("train atoms=%d test atoms=%d", y_train.shape[0], y_test.shape[0])
 
-    results: dict[str, Any] = {}
-
-    pred = per_element_mean_predict(y_train, idx_train, idx_test, n_elem)
-    results["per_element_mean"] = score(y_test, pred)
-
+    preds: dict[str, "np.ndarray"] = {}
+    preds["per_element_mean"] = per_element_mean_predict(
+        y_train, idx_train, idx_test, n_elem,
+    )
     linear = LinearRegression()
     linear.fit(x_train, y_train)
-    results["linear_regression"] = score(y_test, linear.predict(x_test))
-
+    preds["linear_regression"] = linear.predict(x_test)
     xgb = XGBRegressor(
         n_estimators=XGB_N_ESTIMATORS, max_depth=XGB_MAX_DEPTH,
         learning_rate=XGB_LEARNING_RATE, tree_method="hist",
         device=device, random_state=RANDOM_SEED,
     )
     xgb.fit(x_train, y_train)
-    results["xgboost"] = score(y_test, xgb.predict(x_test))
+    preds["xgboost"] = xgb.predict(x_test)
+
+    results: dict[str, Any] = {
+        name: score(y_test, p) for name, p in preds.items()
+    }
+    _plot_baselines(preds, y_test, results, run_dir / "eval", cutoff)
 
     if use_wandb:
         _log_wandb(results, run_dir.name, dataset, cutoff)

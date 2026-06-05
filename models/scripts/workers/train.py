@@ -235,6 +235,26 @@ def parse_args() -> argparse.Namespace:
     return p.parse_args()
 
 
+ELEMENT_BIAS_SIZE: int = 120  # covers atomic numbers 0..119
+
+
+def compute_element_means(loader: DataLoader) -> list[float]:
+    """Per-element mean of the training target, for the residual bias.
+
+    One pass over the train loader accumulating sum and count per atomic
+    number. Returns a list indexed by atomic number (0 where unseen).
+    """
+    sums = torch.zeros(ELEMENT_BIAS_SIZE)
+    counts = torch.zeros(ELEMENT_BIAS_SIZE)
+    for batch in loader:
+        z = batch.x.view(-1).long()
+        y = batch.y.view(-1).float()
+        sums.index_add_(0, z, y)
+        counts.index_add_(0, z, torch.ones_like(y))
+    means = torch.where(counts > 0, sums / counts, torch.zeros_like(sums))
+    return means.tolist()
+
+
 def main() -> None:
     """Train one GNN end to end."""
     args = parse_args()
@@ -252,6 +272,11 @@ def main() -> None:
     train_loader, val_loader, n_samples = setup_data(
         config, run_dir, args.dataset, args.workers,
     )
+
+    if config.get("residual"):
+        config["element_means"] = compute_element_means(train_loader)
+        config["arch_suffix"] = config.get("arch_suffix", "") + "res"
+        logger.info("residual target: subtracting per-element train means")
 
     model = spec.build_gnn(config)
     logger.info(

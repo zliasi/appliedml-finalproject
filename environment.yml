@@ -43,3 +43,4 @@ dependencies:
     - lmdb
     - wandb
     - xgboost
+    - chgnet

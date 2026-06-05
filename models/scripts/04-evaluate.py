@@ -23,9 +23,6 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
-import matplotlib as mpl
-mpl.use("Agg")
-import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 
 MODELS_ROOT = Path(__file__).resolve().parent.parent
@@ -46,6 +43,10 @@ from src.metrics import (  # noqa: E402
     r2_score,
     root_mean_squared_error,
 )
+from src.plots import (  # noqa: E402
+    plot_error_distribution,
+    plot_parity,
+)
 from src.splits import (  # noqa: E402
     items_to_features,
     load_composition_index,
@@ -60,36 +61,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-FIGURE_SIZE: tuple[float, float] = (3.25, 2.17)
-FIGURE_SIZE_SQUARE: tuple[float, float] = (3.25, 3.25)
-FIGURE_DPI: int = 400
-FONT_SIZE: float = 7.0
-LINEWIDTH: float = 1.0
-MARKER_SIZE: float = 10.0
-MARKER_EDGE_WIDTH: float = 0.3
-COLOR_FILL: str = "#1065ab"
-COLOR_EDGE: str = "black"
-
-def apply_atlas_style() -> None:
-    """Set rcParams to atlas figure style."""
-    mpl.rcParams.update({
-        "mathtext.fontset": "custom",
-        "font.size": FONT_SIZE,
-        "axes.linewidth": LINEWIDTH,
-        "axes.labelsize": FONT_SIZE,
-        "xtick.labelsize": FONT_SIZE,
-        "ytick.labelsize": FONT_SIZE,
-        "legend.fontsize": FONT_SIZE,
-        "savefig.dpi": FIGURE_DPI,
-        "figure.dpi": FIGURE_DPI,
-    })
-
-
-def style_axes(ax: mpl.axes.Axes) -> None:
-    """Inward ticks on all four sides, no grid."""
-    ax.tick_params(
-        axis="both", top=True, right=True, direction="in",
-    )
 
 
 GNN_ARCH_PATTERN: re.Pattern = re.compile(r"c\d+l\d+h\d+")
@@ -394,85 +365,6 @@ def metrics_by_element(
     return out
 
 
-def _annotate_parity(
-    ax: mpl.axes.Axes, metrics: dict, prop_label: str, unit: str,
-) -> None:
-    """Common axes config for parity plots."""
-    ax.set_xlabel(f"True {prop_label} ({unit})")
-    ax.set_ylabel(f"Predicted {prop_label} ({unit})")
-    text = (
-        f"MAE = {metrics['mae']:.3f} {unit}\n"
-        f"RMSE = {metrics['rmse']:.3f} {unit}\n"
-        f"R$^2$ = {metrics['r2']:.3f}\n"
-        f"N = {metrics['n_samples']}"
-    )
-    ax.annotate(
-        text,
-        xy=(0.05, 0.95), xycoords="axes fraction",
-        verticalalignment="top", fontsize=FONT_SIZE,
-        bbox=dict(
-            boxstyle="round", facecolor="white",
-            edgecolor="none", alpha=0.8,
-        ),
-    )
-    style_axes(ax)
-
-
-def plot_parity(
-    y_pred: np.ndarray,
-    y_true: np.ndarray,
-    out_path: Path,
-    metrics: dict,
-    prop_label: str,
-    unit: str,
-) -> None:
-    """Predicted-vs-true scatter with y=x reference and metric box."""
-    apply_atlas_style()
-    fig, ax = plt.subplots(
-        figsize=FIGURE_SIZE_SQUARE, dpi=FIGURE_DPI,
-    )
-    ax.scatter(
-        y_true, y_pred,
-        s=MARKER_SIZE, color=COLOR_FILL, edgecolors=COLOR_EDGE,
-        linewidths=MARKER_EDGE_WIDTH, alpha=1.0, zorder=3,
-    )
-    lo = float(min(y_true.min(), y_pred.min()))
-    hi = float(max(y_true.max(), y_pred.max()))
-    margin = (hi - lo) * 0.05
-    lims = [lo - margin, hi + margin]
-    ax.plot(lims, lims, "k--", linewidth=LINEWIDTH, zorder=2)
-    ax.set_xlim(lims)
-    ax.set_ylim(lims)
-    ax.set_box_aspect(1)
-    _annotate_parity(ax, metrics, prop_label, unit)
-    fig.tight_layout()
-    fig.savefig(out_path)
-    plt.close(fig)
-
-
-def plot_error_distribution(
-    y_pred: np.ndarray,
-    y_true: np.ndarray,
-    out_path: Path,
-    prop_label: str,
-    unit: str,
-) -> None:
-    """Histogram of signed errors."""
-    apply_atlas_style()
-    fig, ax = plt.subplots(
-        figsize=FIGURE_SIZE, dpi=FIGURE_DPI,
-    )
-    ax.hist(
-        y_pred - y_true, bins=40,
-        facecolor=COLOR_FILL, edgecolor=COLOR_EDGE,
-        linewidth=LINEWIDTH, alpha=1.0,
-    )
-    ax.set_xlabel(f"Predicted - true {prop_label} ({unit})")
-    ax.set_ylabel("Count")
-    style_axes(ax)
-    fig.tight_layout()
-    fig.savefig(out_path)
-    plt.close(fig)
 
 
 def save_eval_outputs(
@@ -599,13 +491,14 @@ def load_node_baseline_metrics(eval_dir: Path) -> list[dict[str, Any]]:
             payload = json.loads(path.read_text())
         except (OSError, ValueError):
             continue
-        cutoff = payload.get("cutoff", "?")
+        cutoff = payload.get("cutoff")
+        suffix = f"-r{cutoff}" if cutoff is not None else ""
         n_test = payload.get("n_test_atoms")
         for name, m in payload.get("metrics", {}).items():
             if not {"mae", "rmse", "r2"} <= set(m):
                 continue
             rows.append({
-                "model": f"baseline-{name}-r{cutoff}",
+                "model": f"baseline-{name}{suffix}",
                 "mae": m["mae"], "rmse": m["rmse"], "r2": m["r2"],
                 "n_samples": n_test,
             })

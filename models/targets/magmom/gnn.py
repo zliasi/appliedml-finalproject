@@ -180,6 +180,7 @@ class MagmomGNN(nn.Module):
         num_elements: int = DEFAULT_NUM_ELEMENTS,
         activation: str = DEFAULT_ACTIVATION,
         radius_cutoff: float = DEFAULT_RADIUS_CUTOFF,
+        element_means: "list[float] | None" = None,
     ) -> None:
         """Build embedding, conv layers, and the per-node readout.
 
@@ -216,6 +217,15 @@ class MagmomGNN(nn.Module):
         self.readout = _build_readout_mlp(
             conv_dim, n_hidden_layers, self.activation,
         )
+        # optional fixed per-element bias (residual target): the GNN then only
+        # learns the deviation from each element's mean moment
+        if element_means is not None:
+            self.register_buffer(
+                "element_bias",
+                torch.tensor(element_means, dtype=torch.float32),
+            )
+        else:
+            self.element_bias = None
 
     def forward(self, data: Data) -> torch.Tensor:
         """Predict one magnetic moment per atom.
@@ -254,7 +264,10 @@ class MagmomGNN(nn.Module):
                     node_features = conv(node_features, data.edge_index)
                 node_features = self.activation(node_features)
 
-        return self.readout(node_features).squeeze(-1)
+        out = self.readout(node_features).squeeze(-1)
+        if self.element_bias is not None:
+            out = out + self.element_bias[data.x.long().view(-1)]
+        return out
 
 
 class DimeNetBackend(nn.Module):
@@ -422,4 +435,8 @@ def build_model(config: dict) -> nn.Module:
         return DimeNetBackend(**shared)
     if backend == "visnet":
         return ViSNetBackend(**shared)
-    return MagmomGNN(conv_backend=backend, **shared)
+    return MagmomGNN(
+        conv_backend=backend,
+        element_means=config.get("element_means"),
+        **shared,
+    )
