@@ -64,7 +64,7 @@ source "\${SLURM_SUBMIT_DIR}/scripts/env.sh"
 
 cd "\${SLURM_SUBMIT_DIR}"
 
-python scripts/04-evaluate.py \\
+python scripts/workers/evaluate.py \\
     --target ${TARGET} \\
     --dataset ${DATASET} \\
     --all
@@ -133,7 +133,7 @@ rm -f "${gnn_batch}"
 printf "GNN array: %s (%d configs)\n" "${gnn_id}" "${n_configs}"
 
 # Stage 2b: baselines (per-element-mean, linear, xgboost) over r4/r6/r8,
-# depending on build. 04-evaluate merges the results into the ranking.
+# depending on build. The eval stage merges the results into the ranking.
 baselines_batch="run-baselines-$$.tmp"
 cat > "${baselines_batch}" << !EOSBATCH
 #!/usr/bin/env bash

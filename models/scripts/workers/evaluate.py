@@ -7,11 +7,11 @@ summary across all evaluated checkpoints.
 
 Usage:
     # one checkpoint
-    python scripts/04-evaluate.py --target hads --dataset fcc12-v1p1 \\
+    python scripts/workers/evaluate.py --target hads --dataset fcc12-v1p1 \\
         --checkpoint runs/hads-fcc12-v1p1/checkpoints/hads-schnet-r8-...-3k.pt
 
     # everything under runs/<target>-<dataset>/checkpoints/
-    python scripts/04-evaluate.py --target hads --dataset fcc12-v1p1 --all
+    python scripts/workers/evaluate.py --target hads --dataset fcc12-v1p1 --all
 """
 
 import argparse
@@ -25,7 +25,7 @@ from typing import Any
 
 import numpy as np  # noqa: E402
 
-MODELS_ROOT = Path(__file__).resolve().parent.parent
+MODELS_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(MODELS_ROOT))
 REPO_ROOT = MODELS_ROOT.parent
 

@@ -5,7 +5,7 @@ point (conv_dim x n_conv_layers x n_hidden_layers x lr) into
 ``targets/<target>/sweeps/<backend>/``. The learning rate is folded into the
 checkpoint name through ``arch_suffix`` so points that differ only in lr stay
 distinct. Submit them with 06-submit-sweep.sh, then rank everything with
-04-evaluate.py --all.
+04-submit-evaluate.sh --all.
 
     python scripts/05-generate-sweep-configs.py --backend cgconv --cutoff 6
     python scripts/05-generate-sweep-configs.py --backend schnetconv --cutoff 8 --max-configs 12

@@ -80,7 +80,7 @@ This produces a parity figure, an error figure, and a metrics file for each trai
 
 ```
 source scripts/env.sh
-python scripts/04-evaluate.py --target magmom --dataset magmom21-v0p1 --all
+./scripts/04-submit-evaluate.sh --target magmom --dataset magmom21-v0p1
 ```
 
 It runs on the login node and takes a few minutes. The figures and metrics are written to `runs/magmom-magmom21-v0p1/eval/`.

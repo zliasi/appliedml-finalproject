@@ -6,7 +6,7 @@ set -euo pipefail
 # features and scores the same test split the GNNs use, at each cutoff, so the
 # eval table has a per-cutoff reference to beat. Independent of 00-run-pipeline.sh,
 # just needs the graph caches already built (run 01-submit-build-graphs.sh first).
-# 04-evaluate.py picks up the per-cutoff results if they are present.
+# 04-submit-evaluate.sh picks up the per-cutoff results if they are present.
 #
 # Usage:
 #   ./scripts/03-submit-baselines.sh --target magmom --dataset magmom21-v0p1

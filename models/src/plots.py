@@ -1,6 +1,6 @@
 """Shared figure style and parity/error plots.
 
-Used by 04-evaluate.py (GNN checkpoints) and the baseline worker, so both produce
+Used by 04-submit-evaluate.sh (GNN checkpoints) and the baseline worker, so both produce
 identically styled parity scatters and signed-error histograms.
 """
 
