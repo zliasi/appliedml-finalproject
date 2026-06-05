@@ -66,6 +66,13 @@ for R in ${CUTOFFS}; do
         --device cuda \\
         ${WANDB_FLAG}
 done
+
+printf "\nchgnet baseline\n"
+python scripts/workers/chgnet-baseline.py \\
+    --target ${TARGET} \\
+    --dataset ${DATASET} \\
+    --device cuda \\
+    ${WANDB_FLAG} || echo "chgnet baseline skipped (pip install chgnet to enable)"
 !EOSBATCH
 job_id=$(sbatch --parsable "${batch_file}")
 rm -f "${batch_file}"

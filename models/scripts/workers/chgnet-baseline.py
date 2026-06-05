@@ -8,7 +8,7 @@ direct check of whether the from-scratch GNNs beat a large pretrained model.
 Writes baselines-chgnet.json (+ parity/error plots) into the run's eval/ dir,
 which 04-evaluate.py --all merges into the ranking.
 
-    python scripts/chgnet-baseline.py --target magmom --dataset magmom21-v0p1
+    python scripts/workers/chgnet-baseline.py --target magmom --dataset magmom21-v0p1
 """
 
 import argparse
@@ -19,7 +19,7 @@ from pathlib import Path
 
 import numpy as np
 
-MODELS_ROOT = Path(__file__).resolve().parent.parent
+MODELS_ROOT = Path(__file__).resolve().parent.parent.parent
 sys.path.insert(0, str(MODELS_ROOT))
 REPO_ROOT = MODELS_ROOT.parent
 
