@@ -13,5 +13,5 @@ GNN training pipeline. Produces a GNN that predicts per-atom magnetic moments fo
 Set your cluster environment in `scripts/env.sh` (`CONDA_SH`, `CONDA_ENV`), then from `models/`:
 
 - `./scripts/00-run-pipeline.sh --target magmom --dataset magmom21-v0p1` - chained Slurm jobs: build graphs, train every config, evaluate.
-- Or run the stages directly with the same `--target/--dataset`: `01-submit-build-graphs.sh`, `02-submit-training.sh`, `04-submit-evaluate.sh`.
+- Or run the stages directly with the same `--target/--dataset`: `01-submit-build-graphs.sh`, `02-submit-training.sh`, `05-submit-evaluate.sh`.
 - `python bench/bench-inference.py --checkpoints runs/magmom-magmom21-v0p1/checkpoints` - per-checkpoint load time and single-slab inference latency.

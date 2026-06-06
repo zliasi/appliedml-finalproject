@@ -50,6 +50,16 @@ def score(y_true: np.ndarray, y_pred: np.ndarray) -> dict[str, float]:
     }
 
 
+def by_element(z: np.ndarray, y_true: np.ndarray, y_pred: np.ndarray) -> dict:
+    """Per-element metrics, keyed by chemical symbol (same shape as the GNN eval)."""
+    from ase.data import chemical_symbols
+    out: dict[str, dict] = {}
+    for elem in sorted(set(int(v) for v in z)):
+        mask = z == elem
+        out[chemical_symbols[elem]] = score(y_true[mask], y_pred[mask])
+    return out
+
+
 def build_splits(spec, dataset_dir: Path, json_path: Path):
     """Return (train, val, test) WorkItem lists from the seeded split."""
     all_items = list(spec.iter_work_items(json_path, dataset_dir))
@@ -106,11 +116,14 @@ def main() -> None:
     # chgnet's Trainer.save_checkpoint hard-codes the energy history, so a
     # magmom-only ("m") run crashes with KeyError 'e'. Zero energy/force/stress
     # weight means only magmom gradients update the model.
+    # Huber (smooth-L1) loss to match the from-scratch GNNs' objective, so the
+    # MAE comparison is on one loss. CHGNet's Huber criterion uses delta=0.1,
+    # the same transition point as src/trainer.py.
     trainer = Trainer(
         model=chgnet, targets="em",
         energy_loss_ratio=0.0, force_loss_ratio=0.0,
         stress_loss_ratio=0.0, mag_loss_ratio=1.0,
-        optimizer="Adam", criterion="MSE",
+        optimizer="Adam", criterion="Huber",
         epochs=args.epochs, learning_rate=args.lr, use_device=args.device,
     )
     trainer.train(train_loader, val_loader)
@@ -118,15 +131,17 @@ def main() -> None:
 
     test_structs = [AseAtomsAdaptor.get_structure(wi.atoms) for wi in test_items]
     preds = model.predict_structure(test_structs, batch_size=args.batch_size)
-    yp_parts, yt_parts = [], []
+    yp_parts, yt_parts, z_parts = [], [], []
     for wi, pred in zip(test_items, preds):
         m = np.abs(np.asarray(pred["m"], dtype=np.float32).reshape(-1))
         y = np.asarray(wi.target_value, dtype=np.float32).reshape(-1)
         assert m.shape == y.shape, "CHGNet/target atom count mismatch"
         yp_parts.append(m)
         yt_parts.append(y)
+        z_parts.append(np.asarray(wi.atoms.get_atomic_numbers()))
     y_pred = np.concatenate(yp_parts)
     y_true = np.concatenate(yt_parts)
+    z = np.concatenate(z_parts)
     overall = score(y_true, y_pred)
 
     run_dir = REPO_ROOT / "models" / "runs" / f"{spec.name}-{args.dataset}"
@@ -136,6 +151,7 @@ def main() -> None:
         "target": args.target, "dataset": args.dataset,
         "n_test_atoms": int(y_true.shape[0]),
         "metrics": {"chgnet-ft": overall},
+        "by_element": by_element(z, y_true, y_pred),
     }
     (eval_dir / "baselines-chgnet-ft.json").write_text(json.dumps(payload, indent=2))
 

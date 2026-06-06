@@ -79,6 +79,17 @@ COMP_TYPE_MAP: dict[int, str] = {
     4: "quaternary", 5: "quinary",
     6: "senary", 7: "septenary",
 }
+# Elements whose |m| is not fixed by local structure (antiferromagnetic /
+# itinerant V, Cr, Mn). They carry nearly all the large residuals, so a
+# node-level eval also reports a variant with them removed, exposing the
+# structure-determined ceiling.
+EXCLUDED_ELEMENTS: tuple[str, ...] = ("V", "Cr", "Mn")
+
+
+def _excluded_atomic_numbers() -> set[int]:
+    """Atomic numbers of EXCLUDED_ELEMENTS."""
+    from ase.data import atomic_numbers
+    return {atomic_numbers[s] for s in EXCLUDED_ELEMENTS}
 
 
 # ----------------------------------------------------------------
@@ -383,12 +394,30 @@ def save_eval_outputs(
     prediction, and a per-element metrics breakdown is added to the JSON.
     """
     overall = compute_metrics(y_pred, y_true)
-    by_type = metrics_by_type(comp_ids, y_pred, y_true)
-    payload: dict[str, Any] = {"overall": overall, "by_type": by_type}
-    if elements is not None and len(elements) == len(y_pred):
+    payload: dict[str, Any] = {"overall": overall}
+    node_level = elements is not None and len(elements) == len(y_pred)
+    if node_level:
+        # node-level (per-atom) target: break down by element, not by
+        # composition type (the comp_id has no parseable type here, so by_type
+        # would collapse to a single meaningless bucket).
         payload["by_element"] = metrics_by_element(
             elements, y_pred, y_true,
         )
+    else:
+        payload["by_type"] = metrics_by_type(comp_ids, y_pred, y_true)
+
+    # Node-level: also report the set with the structure-undetermined
+    # elements removed, plus its own parity/error plots, to test whether
+    # those elements account for the large residuals.
+    excl_tag = "-".join(EXCLUDED_ELEMENTS)
+    filtered: dict[str, float | int] | None = None
+    if node_level:
+        keep = ~np.isin(elements, list(_excluded_atomic_numbers()))
+        if keep.any() and not keep.all():
+            filtered = compute_metrics(y_pred[keep], y_true[keep])
+            payload["overall_excl"] = {
+                "excluded": list(EXCLUDED_ELEMENTS), **filtered,
+            }
 
     output_dir.mkdir(parents=True, exist_ok=True)
     metrics_path = output_dir / f"metrics-{model_tag}.json"
@@ -402,8 +431,26 @@ def save_eval_outputs(
         y_pred, y_true,
         output_dir / f"error-dist-{model_tag}.png", prop_label, unit,
     )
+    if filtered is not None:
+        plot_parity(
+            y_pred[keep], y_true[keep],
+            output_dir / f"parity-{model_tag}-excl-{excl_tag}.png",
+            filtered, prop_label, unit,
+        )
+        plot_error_distribution(
+            y_pred[keep], y_true[keep],
+            output_dir / f"error-dist-{model_tag}-excl-{excl_tag}.png",
+            prop_label, unit,
+        )
     logger.info("Wrote %s + parity/error plots", metrics_path)
-    return overall
+
+    result = dict(overall)
+    if filtered is not None:
+        result["mae_excl"] = filtered["mae"]
+        result["rmse_excl"] = filtered["rmse"]
+        result["r2_excl"] = filtered["r2"]
+        result["n_excl"] = filtered["n_samples"]
+    return result
 
 
 # ----------------------------------------------------------------
@@ -455,12 +502,18 @@ def evaluate_one(
         model = load_gnn_model(
             checkpoint_path, device, spec.build_gnn,
         )
-        loader = DataLoader(
-            load_graphs(test_path), batch_size=64, shuffle=False,
-        )
-        y_pred, y_true, comp_ids, elements = evaluate_gnn_split(
-            model, loader, device, node_level=spec.node_level,
-        )
+        # close the lmdb env when done: a later checkpoint sharing this
+        # test cutoff would otherwise hit lmdb's "already open in this
+        # process" guard (the env is GC-timing dependent), and --all would
+        # silently drop it.
+        dataset = load_graphs(test_path)
+        try:
+            loader = DataLoader(dataset, batch_size=64, shuffle=False)
+            y_pred, y_true, comp_ids, elements = evaluate_gnn_split(
+                model, loader, device, node_level=spec.node_level,
+            )
+        finally:
+            dataset.close()
     else:
         assert test_items is not None
         assert compositions is not None
@@ -512,17 +565,37 @@ def print_summary(
 ) -> None:
     """Print a MAE-ranked table and save it as JSON."""
     ranked = sorted(metrics_list, key=lambda m: m["mae"])
+    has_excl = any("mae_excl" in m for m in metrics_list)
+    excl_tag = "-".join(EXCLUDED_ELEMENTS)
     logger.info("ALL MODELS RANKED BY MAE:")
-    logger.info(
-        "%-40s %10s %10s %10s %8s",
-        "Model", f"MAE({unit})", f"RMSE({unit})", "R2", "N",
-    )
-    for m in ranked:
+    if has_excl:
         logger.info(
-            "%-40s %10.4f %10.4f %10.4f %8s",
-            m["model"], m["mae"], m["rmse"],
-            m["r2"], m.get("n_samples", ""),
+            "%-40s %10s %10s %10s %8s %12s %10s",
+            "Model", f"MAE({unit})", f"RMSE({unit})", "R2", "N",
+            f"MAE-no-{excl_tag}", "R2-excl",
         )
+    else:
+        logger.info(
+            "%-40s %10s %10s %10s %8s",
+            "Model", f"MAE({unit})", f"RMSE({unit})", "R2", "N",
+        )
+    for m in ranked:
+        if has_excl:
+            mae_x = m.get("mae_excl")
+            r2_x = m.get("r2_excl")
+            logger.info(
+                "%-40s %10.4f %10.4f %10.4f %8s %12s %10s",
+                m["model"], m["mae"], m["rmse"], m["r2"],
+                m.get("n_samples", ""),
+                "" if mae_x is None else f"{mae_x:.4f}",
+                "" if r2_x is None else f"{r2_x:.4f}",
+            )
+        else:
+            logger.info(
+                "%-40s %10.4f %10.4f %10.4f %8s",
+                m["model"], m["mae"], m["rmse"],
+                m["r2"], m.get("n_samples", ""),
+            )
     summary_path = eval_dir / "all-models-summary.json"
     with open(summary_path, "w") as f:
         json.dump(ranked, f, indent=2)

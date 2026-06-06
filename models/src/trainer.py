@@ -1,8 +1,10 @@
-"""Training loop for atlas GNN models (target-agnostic).
+"""Training loop for the GNN models (target-agnostic).
 
-AdamW optimizer, ReduceLROnPlateau scheduler, gradient clipping,
-and checkpoint saving on val_mae improvement. Same loop is used
-for hads (H adsorption energy) and wf (work function) targets.
+Huber (smooth-L1) loss, AdamW optimizer, ReduceLROnPlateau scheduler, gradient
+clipping, and checkpoint saving on val_mae improvement. Same loop is used for
+hads (H adsorption energy), wf (work function), and magmom targets. Huber is the
+shared objective across every trained model (including the CHGNet fine-tune
+baseline) so the comparison is on one loss.
 """
 
 import logging
@@ -28,6 +30,11 @@ DEFAULT_PATIENCE: int = 100
 DEFAULT_MAX_EPOCHS: int = 1000
 DEFAULT_BATCH_SIZE: int = 64
 DEFAULT_GRAD_CLIP: float = 1.0
+# Huber transition point (target units). Below it the loss is quadratic (like
+# MSE), above it linear (like MAE), so typical small residuals are fit tightly
+# while the hard antiferromagnetic outliers do not dominate. Matches the delta
+# CHGNet's Huber criterion uses, so every trained model shares one objective.
+HUBER_DELTA: float = 0.1
 SCHEDULER_FACTOR: float = 0.5
 SCHEDULER_PATIENCE: int = 10
 SCHEDULER_MIN_LR: float = 1e-6
@@ -49,7 +56,7 @@ def train_epoch(
         device: Device string (cuda/cpu)
 
     Returns:
-        Average training L1 loss
+        Average training Huber loss
     """
     model.train()
     total_loss = 0.0
@@ -60,7 +67,9 @@ def train_epoch(
         optimizer.zero_grad()
 
         predictions = model(batch)
-        loss = torch.nn.functional.l1_loss(predictions, batch.y)
+        loss = torch.nn.functional.huber_loss(
+            predictions, batch.y, delta=HUBER_DELTA,
+        )
 
         loss.backward()
         torch.nn.utils.clip_grad_norm_(
@@ -103,8 +112,8 @@ def _collect_predictions(
         for batch in loader:
             batch = batch.to(device)
             predictions = model(batch)
-            loss = torch.nn.functional.l1_loss(
-                predictions, batch.y,
+            loss = torch.nn.functional.huber_loss(
+                predictions, batch.y, delta=HUBER_DELTA,
             )
 
             all_predictions.extend(
@@ -229,7 +238,7 @@ def _save_checkpoint(
         "config": config,
     }, path)
     logger.info(
-        "New best at epoch %d (MAE=%.4f eV)", epoch, val_mae,
+        "New best at epoch %d (MAE=%.4f)", epoch, val_mae,
     )
 
 
@@ -473,7 +482,7 @@ def train(
     )
 
     logger.info(
-        "Training complete: best_epoch=%d best_mae=%.4f eV",
+        "Training complete: best_epoch=%d best_mae=%.4f",
         best_epoch, best_val_mae,
     )
     return best_path

@@ -1,6 +1,6 @@
 """Shared figure style and parity/error plots.
 
-Used by 04-submit-evaluate.sh (GNN checkpoints) and the baseline worker, so both produce
+Used by 05-submit-evaluate.sh (GNN checkpoints) and the baseline worker, so both produce
 identically styled parity scatters and signed-error histograms.
 """
 
@@ -20,6 +20,13 @@ MARKER_SIZE: float = 10.0
 MARKER_EDGE_WIDTH: float = 0.3
 COLOR_FILL: str = "#1065ab"
 COLOR_EDGE: str = "black"
+# Units that need mathtext rendering (e.g. Bohr magneton as a proper symbol).
+UNIT_MATHTEXT: dict[str, str] = {"muB": r"$\mu_\mathrm{B}$"}
+
+
+def _format_unit(unit: str) -> str:
+    """Render a unit string for axis labels, mathtext where needed."""
+    return UNIT_MATHTEXT.get(unit, unit)
 
 
 def apply_figure_style() -> None:
@@ -48,6 +55,7 @@ def _annotate_parity(
     ax: "mpl.axes.Axes", metrics: dict, prop_label: str, unit: str,
 ) -> None:
     """Common axes config for parity plots."""
+    unit = _format_unit(unit)
     ax.set_xlabel(f"True {prop_label} ({unit})")
     ax.set_ylabel(f"Predicted {prop_label} ({unit})")
     text = (
@@ -117,7 +125,7 @@ def plot_error_distribution(
         facecolor=COLOR_FILL, edgecolor=COLOR_EDGE,
         linewidth=LINEWIDTH, alpha=1.0,
     )
-    ax.set_xlabel(f"Predicted - true {prop_label} ({unit})")
+    ax.set_xlabel(f"Predicted - true {prop_label} ({_format_unit(unit)})")
     ax.set_ylabel("Count")
     style_axes(ax)
     fig.tight_layout()

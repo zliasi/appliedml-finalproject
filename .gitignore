@@ -11,3 +11,7 @@ models/targets/*/sweeps/
 *.lmdb-lock
 wandb/
 datasets/*/data/raw/
+# per-run outputs (checkpoints, caches, eval, plots) and chgnet's dated trainer checkpoint dirs, e.g., models/06-05-2026/
+models/runs/
+models/??-??-????/
+*.pth.tar

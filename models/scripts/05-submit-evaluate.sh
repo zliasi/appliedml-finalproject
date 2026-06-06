@@ -7,8 +7,8 @@ set -euo pipefail
 # Much faster than running the evaluation on the login node.
 #
 # Usage:
-#   ./scripts/04-submit-evaluate.sh --target magmom --dataset magmom21-v0p1
-#   ./scripts/04-submit-evaluate.sh --target magmom --dataset magmom21-v0p1 --signed
+#   ./scripts/05-submit-evaluate.sh --target magmom --dataset magmom21-v0p1
+#   ./scripts/05-submit-evaluate.sh --target magmom --dataset magmom21-v0p1 --signed
 
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "${SCRIPT_DIR}/.."

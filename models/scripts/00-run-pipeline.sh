@@ -81,12 +81,24 @@ if [[ ${EVAL_ONLY} -eq 1 ]]; then
     exit 0
 fi
 
+# Cutoffs to build: the distinct radius_cutoff values the configs actually use
+# (so e.g. an r3 config is not left without its graph cache). Falls back to the
+# build script default if none are found.
+CUTOFFS=$(
+    find "targets/${TARGET}/configs" -name '*.yaml' -exec \
+        grep -h '^radius_cutoff:' {} + 2>/dev/null |
+        awk '{print int($2)}' | sort -un | tr '\n' ' '
+)
+CUTOFFS="${CUTOFFS:-4 6 8}"
+printf "Config cutoffs: %s\n" "${CUTOFFS}"
+
 # Stage 1: build-graphs (unless skipped).
 build_dep=""
 if [[ ${SKIP_BUILD} -eq 0 ]]; then
     build_output=$(
         ./scripts/01-submit-build-graphs.sh \
-            --target "${TARGET}" --dataset "${DATASET}"
+            --target "${TARGET}" --dataset "${DATASET}" \
+            --cutoffs "${CUTOFFS}"
     )
     build_id=$(printf "%s\n" "${build_output}" |
         awk '/Submitted array job:/{print $NF}')
@@ -160,13 +172,51 @@ for R in 4 6 8; do
         --device cuda \\
         ${WANDB_FLAG}
 done
+
+printf "\nchgnet zero-shot baseline\n"
+python scripts/workers/chgnet-baseline.py \\
+    --target ${TARGET} \\
+    --dataset ${DATASET} \\
+    --device cuda \\
+    ${WANDB_FLAG} || echo "chgnet baseline skipped (pip install chgnet to enable)"
 !EOSBATCH
 baselines_id=$(sbatch --parsable ${build_dep} "${baselines_batch}")
 rm -f "${baselines_batch}"
 printf "Baselines: %s\n" "${baselines_id}"
 
-# Stage 3: eval, depending on the GNN array and baselines (afterany, so a
-# failing backend does not cancel the eval, and the baselines are merged).
-eval_id=$(emit_eval_job "${gnn_id}:${baselines_id}")
-printf "Eval: %s (depends on %s + %s)\n" "${eval_id}" "${gnn_id}" "${baselines_id}"
+# Stage 2c: CHGNet fine-tune (its own GPU job, longer wall time). Reads the
+# dataset and the seeded split directly, so it only needs the build to have run.
+ft_batch="run-chgnet-ft-$$.tmp"
+cat > "${ft_batch}" << !EOSBATCH
+#!/usr/bin/env bash
+#SBATCH --job-name=${TARGET}-chgnet-ft-${DATASET}
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --gpus=1
+#SBATCH --mem=32G
+#SBATCH --time=12:00:00
+#SBATCH --partition=katla_l40s
+#SBATCH --output=${LOG_DIR}/04-chgnet-ft-%j.log
+
+source "\${SLURM_SUBMIT_DIR}/scripts/env.sh"
+
+cd "\${SLURM_SUBMIT_DIR}"
+
+python scripts/workers/chgnet-finetune.py \\
+    --target ${TARGET} \\
+    --dataset ${DATASET} \\
+    --epochs 80 \\
+    --device cuda \\
+    ${WANDB_FLAG} || echo "chgnet fine-tune skipped (pip install chgnet to enable)"
+!EOSBATCH
+ft_id=$(sbatch --parsable ${build_dep} "${ft_batch}")
+rm -f "${ft_batch}"
+printf "CHGNet fine-tune: %s\n" "${ft_id}"
+
+# Stage 3: eval, depending on the GNN array, baselines, and the CHGNet fine-tune
+# (afterany, so a failing backend does not cancel the eval; all are merged).
+eval_id=$(emit_eval_job "${gnn_id}:${baselines_id}:${ft_id}")
+printf "Eval: %s (depends on %s + %s + %s)\n" \
+    "${eval_id}" "${gnn_id}" "${baselines_id}" "${ft_id}"
 printf "\nPipeline submitted.\n"

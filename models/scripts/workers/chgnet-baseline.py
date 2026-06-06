@@ -6,7 +6,7 @@ predictions against the DFT |m|. CHGNet is trained on absolute moments from
 ~1.5M Materials Project structures, so this is a strong "free" reference and a
 direct check of whether the from-scratch GNNs beat a large pretrained model.
 Writes baselines-chgnet.json (+ parity/error plots) into the run's eval/ dir,
-which 04-submit-evaluate.sh --all merges into the ranking.
+which 05-submit-evaluate.sh --all merges into the ranking.
 
     python scripts/workers/chgnet-baseline.py --target magmom --dataset magmom21-v0p1
 """
