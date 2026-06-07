@@ -49,7 +49,7 @@ USAGE
         done
     fi
     echo
-    echo "dimenet and visnet are heavy reference models, the rest are the candidates."
+    echo "dimenet, et, and tensornet are heavy periodic reference models, the rest are the candidates."
 }
 
 while [[ $# -gt 0 ]]; do

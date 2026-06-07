@@ -9,3 +9,4 @@ lmdb
 scikit-learn
 chgnet
 xgboost
+torchmd-net<3

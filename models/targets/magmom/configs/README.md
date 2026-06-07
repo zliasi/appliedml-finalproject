@@ -37,7 +37,8 @@ Native per-atom graph-convolution layers, the main candidates. Several consume t
 
 ## Reference backends
 
-Heavy, slow, higher-accuracy references rather than deployment candidates. Both are graph-level PyG models adapted to per-atom output, so validate them on the first run.
+Heavier, slower, higher-accuracy references rather than deployment candidates, adapted to per-atom output. All three are periodic (PBC-aware), so they get the slab's true in-plane neighbours. Validate on the first run with `scratch/preflight-pbc.py`.
 
-- [DimeNet++](https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.nn.models.DimeNetPlusPlus.html): directional message passing over atom triplets and bond angles (Gasteiger et al. 2020), accurate but slow. Patched for the installed PyG.
-- [ViSNet](https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.nn.models.ViSNet.html): vector-scalar interactive equivariant network (Wang et al. 2024), geometry-aware and slow.
+- [DimeNet++](https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.nn.models.DimeNetPlusPlus.html): directional message passing over atom triplets and bond angles (Gasteiger et al. 2020). PyG model, made PBC-aware here by feeding it the periodic graph and minimum-image displacement vectors (OCP-style).
+- [ET](https://torchmd-net.readthedocs.io/): torchmd-net Equivariant Transformer (Tholke and de Fabritiis 2022), scalar-vector equivariant, native PBC. The architecture ViSNet extends.
+- [TensorNet](https://torchmd-net.readthedocs.io/): torchmd-net rank-2 Cartesian-tensor equivariant network (Simeon and de Fabritiis 2023), native PBC. Needs `torchmd-net` installed.

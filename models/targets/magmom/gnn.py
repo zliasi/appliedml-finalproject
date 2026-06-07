@@ -20,12 +20,18 @@ node (no pooling). Their forward returns a tensor of shape [num_atoms].
   pdnconv         - pathfinder discovery network, uses the distance edge feature
   splineconv      - B-spline kernels over the (normalised) distance
 
-dimenet and visnet wrap PyG's DimeNet++/ViSNet as the slow, accurate
-references. They normally produce one extensive value per slab, here their
-forwards are adapted to return per-atom output. Caveat: both build their
-neighbour graph from positions WITHOUT periodic boundaries, so in-plane periodic
-neighbours of a slab are missed. Adapted from PyG internals - validate against
-the installed PyG version on the first run.
+dimenet, et, and tensornet are the heavier reference models, all periodic:
+  dimenet   - PyG DimeNet++ adapted to per-atom output, made PBC-aware by using
+              the graph's periodic edges and minimum-image displacement vectors
+              (data.edge_index / data.edge_vec) for distances and angles.
+  et        - torchmd-net Equivariant Transformer (the architecture ViSNet
+              extends), native PBC via its box-aware neighbour search.
+  tensornet - torchmd-net TensorNet, rank-2 Cartesian-tensor equivariant model,
+              native PBC.
+et and tensornet build their own periodic neighbour graph from positions plus
+the per-graph box (data.cell), so they need torchmd-net installed. All three
+return per-atom output via a shared readout. Validate against the installed
+torchmd-net/PyG versions on the first run (see bench/ smoke test).
 """
 
 import torch
@@ -49,23 +55,25 @@ NUM_GAUSSIANS: int = 50
 GMM_KERNEL_SIZE: int = 8
 SPLINE_KERNEL_SIZE: int = 8
 
-# DimeNet++/ViSNet architecture constants
+# DimeNet++ architecture constants
 DIMENET_NUM_SPHERICAL: int = 7
 DIMENET_NUM_RADIAL: int = 6
 DIMENET_BASIS_EMB_SIZE: int = 8
 DIMENET_ENVELOPE_EXPONENT: int = 5
 DIMENET_NUM_BEFORE_SKIP: int = 1
 DIMENET_NUM_AFTER_SKIP: int = 2
-VISNET_NUM_RBF: int = 32
-VISNET_MAX_NEIGHBORS: int = 50
+# torchmd-net (ET / TensorNet) reference-model constants
+TORCHMDNET_NUM_RBF: int = 50
+TORCHMDNET_MAX_NEIGHBORS: int = 50
 
 NODE_LEVEL_BACKENDS: list[str] = [
     "cgconv", "schnetconv", "graphconv", "sageconv", "gatv2conv",
     "gcnconv", "transformerconv", "gineconv", "nnconv", "genconv",
     "gmmconv", "resgatedgraphconv", "generalconv", "pdnconv", "splineconv",
 ]
-# heavy reference models wrapped from PyG full models, per-atom via custom forward
-WRAPPED_BACKENDS: list[str] = ["dimenet", "visnet"]
+# heavy reference models, per-atom via custom forward, all periodic. dimenet is
+# PyG (made PBC-aware here); et/tensornet are torchmd-net (native PBC).
+WRAPPED_BACKENDS: list[str] = ["dimenet", "et", "tensornet"]
 CONV_BACKENDS: list[str] = NODE_LEVEL_BACKENDS + WRAPPED_BACKENDS
 # node-level backends that consume the scalar distance edge feature, the rest
 # use only connectivity
@@ -319,20 +327,25 @@ class DimeNetBackend(nn.Module):
     def forward(self, data: Data) -> torch.Tensor:
         """Predict one value per atom (see class docstring)."""
         z = data.x.long().squeeze(-1)
-        return self._per_atom(z, data.pos, data.batch).squeeze(-1)
+        return self._per_atom(
+            z, data.edge_index, data.edge_vec, data.pos.size(0),
+        ).squeeze(-1)
 
     def _per_atom(
-        self, z: torch.Tensor, pos: torch.Tensor, batch: torch.Tensor,
+        self, z: torch.Tensor, edge_index: torch.Tensor,
+        edge_vec: torch.Tensor, num_atoms: int,
     ) -> torch.Tensor:
         """Per-atom DimeNet++ output (the P blocks before the graph reduction).
 
         Orchestrates the model's own submodules like DimeNetPlusPlus.forward but
-        returns the per-atom contributions rather than summing them per graph.
+        returns the per-atom contributions rather than summing them per graph,
+        and is periodic: it consumes the precomputed PBC graph (``edge_index``)
+        and the minimum-image displacement vectors (``edge_vec``) instead of
+        rebuilding a non-periodic ``radius_graph`` from raw positions. Distances
+        and triplet angles are taken from ``edge_vec``, so in-plane periodic
+        neighbours are included.
         """
         m = self.model
-        edge_index = radius_graph(
-            pos, r=m.cutoff, batch=batch, max_num_neighbors=m.max_num_neighbors,
-        )
         # PyG moved triplets from a DimeNet method to a module-level
         # function in newer releases, support both.
         triplets_fn = getattr(m, "triplets", None)
@@ -343,33 +356,63 @@ class DimeNetBackend(nn.Module):
         i, j, idx_i, idx_j, idx_k, idx_kj, idx_ji = triplets_fn(
             edge_index, num_nodes=z.size(0),
         )
-        dist = (pos[i] - pos[j]).pow(2).sum(dim=-1).sqrt()
-        pos_i = pos[idx_i]
-        pos_ji, pos_ki = pos[idx_j] - pos_i, pos[idx_k] - pos_i
-        a = (pos_ji * pos_ki).sum(dim=-1)
-        b = torch.cross(pos_ji, pos_ki, dim=-1).norm(dim=-1)
+        # edge_vec[m] is the periodic vector src->dst, i.e. pos[col]-pos[row]
+        # with the cell offset applied. PyG DimeNet's angle uses
+        # pos_ij = pos[i]-pos[j] = edge_vec[idx_ji] and
+        # pos_jk = pos[j]-pos[k] = edge_vec[idx_kj] (i=col, j=row).
+        dist = edge_vec.norm(dim=-1)
+        pos_ij = edge_vec[idx_ji]
+        pos_jk = edge_vec[idx_kj]
+        a = (pos_ij * pos_jk).sum(dim=-1)
+        b = torch.cross(pos_ij, pos_jk, dim=-1).norm(dim=-1)
         angle = torch.atan2(b, a)
         rbf = m.rbf(dist)
         sbf = m.sbf(dist, angle, idx_kj)
         x = m.emb(z, rbf, i, j)
-        out = m.output_blocks[0](x, rbf, i, num_nodes=pos.size(0))
+        out = m.output_blocks[0](x, rbf, i, num_nodes=num_atoms)
         for interaction, output in zip(
             m.interaction_blocks, m.output_blocks[1:],
         ):
             x = interaction(x, rbf, sbf, idx_kj, idx_ji)
-            out = out + output(x, rbf, i, num_nodes=pos.size(0))
+            out = out + output(x, rbf, i, num_nodes=num_atoms)
         return out
 
 
-class ViSNetBackend(nn.Module):
-    """ViSNet wrapper, adapted to per-atom output.
+class _TorchMDNetBackend(nn.Module):
+    """Shared wrapper around a torchmd-net representation model.
 
-    Equivariant vector-scalar message passing - the slow, accurate equivariant
-    reference. PyG's ViSNet reduces per-atom scalars into one value per graph;
-    the forward here returns the per-atom scalars instead.
-    Caveat: the neighbour graph is built from positions without periodic
-    boundaries.
+    torchmd-net's representation models return per-atom scalar features ``x`` of
+    shape [num_atoms, hidden] and have native, box-aware periodic neighbour
+    search, so PBC is handled inside the model. A per-node readout maps ``x`` to
+    one moment per atom. The per-graph box is ``data.cell`` (shape
+    [num_graphs, 3, 3] after batching), passed to the model's forward.
     """
+
+    def __init__(
+        self, representation: nn.Module, conv_dim: int,
+        n_hidden_layers: int, activation: str,
+    ) -> None:
+        super().__init__()
+        self.model = representation
+        self.readout = _build_readout_mlp(
+            conv_dim, n_hidden_layers, ACTIVATIONS[activation](),
+        )
+
+    def forward(self, data: Data) -> torch.Tensor:
+        """Predict one moment per atom (PBC handled inside the model)."""
+        z = data.x.long().view(-1)
+        batch = (
+            data.batch if getattr(data, "batch", None) is not None
+            else torch.zeros_like(z)
+        )
+        box = getattr(data, "cell", None)
+        # representation models return (x, vec, z, pos, batch); take x.
+        x = self.model(z, data.pos, batch, box)[0]
+        return self.readout(x).squeeze(-1)
+
+
+class ETBackend(_TorchMDNetBackend):
+    """torchmd-net Equivariant Transformer (native PBC), per-atom output."""
 
     def __init__(
         self,
@@ -380,31 +423,50 @@ class ViSNetBackend(nn.Module):
         activation: str = DEFAULT_ACTIVATION,
         radius_cutoff: float = DEFAULT_RADIUS_CUTOFF,
     ) -> None:
-        """Build the ViSNet model (see class docstring for caveats)."""
-        super().__init__()
-        from torch_geometric.nn.models import ViSNet
+        """Build the ET representation (torchmd-net required)."""
+        from torchmdnet.models.torchmd_et import TorchMD_ET
 
         assert n_conv_layers > 0, "n_conv_layers must be positive"
         assert conv_dim > 0, "conv_dim must be positive"
-        self.model = ViSNet(
+        representation = TorchMD_ET(
             hidden_channels=conv_dim,
             num_layers=n_conv_layers,
-            num_rbf=VISNET_NUM_RBF,
-            cutoff=radius_cutoff,
-            max_num_neighbors=VISNET_MAX_NEIGHBORS,
+            num_rbf=TORCHMDNET_NUM_RBF,
+            cutoff_lower=0.0,
+            cutoff_upper=radius_cutoff,
+            max_z=num_elements + 1,
+            max_num_neighbors=TORCHMDNET_MAX_NEIGHBORS,
         )
+        super().__init__(representation, conv_dim, n_hidden_layers, activation)
 
-    def forward(self, data: Data) -> torch.Tensor:
-        """Predict one value per atom.
 
-        Uses ViSNet's representation model and the output model's per-atom
-        pre_reduce, skipping the per-graph sum. pre_reduce's signature varies by
-        PyG version, adjust if needed on the first run.
-        """
-        z = data.x.long().squeeze(-1)
-        x, vec = self.model.representation_model(z, data.pos, data.batch)
-        per_atom = self.model.output_model.pre_reduce(x, vec)
-        return per_atom.squeeze(-1)
+class TensorNetBackend(_TorchMDNetBackend):
+    """torchmd-net TensorNet (native PBC), per-atom output."""
+
+    def __init__(
+        self,
+        n_conv_layers: int = DEFAULT_CONV_LAYERS,
+        conv_dim: int = DEFAULT_CONV_DIM,
+        n_hidden_layers: int = DEFAULT_HIDDEN_LAYERS,
+        num_elements: int = DEFAULT_NUM_ELEMENTS,
+        activation: str = DEFAULT_ACTIVATION,
+        radius_cutoff: float = DEFAULT_RADIUS_CUTOFF,
+    ) -> None:
+        """Build the TensorNet representation (torchmd-net required)."""
+        from torchmdnet.models.tensornet import TensorNet
+
+        assert n_conv_layers > 0, "n_conv_layers must be positive"
+        assert conv_dim > 0, "conv_dim must be positive"
+        representation = TensorNet(
+            hidden_channels=conv_dim,
+            num_layers=n_conv_layers,
+            num_rbf=TORCHMDNET_NUM_RBF,
+            cutoff_lower=0.0,
+            cutoff_upper=radius_cutoff,
+            max_z=num_elements + 1,
+            max_num_neighbors=TORCHMDNET_MAX_NEIGHBORS,
+        )
+        super().__init__(representation, conv_dim, n_hidden_layers, activation)
 
 
 def build_model(config: dict) -> nn.Module:
@@ -414,7 +476,7 @@ def build_model(config: dict) -> nn.Module:
         config: Config with ``conv_backend`` and optional hyperparameters.
 
     Returns:
-        A MagmomGNN (node-level) or a DimeNet/ViSNet wrapper (graph-level).
+        A MagmomGNN (node-level) or a dimenet/et/tensornet reference wrapper.
 
     Raises:
         ValueError: If ``conv_backend`` is not recognised.
@@ -433,8 +495,10 @@ def build_model(config: dict) -> nn.Module:
     )
     if backend == "dimenet":
         return DimeNetBackend(**shared)
-    if backend == "visnet":
-        return ViSNetBackend(**shared)
+    if backend == "et":
+        return ETBackend(**shared)
+    if backend == "tensornet":
+        return TensorNetBackend(**shared)
     return MagmomGNN(
         conv_backend=backend,
         element_means=config.get("element_means"),

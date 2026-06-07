@@ -1,4 +1,4 @@
-conv_backend: visnet
+conv_backend: tensornet
 n_conv_layers: 3
 conv_dim: 128
 n_hidden_layers: 1

@@ -116,17 +116,26 @@ class GraphBuilder:
             atoms.get_positions(), dtype=torch.float32,
         )
 
-        edge_index, edge_attr = self._build_edges(atoms)
+        edge_index, edge_attr, edge_vec, cell_offsets = self._build_edges(atoms)
 
         target_tensor = None
         if target is not None:
             target_tensor = _target_to_tensor(target)
+
+        # cell stored as [1, 3, 3] so a PyG batch collates to [num_graphs, 3, 3],
+        # the per-graph box shape the periodic models (torchmd-net) expect.
+        cell = torch.tensor(
+            np.asarray(atoms.get_cell()), dtype=torch.float32,
+        ).unsqueeze(0)
 
         graph = Data(
             x=atomic_numbers,
             pos=positions,
             edge_index=edge_index,
             edge_attr=edge_attr,
+            edge_vec=edge_vec,
+            cell_offsets=cell_offsets,
+            cell=cell,
             y=target_tensor,
         )
         assert graph.x.size(0) == len(atoms), "Node count mismatch"
@@ -163,7 +172,7 @@ class GraphBuilder:
         selected = self._select_bfs_neighborhood(
             atoms, h_index, n_hops,
         )
-        sub_edge_index, sub_edge_attr = self._build_edges(
+        sub_edge_index, sub_edge_attr, _, _ = self._build_edges(
             atoms[selected],
         )
         if target is None:
@@ -195,7 +204,7 @@ class GraphBuilder:
         n_hops: int,
     ) -> list[int]:
         """Find atom indices within n_hops of H via BFS."""
-        full_edge_index, _ = self._build_edges(atoms)
+        full_edge_index, _, _, _ = self._build_edges(atoms)
         adjacency = self._edge_index_to_adjacency(
             full_edge_index, len(atoms),
         )
@@ -271,16 +280,24 @@ class GraphBuilder:
     def _build_edges(
         self,
         atoms: Atoms,
-    ) -> tuple[torch.Tensor, torch.Tensor]:
+    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         """Create edges from distance cutoff with PBC support.
 
+        Also returns the periodic edge displacement vectors and integer cell
+        offsets, so models that need real geometry under PBC (DimeNet's angles)
+        can use the minimum-image vectors instead of raw position differences.
+        ``edge_index`` and ``edge_attr`` are unchanged from the distance-only
+        build, so the message-passing backends are unaffected.
+
         Returns:
-            Tuple of (edge_index, edge_attr)
+            Tuple of (edge_index, edge_attr, edge_vec, cell_offsets) where
+            ``edge_vec[m] = pos[dst] + cell_offsets[m] @ cell - pos[src]`` (the
+            periodic vector from src to dst) and ``edge_attr`` is its norm.
         """
         assert len(atoms) > 0, "Atoms must not be empty"
 
-        src, dst, dist = neighbor_list(
-            "ijd", atoms, cutoff=self.radius_cutoff,
+        src, dst, dist, vec, offset = neighbor_list(
+            "ijdDS", atoms, cutoff=self.radius_cutoff,
         )
 
         n_max = self.max_neighbors * len(atoms)
@@ -289,12 +306,16 @@ class GraphBuilder:
             src = src[sorted_idx]
             dst = dst[sorted_idx]
             dist = dist[sorted_idx]
+            vec = vec[sorted_idx]
+            offset = offset[sorted_idx]
 
         edge_index = torch.tensor(
             np.stack([src, dst]), dtype=torch.long,
         )
 
         if len(src) > 0:
+            edge_vec = torch.tensor(vec, dtype=torch.float32)
+            cell_offsets = torch.tensor(offset, dtype=torch.long)
             if self.edge_mode == EDGE_MODE_TOPOLOGICAL:
                 edge_attr = torch.ones(len(src), 1)
             else:
@@ -302,9 +323,11 @@ class GraphBuilder:
                     dist, dtype=torch.float32,
                 ).unsqueeze(1)
         else:
+            edge_vec = torch.zeros(0, 3)
+            cell_offsets = torch.zeros(0, 3, dtype=torch.long)
             edge_attr = torch.zeros(0, 1)
 
-        return edge_index, edge_attr.float()
+        return edge_index, edge_attr.float(), edge_vec, cell_offsets
 
 
 def build_graphs(
