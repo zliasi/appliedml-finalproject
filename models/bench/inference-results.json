@@ -1,0 +1,32 @@
+[
+  {
+    "backend": "cgconv",
+    "cutoff": 3.0,
+    "name": "magmom-cgconv-r3-c128l3h1-magmom21-v0p1-17k",
+    "n_params": 230785,
+    "load_ms": 58.34,
+    "infer_ms": 3.641,
+    "val_mae": 0.047841998835232956,
+    "ok": true
+  },
+  {
+    "backend": "dimenet",
+    "cutoff": 8.0,
+    "name": "magmom-dimenet-r8-c128l3h1-magmom21-v0p1-17k",
+    "n_params": 764294,
+    "load_ms": 13627.97,
+    "infer_ms": 98.816,
+    "val_mae": 0.04555863755898886,
+    "ok": true
+  },
+  {
+    "backend": "schnetconv",
+    "cutoff": 6.0,
+    "name": "magmom-schnetconv-r6-c128l3h1-magmom21-v0p1-17k",
+    "n_params": 249217,
+    "load_ms": 64.37,
+    "infer_ms": 5.603,
+    "val_mae": 0.04830680729181646,
+    "ok": true
+  }
+]
