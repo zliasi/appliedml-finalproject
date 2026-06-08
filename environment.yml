@@ -44,8 +44,3 @@ dependencies:
     - wandb
     - xgboost
     - chgnet
-    # equivariant reference models (ET, TensorNet) with native PBC support.
-    # pinned <3: torchmd-net 3.x registers its neighbour search as a torch
-    # custom op that the env's torch rejects (infer_schema on string
-    # annotations); 2.6.x uses the C++/CUDA neighbour list and works.
-    - torchmd-net<3

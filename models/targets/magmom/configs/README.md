@@ -35,10 +35,8 @@ Native per-atom graph-convolution layers, the main candidates. Several consume t
 - [PDNConv](https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.nn.conv.PDNConv.html): pathfinder discovery network convolution (Rozemberczki et al. 2021), edge features modulate message passing, uses distance.
 - [SplineConv](https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.nn.conv.SplineConv.html): SplineCNN B-spline-kernel convolution (Fey et al. 2018) over distance pseudo-coordinates, uses distance, needs the `torch-spline-conv` package.
 
-## Reference backends
+## Reference backend
 
-Heavier, slower, higher-accuracy references rather than deployment candidates, adapted to per-atom output. All three are periodic (PBC-aware), so they get the slab's true in-plane neighbours. Validate on the first run with `scratch/preflight-pbc.py`.
+A heavier, slower, higher-accuracy reference rather than a deployment candidate, adapted to per-atom output and periodic (PBC-aware), so it gets the slab's true in-plane neighbours.
 
 - [DimeNet++](https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.nn.models.DimeNetPlusPlus.html): directional message passing over atom triplets and bond angles (Gasteiger et al. 2020). PyG model, made PBC-aware here by feeding it the periodic graph and minimum-image displacement vectors (OCP-style).
-- [ET](https://torchmd-net.readthedocs.io/): torchmd-net Equivariant Transformer (Tholke and de Fabritiis 2022), scalar-vector equivariant, native PBC. The architecture ViSNet extends.
-- [TensorNet](https://torchmd-net.readthedocs.io/): torchmd-net rank-2 Cartesian-tensor equivariant network (Simeon and de Fabritiis 2023), native PBC. Needs `torchmd-net` installed.

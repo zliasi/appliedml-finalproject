@@ -20,18 +20,9 @@ node (no pooling). Their forward returns a tensor of shape [num_atoms].
   pdnconv         - pathfinder discovery network, uses the distance edge feature
   splineconv      - B-spline kernels over the (normalised) distance
 
-dimenet, et, and tensornet are the heavier reference models, all periodic:
-  dimenet   - PyG DimeNet++ adapted to per-atom output, made PBC-aware by using
-              the graph's periodic edges and minimum-image displacement vectors
-              (data.edge_index / data.edge_vec) for distances and angles.
-  et        - torchmd-net Equivariant Transformer (the architecture ViSNet
-              extends), native PBC via its box-aware neighbour search.
-  tensornet - torchmd-net TensorNet, rank-2 Cartesian-tensor equivariant model,
-              native PBC.
-et and tensornet build their own periodic neighbour graph from positions plus
-the per-graph box (data.cell), so they need torchmd-net installed. All three
-return per-atom output via a shared readout. Validate against the installed
-torchmd-net/PyG versions on the first run (see bench/ smoke test).
+dimenet is the heavier reference model: PyG DimeNet++ adapted to per-atom
+output, made PBC-aware by using the graph's periodic edges and minimum-image
+displacement vectors (data.edge_index / data.edge_vec) for distances and angles.
 """
 
 import torch
@@ -62,18 +53,15 @@ DIMENET_BASIS_EMB_SIZE: int = 8
 DIMENET_ENVELOPE_EXPONENT: int = 5
 DIMENET_NUM_BEFORE_SKIP: int = 1
 DIMENET_NUM_AFTER_SKIP: int = 2
-# torchmd-net (ET / TensorNet) reference-model constants
-TORCHMDNET_NUM_RBF: int = 50
-TORCHMDNET_MAX_NEIGHBORS: int = 50
 
 NODE_LEVEL_BACKENDS: list[str] = [
     "cgconv", "schnetconv", "graphconv", "sageconv", "gatv2conv",
     "gcnconv", "transformerconv", "gineconv", "nnconv", "genconv",
     "gmmconv", "resgatedgraphconv", "generalconv", "pdnconv", "splineconv",
 ]
-# heavy reference models, per-atom via custom forward, all periodic. dimenet is
-# PyG (made PBC-aware here); et/tensornet are torchmd-net (native PBC).
-WRAPPED_BACKENDS: list[str] = ["dimenet", "et", "tensornet"]
+# heavy reference model, per-atom via custom forward, periodic (PyG DimeNet++
+# made PBC-aware here).
+WRAPPED_BACKENDS: list[str] = ["dimenet"]
 CONV_BACKENDS: list[str] = NODE_LEVEL_BACKENDS + WRAPPED_BACKENDS
 # node-level backends that consume the scalar distance edge feature, the rest
 # use only connectivity
@@ -378,97 +366,6 @@ class DimeNetBackend(nn.Module):
         return out
 
 
-class _TorchMDNetBackend(nn.Module):
-    """Shared wrapper around a torchmd-net representation model.
-
-    torchmd-net's representation models return per-atom scalar features ``x`` of
-    shape [num_atoms, hidden] and have native, box-aware periodic neighbour
-    search, so PBC is handled inside the model. A per-node readout maps ``x`` to
-    one moment per atom. The per-graph box is ``data.cell`` (shape
-    [num_graphs, 3, 3] after batching), passed to the model's forward.
-    """
-
-    def __init__(
-        self, representation: nn.Module, conv_dim: int,
-        n_hidden_layers: int, activation: str,
-    ) -> None:
-        super().__init__()
-        self.model = representation
-        self.readout = _build_readout_mlp(
-            conv_dim, n_hidden_layers, ACTIVATIONS[activation](),
-        )
-
-    def forward(self, data: Data) -> torch.Tensor:
-        """Predict one moment per atom (PBC handled inside the model)."""
-        z = data.x.long().view(-1)
-        batch = (
-            data.batch if getattr(data, "batch", None) is not None
-            else torch.zeros_like(z)
-        )
-        box = getattr(data, "cell", None)
-        # representation models return (x, vec, z, pos, batch); take x.
-        x = self.model(z, data.pos, batch, box)[0]
-        return self.readout(x).squeeze(-1)
-
-
-class ETBackend(_TorchMDNetBackend):
-    """torchmd-net Equivariant Transformer (native PBC), per-atom output."""
-
-    def __init__(
-        self,
-        n_conv_layers: int = DEFAULT_CONV_LAYERS,
-        conv_dim: int = DEFAULT_CONV_DIM,
-        n_hidden_layers: int = DEFAULT_HIDDEN_LAYERS,
-        num_elements: int = DEFAULT_NUM_ELEMENTS,
-        activation: str = DEFAULT_ACTIVATION,
-        radius_cutoff: float = DEFAULT_RADIUS_CUTOFF,
-    ) -> None:
-        """Build the ET representation (torchmd-net required)."""
-        from torchmdnet.models.torchmd_et import TorchMD_ET
-
-        assert n_conv_layers > 0, "n_conv_layers must be positive"
-        assert conv_dim > 0, "conv_dim must be positive"
-        representation = TorchMD_ET(
-            hidden_channels=conv_dim,
-            num_layers=n_conv_layers,
-            num_rbf=TORCHMDNET_NUM_RBF,
-            cutoff_lower=0.0,
-            cutoff_upper=radius_cutoff,
-            max_z=num_elements + 1,
-            max_num_neighbors=TORCHMDNET_MAX_NEIGHBORS,
-        )
-        super().__init__(representation, conv_dim, n_hidden_layers, activation)
-
-
-class TensorNetBackend(_TorchMDNetBackend):
-    """torchmd-net TensorNet (native PBC), per-atom output."""
-
-    def __init__(
-        self,
-        n_conv_layers: int = DEFAULT_CONV_LAYERS,
-        conv_dim: int = DEFAULT_CONV_DIM,
-        n_hidden_layers: int = DEFAULT_HIDDEN_LAYERS,
-        num_elements: int = DEFAULT_NUM_ELEMENTS,
-        activation: str = DEFAULT_ACTIVATION,
-        radius_cutoff: float = DEFAULT_RADIUS_CUTOFF,
-    ) -> None:
-        """Build the TensorNet representation (torchmd-net required)."""
-        from torchmdnet.models.tensornet import TensorNet
-
-        assert n_conv_layers > 0, "n_conv_layers must be positive"
-        assert conv_dim > 0, "conv_dim must be positive"
-        representation = TensorNet(
-            hidden_channels=conv_dim,
-            num_layers=n_conv_layers,
-            num_rbf=TORCHMDNET_NUM_RBF,
-            cutoff_lower=0.0,
-            cutoff_upper=radius_cutoff,
-            max_z=num_elements + 1,
-            max_num_neighbors=TORCHMDNET_MAX_NEIGHBORS,
-        )
-        super().__init__(representation, conv_dim, n_hidden_layers, activation)
-
-
 def build_model(config: dict) -> nn.Module:
     """Build a model from a yaml-loaded config dict.
 
@@ -476,7 +373,7 @@ def build_model(config: dict) -> nn.Module:
         config: Config with ``conv_backend`` and optional hyperparameters.
 
     Returns:
-        A MagmomGNN (node-level) or a dimenet/et/tensornet reference wrapper.
+        A MagmomGNN (node-level) or the dimenet reference wrapper.
 
     Raises:
         ValueError: If ``conv_backend`` is not recognised.
@@ -495,10 +392,6 @@ def build_model(config: dict) -> nn.Module:
     )
     if backend == "dimenet":
         return DimeNetBackend(**shared)
-    if backend == "et":
-        return ETBackend(**shared)
-    if backend == "tensornet":
-        return TensorNetBackend(**shared)
     return MagmomGNN(
         conv_backend=backend,
         element_means=config.get("element_means"),

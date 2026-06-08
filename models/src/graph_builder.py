@@ -122,8 +122,8 @@ class GraphBuilder:
         if target is not None:
             target_tensor = _target_to_tensor(target)
 
-        # cell stored as [1, 3, 3] so a PyG batch collates to [num_graphs, 3, 3],
-        # the per-graph box shape the periodic models (torchmd-net) expect.
+        # lattice cell, stored as [1, 3, 3] so a PyG batch collates to
+        # [num_graphs, 3, 3] (a per-graph box, if a backend ever needs one).
         cell = torch.tensor(
             np.asarray(atoms.get_cell()), dtype=torch.float32,
         ).unsqueeze(0)
