@@ -93,6 +93,7 @@ def plot_parity(
         y_true, y_pred,
         s=MARKER_SIZE, color=COLOR_FILL, edgecolors=COLOR_EDGE,
         linewidths=MARKER_EDGE_WIDTH, alpha=1.0, zorder=3,
+        rasterized=True,  # keep the svg small: points raster, axes/text vector
     )
     lo = float(min(y_true.min(), y_pred.min()))
     hi = float(max(y_true.max(), y_pred.max()))
@@ -105,6 +106,7 @@ def plot_parity(
     _annotate_parity(ax, metrics, prop_label, unit)
     fig.tight_layout()
     fig.savefig(out_path)
+    fig.savefig(Path(out_path).with_suffix(".svg"))
     plt.close(fig)
 
 
@@ -130,4 +132,5 @@ def plot_error_distribution(
     style_axes(ax)
     fig.tight_layout()
     fig.savefig(out_path)
+    fig.savefig(Path(out_path).with_suffix(".svg"))
     plt.close(fig)
